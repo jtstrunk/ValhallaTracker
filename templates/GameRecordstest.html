@@ -12,21 +12,17 @@
     <div id="content">
       <div class="section games">
         <h3 style="margin-bottom: 10px;">Favorites</h3>
+        {% for game in favoriteGames %}
+          <button id="{{ game[0].replace(' ', '') }}" class="gamebtn btn-outline">{{ game[0] }}</button>
+        {% endfor %}
         <!-- <button >Favorites Only</button> -->
         <!-- <button id="Codenames" class="gamebtn btn-outline">Codenames</button> -->
-        <button id="CosmicEncounter" class="gamebtn btn-outline">Cosmic Encounter</button>
-        <!-- <button id="Coup" class="gamebtn btn-outline">Coup</button> -->
-        <button id="Catan" class="gamebtn btn-outline">Catan</button>
-        <button id="Dominion" class="gamebtn btn-outline">Dominion</button>
-        <!-- <button id="HeretoSlay" class="gamebtn btn-outline">Here to Slay</button>
-        <button id="JustOne" class="gamebtn btn-outline">Just One</button> -->
-        <button id="LordsofWaterdeep" class="gamebtn btn-outline">Lords of Waterdeep</button>
-        <!-- <button id="LoveLetter" class="gamebtn btn-outline">Love Letter</button> -->
-        <button id="Moonrakers" class="gamebtn btn-outline">Moonrakers</button>
+
         <!-- <button id="Munchkin" class="gamebtn btn-outline">Munchkin</button>
         <button id="Pandemic" class="gamebtn btn-outline">Pandemic</button>
         <button id="TheMind" class="gamebtn btn-outline">The Mind</button> -->
-        <button id="testbtn">Clear All</button>
+        <button id="testbtn" style="margin-top: 25px;">Clear All</button>
+        
       </div>
       <div class="section">
         <h3 style="margin-bottom: 0px;">Played Games</h3>

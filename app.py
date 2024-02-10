@@ -390,6 +390,7 @@ def profile():
         num_players = game.numPlayers
         gameResults.append((game_name, num_players))
 
+    print("gameResults")
     print(gameResults)
 
     for game_name, num_players in gameResults:
@@ -472,9 +473,21 @@ def addFavorite():
 @login_required
 def showGames():
 
+    games = current_user.favorites
+
+    favoriteGames = []
+    for game in games:
+        #fullname = user.fullname
+        game_name = game.gameName
+        num_players = game.numPlayers
+        favoriteGames.append((game_name, num_players))
+
+    print("favoriteGames")
+    print(favoriteGames)
+
     sortedGames = findRecentGames(current_user, 'false')
 
-    return render_template('GameRecordstest.html', title='Show Games', sortedGames=sortedGames)
+    return render_template('GameRecordstest.html', title='Show Games', sortedGames=sortedGames, favoriteGames=favoriteGames)
 
 @app.route('/addGame', methods=['GET'])
 @login_required
