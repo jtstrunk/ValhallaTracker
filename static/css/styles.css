@@ -1,0 +1,211 @@
+body{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+#title{
+    width: 500px;
+}
+
+.Hide{
+    display: none;
+}
+
+.players{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+
+.players input{
+    width: 175px;
+    height: 20px;
+    border-radius: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 2.5px;
+    padding-left: 2.5px;
+    border: solid black 1.5px;
+    margin-bottom: 5px;
+}
+
+.players select{
+    width: 170px;
+    height: 26px;
+    border-radius: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 2.5px;
+    padding-left: 2.5px;
+    border: solid black 1.5px;
+    margin-bottom: 5px;
+}
+
+form{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+form button{
+    margin-top: 10px;
+}
+
+#output{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    width: 540px;
+}
+
+#Winner{
+
+    margin-right: 185px;
+    margin-left: 185px;
+
+}
+
+#Winner div {
+    width: 150px;
+}
+
+.playerout{
+    width: 170px;
+    margin: 5px;
+    margin-bottom: 25px;
+}
+
+.playerout span {
+    font-size: x-large;
+    width: 150px;
+}
+
+#content {
+    display: flex;
+    justify-content: center;
+}
+
+.game{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 180px;
+    height: 240px;
+    margin: 25px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    cursor: pointer;
+}
+.game:hover {
+    transition: .1s;
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.3);
+    width: 188px;
+    height: 248px;
+    margin: 21px;
+}
+
+.game p {
+    text-align: center;
+    margin-bottom: 0px;
+    margin-top: 5px;
+}
+
+#addGame {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 800px;
+}
+
+#addGame a{
+    text-decoration: none;
+    color: black;
+}
+
+.primary-button {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    border: 1px solid #2e6da4; ;
+
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    width: 182.67px;
+    height: 26.67px;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: larger;
+}
+  
+.primary-button:hover {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+
+.gamepopup {
+    width: 450px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: white;
+    border-radius: 8%;
+    text-align: center;
+}
+
+.close-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    cursor: pointer;
+    font-size: x-large;
+}
+
+.res {
+    border: 1px solid black;
+    padding: 3px;
+    position: absolute;
+    top: 45px;
+    left: 0;
+    background-color: white;
+    width: 175px;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.res ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.res ul li {
+    padding: 3px 0;
+}
+
+.res ul li:hover {
+    background: #eee;
+}

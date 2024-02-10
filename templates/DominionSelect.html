@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dominion.css') }}">
+    <title>Dominion Creator</title>
+</head>
+<body>
+    {% extends "base.html" %}
+    {% import "bootstrap/wtf.html" as wtf %}
+    {% block content %}
+
+    <div id="container">
+        <div id="test">
+            <div id="filters">
+                <div id="expansions">
+                    <button id="Set" class="btn btn-main btn-outline" style="outline: none;" onclick="toggleCollapse('collapsibleSets', 'Set')">Expansions</button>
+                    <div id="collapsibleSets" class="">
+                        <button class="set sort deselected" onclick="hideSet('base', this)">Dominion</button>
+                        <button class="set sort deselected" onclick="hideSet('IntrigueSE', this)">Intrigue</button>
+                        <button class="set sort deselected" onclick="hideSet('SeasideSE', this)">Seaside</button>
+                        <!-- <button class="set sort deselected">Prosperity</button>
+                        <button class="set sort deselected">Hinterlands</button>
+                        <button class="set sort deselected">Dark Ages</button>
+                        <button class="set sort deselected">Guilds</button>
+                        <button class="set sort deselected">Adventures</button>
+                        <button class="set sort deselected">Empires</button>
+                        <button class="set sort deselected">Nocturne</button>
+                        <button class="set sort deselected">Renaissance</button>
+                        <button class="set sort deselected">Menagerie</button>
+                        <button class="set sort deselected">Allies</button>
+                        <button class="set sort deselected">Plunder</button> -->
+                    </div>
+                    
+                </div>
+                <div>
+                    <div id="types">
+                        <button id="Type" class="btn btn-main btn-outline" style="outline: none;" onclick="toggleCollapse('collapsibleButtons', 'Type')">Types</button>
+                        <div id="collapsibleButtons" class="">
+                            <button class="type sort deselected" id="action">Action</button>
+                            <button class="type sort deselected" id="victory">Victory</button>
+                            <button class="type sort deselected" id="treasure">Treasure</button>
+                            <button class="type sort deselected" id="attack">Attack</button>
+                            <button class="type sort deselected" id="reaction">Reaction</button>
+                            <button class="type sort deselected" id="duration">Duration</button>
+                        </div>
+                    </div>
+                    <div id="categories">
+                        <button id="Category" class="btn btn-main" style="outline: none;" onclick="toggleCollapse('collapsibleCategories', 'Category')">Categories</button>
+                        <div id="collapsibleCategories" class="Hide">
+                            <button class="categories sort deselected" id="village">Village</button>
+                            <button class="categories sort deselected" id="cantrip">Cantrip</button>
+                            <button class="categories sort deselected" id="gainer">Gainer</button>
+                            <button class="categories sort deselected" id="trasher">Trasher</button>
+                            <button class="categories sort deselected" id="sifter">Sifter</button>
+                            <button class="categories sort deselected" id="terminalDraw">Terminal Draw</button>
+                            <button class="categories sort deselected" id="terminalSilver">Terminal Silver</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="cards" class="show-all">
+                <img src="static/images/base/200px-Cellar.jpg" class="card base" id="Cellar">
+                <img src="static/images/base/200px-Chapel.jpg" class="card base" id="Chapel">
+                <img src="static/images/base/200px-Moat.jpg" class="card base" id="Moat">
+                <img src="static/images/base/200px-Harbinger.jpg" class="card base" id="Harbinger">
+                <img src="static/images/base/200px-Merchant.jpg" class="card base" id="Merchant">
+                <img src="static/images/base/200px-Vassal.jpg" class="card base" id="Vassal">
+                <img src="static/images/base/200px-Village.jpg" class="card base" id="Village">
+                <img src="static/images/base/200px-Workshop.jpg" class="card base" id="Workshop">
+                <img src="static/images/base/200px-Bureaucrat.jpg" class="card base" id="Bureaucrat">
+                <img src="static/images/base/200px-Gardens.jpg" class="card base" id="Gardens">
+                
+                <img src="static/images/base/200px-Militia.jpg" class="card base" id="Militia">
+                <img src="static/images/base/200px-Moneylender.jpg" class="card base" id="Moneylender">
+                <img src="static/images/base/200px-Poacher.jpg" class="card base" id="Poacher">
+                <img src="static/images/base/200px-Remodel.jpg" class="card base" id="Remodel">
+                <img src="static/images/base/200px-Smithy.jpg" class="card base" id="Smithy">
+                <img src="static/images/base/200px-Throne_Room.jpg" class="card base" id="Throne_Room">
+                <img src="static/images/base/200px-Bandit.jpg" class="card base" id="Bandit">
+                <img src="static/images/base/200px-Council_Room.jpg" class="card base" id="Council_Room">
+                <img src="static/images/base/200px-Festival.jpg" class="card base" id="Festival">
+                <img src="static/images/base/200px-Laboratory.jpg" class="card base" id="Laboratory">
+                
+                <img src="static/images/base/200px-Library.jpg" class="card base" id="Library">
+                <img src="static/images/base/200px-Market.jpg" class="card base" id="Market">
+                <img src="static/images/base/200px-Mine.jpg" class="card base" id="Mine">
+                <img src="static/images/base/200px-Sentry.jpg" class="card base" id="Sentry">
+                <img src="static/images/base/200px-Witch.jpg" class="card base" id="Witch">
+                <img src="static/images/base/200px-Artisan.jpg" class="card base" id="Artisan">
+
+                <!--Seaside Second Edition   -->
+                <img src="static/images/SeasideSE/200px-Haven.jpg" class="card SeasideSE" id="Haven">
+                <img src="static/images/SeasideSE/200px-Lighthouse.jpg" class="card SeasideSE" id="Lighthouse">
+                <img src="static/images/SeasideSE/200px-Native_Village.jpg" class="card SeasideSE" id="Native_Village">
+                <img src="static/images/SeasideSE/200px-Astrolabe.jpg" class="card SeasideSE" id="Astrolabe">
+                <img src="static/images/SeasideSE/200px-Fishing_Village.jpg" class="card SeasideSE" id="Fishing_Village">
+                <img src="static/images/SeasideSE/200px-Lookout.jpg" class="card SeasideSE" id="Lookout">
+                <img src="static/images/SeasideSE/200px-Monkey.jpg" class="card SeasideSE" id="Monkey">
+                <img src="static/images/SeasideSE/200px-Sea_Chart.jpg" class="card SeasideSE" id="Sea_Chart">
+                <img src="static/images/SeasideSE/200px-Smugglers.jpg" class="card SeasideSE" id="Smugglers">
+                <img src="static/images/SeasideSE/200px-Warehouse.jpg" class="card SeasideSE" id="Warehouse">
+                
+                <img src="static/images/SeasideSE/200px-Blockade.jpg" class="card SeasideSE" id="Blockade">
+                <img src="static/images/SeasideSE/200px-Caravan.jpg" class="card SeasideSE" id="Caravan">
+                <img src="static/images/SeasideSE/200px-Cutpurse.jpg" class="card SeasideSE" id="Cutpurse">
+                <img src="static/images/SeasideSE/200px-Island.jpg" class="card SeasideSE" id="Island">   
+                <img src="static/images/SeasideSE/200px-Sailor.jpg" class="card SeasideSE" id="Sailor">
+                <img src="static/images/SeasideSE/200px-Salvager.jpg" class="card SeasideSE" id="Salvager">
+                <img src="static/images/SeasideSE/200px-Tide_Pools.jpg" class="card SeasideSE" id="Tide_Pools">
+                <img src="static/images/SeasideSE/200px-Treasure_Map.jpg" class="card SeasideSE" id="Treasure_Map">
+                <img src="static/images/SeasideSE/200px-Bazaar.jpg" class="card SeasideSE" id="Bazaar">
+                <img src="static/images/SeasideSE/200px-Corsair.jpg" class="card SeasideSE" id="Corsair">
+                
+                <img src="static/images/SeasideSE/200px-Merchant_Ship.jpg" class="card SeasideSE" id="Merchant_Ship">
+                <img src="static/images/SeasideSE/200px-Outpost.jpg" class="card SeasideSE" id="Outpost">
+                <img src="static/images/SeasideSE/200px-Pirate.jpg" class="card SeasideSE" id="Pirate">
+                <img src="static/images/SeasideSE/200px-Sea_Witch.jpg" class="card SeasideSE" id="Sea_Witch">
+                <img src="static/images/SeasideSE/200px-Tactician.jpg" class="card SeasideSE" id="Tactician">
+                <img src="static/images/SeasideSE/200px-Treasury.jpg" class="card SeasideSE" id="Treasury">
+                <img src="static/images/SeasideSE/200px-Wharf.jpg" class="card SeasideSE" id="Wharf">
+
+                <!--Intrigue Second Edition   -->
+
+                <img src="static/images/IntrigueSE/200px-Courtyard.jpg" class="card IntrigueSE" id="Courtyard">
+                <img src="static/images/IntrigueSE/200px-Lurker.jpg" class="card IntrigueSE" id="Lurker">
+                <img src="static/images/IntrigueSE/200px-Pawn.jpg" class="card IntrigueSE" id="Pawn">
+                <img src="static/images/IntrigueSE/200px-Masquerade.jpg" class="card IntrigueSE" id="Masquerade">
+                <img src="static/images/IntrigueSE/200px-Shanty_Town.jpg" class="card IntrigueSE" id="Shanty_Town">
+                <img src="static/images/IntrigueSE/200px-Steward.jpg" class="card IntrigueSE" id="Steward">
+                <img src="static/images/IntrigueSE/200px-Swindler.jpg" class="card IntrigueSE" id="Swindler">
+                <img src="static/images/IntrigueSE/200px-Wishing_Well.jpg" class="card IntrigueSE" id="Wishing_Well">
+                <img src="static/images/IntrigueSE/200px-Baron.jpg" class="card IntrigueSE" id="Baron">
+                <img src="static/images/IntrigueSE/200px-Bridge.jpg" class="card IntrigueSE" id="Bridge">
+                
+                <img src="static/images/IntrigueSE/200px-Conspirator.jpg" class="card IntrigueSE" id="Conspirator">
+                <img src="static/images/IntrigueSE/200px-Diplomat.jpg" class="card IntrigueSE" id="Diplomat">
+                <img src="static/images/IntrigueSE/200px-Ironworks.jpg" class="card IntrigueSE" id="Ironworks">
+                <img src="static/images/IntrigueSE/200px-Mill.jpg" class="card IntrigueSE" id="Mill">
+                <img src="static/images/IntrigueSE/200px-Mining_Village.jpg" class="card IntrigueSE" id="Mining_Village">
+                <img src="static/images/IntrigueSE/200px-Secret_Passage.jpg" class="card IntrigueSE" id="Secret_Passage">
+                <img src="static/images/IntrigueSE/200px-Courtier.jpg" class="card IntrigueSE" id="Courtier">
+                <img src="static/images/IntrigueSE/200px-Duke.jpg" class="card IntrigueSE" id="Duke">
+                <img src="static/images/IntrigueSE/200px-Minion.jpg" class="card IntrigueSE" id="Minion">
+                <img src="static/images/IntrigueSE/200px-Patrol.jpg" class="card IntrigueSE" id="Patrol">
+                
+                <img src="static/images/IntrigueSE/200px-Replace.jpg" class="card IntrigueSE" id="Replace">
+                <img src="static/images/IntrigueSE/200px-Torturer.jpg" class="card IntrigueSE" id="Torturer">
+                <img src="static/images/IntrigueSE/200px-Trading_Post.jpg" class="card IntrigueSE" id="Trading_Post">
+                <img src="static/images/IntrigueSE/200px-Upgrade.jpg" class="card IntrigueSE" id="Upgrade">
+                <img src="static/images/IntrigueSE/200px-Harem.jpg" class="card IntrigueSE" id="Harem">
+                <img src="static/images/IntrigueSE/200px-Nobles.jpg" class="card IntrigueSE" id="Nobles">
+
+            </div>
+
+            <div id="selectedCards" >
+                <span class="special">Start a Game</span>
+                <div class="buttons" style="margin-bottom: 15px;">
+                    <button id="selectedCardsbtn" class="startBTNs">Use Selected Cards</button>
+                    <button id="randomCardsbtn" class="startBTNs">Use Random Cards</button>
+                </div>
+                <span class="special" style="margin-top: 15px !important;">Change Selected Cards</span>
+                <span id="alert"></span>
+                <div class="buttons">
+                    <button id="clearSele" class="startBTNs">Clear Selections</button>
+                    <button id="randomFill" class="startBTNs">Random Fill</button>
+                </div>
+                
+                <div id="selcards">
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div id="overlay" class="Hide"> </div>
+
+    <div id="popUP" class="Hide">
+        <label for="playerCount" style="color: white;">How many players are playing in this Dominion Game?</label>
+        <button value="2" id="2players" class="amountofplayers">Two Players</button>
+        <button value="3" id="3players" class="amountofplayers">Three Players</button>
+        <button value="4" id="4players" class="amountofplayers">Four Players</button>
+        <div id="names">
+
+        </div>
+        <button id="createGame">Create Score Cards</button>
+
+    </div>
+    <div id="score" class="Hide">
+        <form id="scoreCardsValues" action="{{ url_for('addDominionRecord') }}" method="POST">
+            <div id="scoreCards">
+                
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+
+    </div>
+
+    <script src="/static/js/dominion.js"></script>
+    <script>
+        let overlay = document.querySelector("#overlay");
+        overlay.addEventListener('click', () => {
+            overlay.classList.add("Hide");
+            Popup = document.querySelector("#scoreCardsValues");
+            Popup.classList.add("Hide");
+        })
+
+        function toggleCollapse(elementId, buttonId) {
+            let btnRange = document.getElementById(elementId);
+            let button = document.getElementById(buttonId);
+            if (!btnRange.classList.contains('Hide')) {
+                btnRange.classList.add("Hide");
+                button.classList.remove('btn-outline');
+            } else {
+                btnRange.classList.remove("Hide");
+                button.classList.add('btn-outline');
+            }
+        }
+
+        function hideSet(set, element){
+            let allCards = document.querySelectorAll(".card");
+            let selectedCards = document.querySelectorAll(`.${set}`);
+
+            let hiddenCards = document.querySelectorAll('.card.Hide');
+            for (let i = 0; i <hiddenCards.length; i++){
+                hiddenCards[i].classList.remove("Hide");
+            }
+
+            let shownCards = document.querySelectorAll('.card.Show');
+            for (let i = 0; i <shownCards.length; i++){
+                shownCards[i].classList.remove("Show");
+            }
+
+            let selectedType = document.querySelectorAll('.type.selected');
+            let selectedCategory = document.querySelectorAll('.categories.selected');
+            for (let i = 0; i <selectedType.length; i++){
+                selectedType[i].classList.remove("selected");
+                selectedType[i].classList.add("deselected");
+            }
+            for (let i = 0; i <selectedCategory.length; i++){
+                selectedCategory[i].classList.remove("selected");
+                selectedCategory[i].classList.add("deselected");
+            }
+
+            setBTNS = document.querySelectorAll(".set.selected");
+            if (setBTNS.length === 1) {
+                if(element.classList.contains("selected")){
+                    for(let i = 0; i < allCards.length; i++) {
+                        allCards[i].classList.remove('kara');
+                        allCards[i].classList.remove('showing');
+                    }
+                    element.classList.remove('selected');
+                    element.classList.add('deselected');
+                } else {
+                    element.classList.remove('deselected');
+                    element.classList.add('selected');
+                    for(let i = 0; i < selectedCards.length; i++){
+                        selectedCards[i].classList.add("showing");
+                    }
+
+                    for(let i = 0; i < allCards.length; i++){
+                        if(!allCards[i].classList.contains("showing")){
+                            allCards[i].classList.add("kara");
+                        }
+                    }
+
+                    let showing = document.querySelectorAll(".showing");
+                    for(let i = 0; i < showing.length; i++){
+                        showing[i].classList.remove("kara");
+                    } 
+                }
+            } else if(element.classList.contains('deselected')){
+                element.classList.remove('deselected');
+                element.classList.add('selected');
+                for(let i = 0; i < selectedCards.length; i++){
+                    selectedCards[i].classList.add("showing");
+                }
+
+                for(let i = 0; i < allCards.length; i++){
+                    if(!allCards[i].classList.contains("showing")){
+                        allCards[i].classList.add("kara");
+                    }
+                }
+
+                let showing = document.querySelectorAll(".showing");
+                for(let i = 0; i < showing.length; i++){
+                    showing[i].classList.remove("kara");
+                } 
+            } else {
+                element.classList.remove('selected');
+                element.classList.add('deselected');
+                for(let i = 0; i < selectedCards.length; i++){
+                    selectedCards[i].classList.remove("showing");
+                    selectedCards[i].classList.add("kara");
+                }
+            }
+        }
+    </script>
+    {% endblock %}
+</body>
+</html>

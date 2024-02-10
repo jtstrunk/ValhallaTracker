@@ -1,0 +1,216 @@
+@font-face {
+    font-family: 'Manolo Mono';
+    src: url('/static/manolo-mono.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Nikea Sans';
+    src: url('/static/NIKEA.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    background-color: #18191A;
+}
+
+#content {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+img {
+    width: 160px;
+    height: 160px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.img {
+    width: 160px;
+    height: 160px;
+}
+
+.card {
+    display: flex;
+    flex-direction: row;
+    background-color: #3A3B3C;
+    width: 490px;
+    margin-top: 24px;
+    border-radius: 5px;
+    margin-left: 14px;
+    margin-right: 14px;
+}
+
+.bottom {
+    margin-bottom: 0px;
+    font-size: large;
+    color: white;
+    /* border: 1px solid #242526;
+    padding: 3px;
+    border-radius: 3px;
+    background-color: #242526; */
+}
+
+.card p {
+    color: white;
+    
+}
+
+.text {
+    margin-left: 15px;
+}
+
+.text p:first-of-type {
+    margin-top: 14px;
+    font-family: 'Manolo Mono', sans-serif !important;
+}
+.text p:nth-of-type(2) {
+    margin-top: 35px;
+    margin-bottom: 4px;
+}
+
+.card {
+    transition: transform 0.2s; /* Add a smooth transition */
+}
+  
+.card:hover {
+    transform: scale(1.04); /* Increase the scale on hover */
+    cursor: pointer;
+}
+
+#addGame {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 800px;
+}
+
+#addGame a{
+    text-decoration: none;
+    color: black;
+}
+
+.primary-button {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    border: 1px solid #2e6da4; ;
+
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    width: 182.67px;
+    height: 26.67px;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: larger;
+}
+  
+.primary-button:hover {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.gamepopup {
+    width: 450px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: #242526;
+    border-radius: 8%;
+    text-align: center;
+    z-index: 1001;
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust the alpha value for transparency */
+    backdrop-filter: blur(3px); /* Apply the blur effect to the overlay */
+    z-index: 1000; /* Ensure the overlay is behind the popup */
+}
+
+.close-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    cursor: pointer;
+    font-size: x-large;
+}
+
+.res {
+    border: 1px solid black;
+    padding: 3px;
+    position: absolute;
+    top: 45px;
+    left: 0;
+    background-color: white;
+    width: 175px;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.res ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.res ul li {
+    padding: 3px 0;
+}
+
+.res ul li:hover {
+    background: #eee;
+}
+
+.players{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.playerSection {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    align-items: start;
+    margin-bottom: 17px;
+}
+
+label {
+    color: white;
+}
+
+input {
+    background-color: #404040;
+    padding: 5px;
+    border: #404040;
+    border-radius: 3%;
+    color: white;
+}
+
+input::placeholder {
+    color: #787675; /* Your desired color */
+}

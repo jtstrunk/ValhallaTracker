@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/baseStyles.css') }}">
+    <title>Game Tracker</title>
+</head>
+<body>
+    {% extends "base.html" %}
+    {% import "bootstrap/wtf.html" as wtf %}
+    {% block content %}
+        <div id="content">
+            <div>
+                <h2 id="displayname">{{ user.fullname }}'s profile</h2>
+                <h3 id="username">{{ user.username }}</h3>
+                <div id="mainLayout">
+                    <div  class="section">
+                        <h3>Recent Games</h3>
+                        <table>
+                            <thead>
+                              <tr>
+                                <th>Game Type</th>
+                                <th>Winner</th>
+                                <th>Second Place</th>
+                                <th>Third Place</th>
+                                <th>Game ID</th>
+                                <th>Date</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for game in recentGames %}
+                              <tr>
+                                <td>{{ game.game_type }}</td>
+                                <td>{{ game.winnerName }}</td>
+                                <td>{{ game.secondName }}</td>
+                                <td>{{ game.thirdName }}</td>
+                                <td>{{ game.game_id }}</td>
+                                <td>{{ game.current_date }}</td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="section" id="friends">
+                        <h3>Friends</h3>
+                        <div>
+                            {% for friend in friends %}
+                            <div style="margin-top: 10px;">
+                                <a href="/profile?name={{ friend.username }}" class="friend" style="cursor: pointer;">{{ friend.fullname }}</a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="section" id="favorites" style="width: 785px;">
+                        <h3>Favorite Games</h3>
+                        <div id="favGames">
+                            {% for game in favoriteGames %}
+                            <div class="miniCard">
+                                <span>{{ game[0] }}</span>
+                                <p>{{ game[1] }}</p>
+                            </div>
+                            {% endfor %}
+                            {% if currUser.username == profileName or profileName == 'current' %}
+                                <div id="addFavorite" class="miniCard" style="cursor: pointer;">
+                                    <span>Add a Favorite Game</span>
+                                </div>
+                            {% else %}
+                                <div id="addFavorite" class="Hide">
+                                </div>
+                            {% endif %}
+                            <div id="noFavorite" class="miniCard Hide">
+                                <span style="margin-bottom: 6px;">Looks like {{ user.fullname }}</span>
+                                <!-- <p>Does not have any favorite games</p> -->
+                                <p style="margin-bottom: 6px;">has no favorite</p>
+                                <p style="margin-top: 0px;">games listed</p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="section" id="statistics" style="width: 785px;">
+                        <h3>Basic Statistics</h3>
+                        <div id="Stats">
+                        
+                            <div class="miniCard">
+                                <span>Games Played</span>
+                                <p>{{ profileStats[0] }}</p>
+                            </div>
+                            <div class="miniCard">
+                                <span>Games Won</span>
+                                <p>{{ profileStats[1] }}</p>
+                            </div>
+                            <div class="miniCard">
+                                <span>Most Played</span>
+                                <p>{{ profileStats[2] }}</p>
+                            </div>
+                            <div class="miniCard">
+                                <span>Most Won</span>
+                                <p>{{ profileStats[3] }}</p>
+                            </div>
+                            <div class="miniCard">
+                                <span>Best Friend</span>
+                                <p>{{ profileStats[4] }}</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div id="myPopup" class="popup Hide">
+                    <p class="close-button">x</p>
+                    <h3>Favorite a Game</h3>
+                    <div style="margin-top: 25px;">
+                            <select name="gameSelect" id="gameSelect" class="form-select">
+                                <option value="allGames">Select a Game</option>
+                                <option value="Catan">Catan</option>
+                                <option value="Coup">Coup</option>
+                                <option value="Dominion">Dominion</option>
+                                <option value="Lords of Waterdeep">Lords of Waterdeep</option>
+                                <option value="Love Letter">Love Letter</option>
+                                <option value="Munchkin">Munchkin</option>
+                                <option value="Just One">Just One</option>
+                                <option value="The Mind">The Mind</option>
+                              </select>
+                    </div>
+                    <!-- <label for="gameSelect">Select a Game</label> -->
+                    <div style="margin-top: 25px;">
+                        <button id="joshy" class="btn btn-primary">Add to Favorites</button>
+                    </div>
+                </div>
+
+                    
+            </div>
+
+        </div>
+
+        <script>
+            console.log('{{ currUser.username }}')
+            console.log('{{ profileName }}')
+
+            let adding = document.querySelector("#addFavorite");
+            adding.addEventListener('click', () => {
+                console.log("clicked")
+                let popup = document.getElementById("myPopup");
+                popup.classList.remove("Hide");
+                popup.classList.add("popup");
+            })
+
+            document.querySelector(".close-button").addEventListener('click', () => {
+                let popup = document.getElementById("myPopup");
+                popup.classList.remove("popup");
+                popup.classList.add("Hide");
+            })
+
+            let joshy = document.querySelector("#joshy");
+            joshy.addEventListener('click', () => {
+                let game = document.querySelector("#gameSelect").value;
+                console.log(game);
+                fetch(`/addFavorite?game=${game}`, {method: 'POST'})
+                .then(response => response.json())
+                .then(data => console.log(data))
+                location.reload();
+            })
+
+            console.log("hahah")
+            let favoriteGamesLength = {{ favoriteGames|length }};
+
+            if(favoriteGamesLength < 5) {
+                let fav = document.querySelector("#favorites");
+                fav.setAttribute("style","width:785px");
+                let addFavorite = document.querySelector("#addFavorite");
+                addFavorite.classList.remove("Hide");
+            }
+            
+            if(favoriteGamesLength === 0){
+                let none = document.querySelector("#noFavorite");
+                none.classList.remove("Hide");
+            }
+
+        </script>
+
+    {% endblock %}
+
+
+</body>
+</html>

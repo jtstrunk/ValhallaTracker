@@ -1,0 +1,120 @@
+body{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* #select select {
+    width: 210px;
+    height: 25px;
+    margin-top: 5px;
+}
+
+#select {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+} */
+
+.Hide{
+    display: none;
+}
+
+.game{
+    border: 1px solid black;
+    width: 220px;
+    height: auto;
+    border-radius: 8px;
+    margin: 4px 5px;
+}
+
+.gameWrapper {
+    width: 690px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.topWrapper{
+    margin-top: 25px;
+}
+
+.testgames {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.winner{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.row2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.row2 div {
+    margin: 5 12px;
+}
+
+.row3 {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.row3 div {
+    margin: 5 12px;
+}
+
+.row4 {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.row4 div {
+    margin: 5 12px;
+}
+
+.testplayer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.testplayer p {
+    margin-bottom: 0px;
+}
+
+.gameTitle{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.DrawerHide {
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
+    transition: opacity 0.3s, visibility 0.3s, height .3s;
+}
+  
+.DrawerShow {
+    opacity: 1 !important;
+    visibility: visible !important;
+    height: auto !important;
+    transition: opacity 0.3s, visibility 0.3s, height .5s !important;
+}
+
+.carrot {
+    font-size: 24px; /* Adjust the size as needed */
+    display: inline-block;
+    transition: transform 0.3s; /* Add a smooth transition for the transform property */
+}
+
+.carrot.flipped {
+    transform: rotate(180deg); /* Rotate the arrow 180 degrees */
+}

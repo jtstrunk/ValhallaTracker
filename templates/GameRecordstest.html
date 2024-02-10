@@ -1,0 +1,111 @@
+<html>
+  <head>
+    <title>Game Records</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/GameRecordsStylestest.css') }}">
+    <script src="{{ url_for('static', filename='js/GameRecord.js') }}" defer></script>
+  </head>
+  <body>
+    {% extends "base.html" %}
+    {% import "bootstrap/wtf.html" as wtf %}
+    {% block content %}
+    <div id="content">
+      <div class="section games">
+        <h3 style="margin-bottom: 10px;">Favorites</h3>
+        <!-- <button >Favorites Only</button> -->
+        <!-- <button id="Codenames" class="gamebtn btn-outline">Codenames</button> -->
+        <button id="CosmicEncounter" class="gamebtn btn-outline">Cosmic Encounter</button>
+        <!-- <button id="Coup" class="gamebtn btn-outline">Coup</button> -->
+        <button id="Catan" class="gamebtn btn-outline">Catan</button>
+        <button id="Dominion" class="gamebtn btn-outline">Dominion</button>
+        <!-- <button id="HeretoSlay" class="gamebtn btn-outline">Here to Slay</button>
+        <button id="JustOne" class="gamebtn btn-outline">Just One</button> -->
+        <button id="LordsofWaterdeep" class="gamebtn btn-outline">Lords of Waterdeep</button>
+        <!-- <button id="LoveLetter" class="gamebtn btn-outline">Love Letter</button> -->
+        <button id="Moonrakers" class="gamebtn btn-outline">Moonrakers</button>
+        <!-- <button id="Munchkin" class="gamebtn btn-outline">Munchkin</button>
+        <button id="Pandemic" class="gamebtn btn-outline">Pandemic</button>
+        <button id="TheMind" class="gamebtn btn-outline">The Mind</button> -->
+        <button id="testbtn">Clear All</button>
+      </div>
+      <div class="section">
+        <h3 style="margin-bottom: 0px;">Played Games</h3>
+        <div id="playedgames">
+          {% if sortedGames %}
+          {% for game in sortedGames %}
+          <div class="game {{ game.game_type.replace(' ', '') }}">
+            <div >
+              <img class="gameimg" src="{{ url_for('static', filename='images/home/' + game.game_type.replace(' ', '') + '.png') }}" style="border-top-right-radius: 5px;">
+                <!-- <img src="/static/images/{{ game.game_type }}.png"> -->
+                <!-- <h5 style="margin-left: 5px; color: white; margin-bottom: 0px; margin-top: 6px;">{{ game.game_id }}</h5> says current but is game date -->
+            </div>
+            <div class="gameContent">
+              <h4>{{ game.game_type }}</h4>
+              {% if game.game_type == 'Cosmic Encounter' %}
+              <h5>First: {{ game.firstName }}</h5>
+              {% else %}
+              <h5>Winner: {{ game.winnerName }}</h5>
+              {% endif %}
+              <h5>Second: {{ game.secondName }}</h5>
+              <span style="font-size: smaller;">Game ID {{ game.game_id}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span style="font-size: smaller;">{{ game.current_date }}</span>
+              <!-- <h5 style="text-decoration: underline;">Expand</h5> -->
+            </div>
+          </div>
+          {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      
+    </div>
+    <script>
+      let clearAllButton = document.getElementById('testbtn');
+
+      clearAllButton.addEventListener('click', () => {
+        // Remove 'btn-main' class and add 'btn-outline' class to all buttons
+        gameBTNs.forEach(button => {
+          button.classList.add('btn-outline');
+          button.classList.remove('btn-main');
+        });
+
+        // Show all games
+        games.forEach(game => {
+          game.classList.remove('Hide');
+        });
+      });
+
+      let games = document.querySelectorAll(".game");
+      let gameBTNs = document.querySelectorAll(".gamebtn");
+
+      gameBTNs.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Toggle the 'btn-main' and 'btn-outline' classes on the clicked button
+          btn.classList.toggle('btn-main');
+          btn.classList.toggle('btn-outline');
+
+          // Get the game types of all clicked buttons
+          let activeGameTypes = Array.from(document.querySelectorAll('.btn-main')).map(btn => btn.id);
+
+          // Check if no buttons are active
+          if (activeGameTypes.length === 0) {
+            // If no buttons are active, show all games
+            games.forEach(game => {
+              game.classList.remove('Hide');
+            });
+          } else {
+            // Show all games whose type is in the activeGameTypes array, hide others
+            games.forEach(game => {
+              if (activeGameTypes.some(type => game.classList.contains(type))) {
+                game.classList.remove('Hide');
+              } else {
+                game.classList.add('Hide');
+              }
+            });
+          }
+        });
+      });
+    </script>
+
+    {% endblock %}
+  </body>
+</html>

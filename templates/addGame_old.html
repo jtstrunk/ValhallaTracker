@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>Add Game Record</title>
+</head>
+<body>
+    {% extends "base.html" %}
+    {% import "bootstrap/wtf.html" as wtf %}
+    {% block content %}
+    <div id="addGame">
+        <div class="game">
+            <span>Dominion</span>
+            <p>2-4 Players</p>
+            <p>Add Record</p>
+        </div>
+        <div class="game">
+            <span>Lords of Waterdeep</span>
+            <p>2-5 Players</p>
+            <p>Add Record</p>
+        </div>
+        <div class="game">
+            <span>Moonrakers</span>
+            <p>1-5 Players</p>
+            <p>Add Record</p>
+        </div>
+        <div class="game">
+            <span>Cosmic Encounter</span>
+            <p>3-5 Players</p>
+            <p>Add Record</p>
+        </div>
+        <div class="game">
+            <span>Catan</span>
+            <p>3-4 Players</p>
+            <p>Add Record</p>
+        </div>
+        <div class="game">
+            <span>Magic: The Gathering</span>
+            <p>2-5 Players</p>
+            <p>Add Record</p>
+        </div>
+        <div class="game">
+            <span>Coup</span>
+            <p>2-6 Players</p>
+            <p>Add Record</p>
+        </div>
+        <div class="game">
+            <span>Love Letter</span>
+            <p>2-6 Players</p>
+            <p>Add Record</p>
+        </div>
+        <div class="game">
+            <span>Munchkin</span>
+            <p>3-6 Players</p>
+            <p>Add Record</p>
+        </div>
+        <div class="game">
+            <span>Just One</span>
+            <p>3-7 Players</p>
+            <p>Add Record</p>
+        </div>
+        <div class="game">
+            <span>The Mind</span>
+            <p>2-4 Players</p>
+            <p>Add Record</p>
+        </div>
+    </div>
+
+    <div id="dominionPopup" class="gamepopup Hide" style="height: 400px;">
+        <p class="close-button">x</p>
+        <h2>Add Dominion Record</h2>
+        <div style="margin-top: 25px;">
+            <form action = "{{ url_for('addDominion') }}" method = "POST" autocomplete="off">
+                <div class="players">
+                    <label for="dominionPlayer1">Winner</label>
+                    <input type="text" id="dominionPlayer1" name="dominionPlayer1" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="dominionresults Hide res"></div>
+                    <label for="Player1_Score">Score</label>
+                    <input type="text" name="Player1_Score" id="Player1_Score" placeholder="Score">
+                </div>
+                <div class="players">
+                    <label for="dominionPlayer2">Runner Up</label>
+                    <input type="text" id="dominionPlayer2" name="dominionPlayer2" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="dominionresults Hide res"></div>
+                    <label for="Player2_Score">Score</label>
+                    <input type="text" name="Player2_Score" id="Player2_Score" placeholder="Score">
+                </div>
+                <div class="players">
+                    <label for="dominionPlayer3">Third Place</label>
+                    <input type="text" id="dominionPlayer3" name="dominionPlayer3" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="dominionresults Hide res"></div>
+                    <label for="Player3_Score">Score</label>
+                    <input type="text" name="Player3_Score" id="Player3_Score" placeholder="Score">
+                </div>
+                <div class="players">
+                    <label for="dominionPlayer4">Fourth Place</label>
+                    <input type="text" id="dominionPlayer4" name="dominionPlayer4" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="dominionresults Hide res" ></div>
+                    <label for="Player4_Score">Score</label>
+                    <input type="text" name="Player4_Score" id="Player4_Score" placeholder="Score">
+                </div>
+                <button class="btn btn-primary">Submit Record</button>
+            </form>
+        </div>
+
+    </div>
+
+    <div id="lordsPopup" class="gamepopup Hide" style="height: 470px;">
+        <p class="close-button">x</p>
+        <h2 style="margin-bottom: 5px;">Add Lords of</h2>
+        <h2  style="margin-top: 5px; margin-bottom: 5px;">Waterdeep Record</h2>
+        <div style="margin-top: 15px;">
+            <form action = "{{ url_for('addLordsofWaterdeep') }}" method = "POST">
+                <div class="players">
+                    <label for="lordsofwaterdeepPlayer1">Winner</label>
+                    <input type="text" id="lordsofwaterdeepPlayer1" name="lordsofwaterdeepPlayer1" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="lordsofwaterdeepresults Hide res"></div>
+                    <label for="Player1_Score">Score</label>
+                    <input type="text" name="Player1_Score" id="Player1_Score" placeholder="Score">
+                </div>
+                <div class="players">
+                    <label for="lordsofwaterdeepPlayer2">Runner Up</label>
+                    <input type="text" id="lordsofwaterdeepPlayer2" name="lordsofwaterdeepPlayer2" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="lordsofwaterdeepresults Hide res"></div>
+                    <label for="Player2_Score">Score</label>
+                    <input type="text" name="Player2_Score" id="Player2_Score" placeholder="Score">
+                </div>
+                <div class="players">
+                    <label for="lordsofwaterdeepPlayer3">Third Place</label>
+                    <input type="text" id="lordsofwaterdeepPlayer3" name="lordsofwaterdeepPlayer3" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="lordsofwaterdeepresults Hide res"></div>
+                    <label for="Player3_Score">Score</label>
+                    <input type="text" name="Player3_Score" id="Player3_Score" placeholder="Score">
+                </div>
+                <div class="players">
+                    <label for="lordsofwaterdeepPlayer4">Fourth Place</label>
+                    <input type="text" id="lordsofwaterdeepPlayer4" name="lordsofwaterdeepPlayer4" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="lordsofwaterdeepresults Hide res"></div>
+                    <label for="Player4_Score">Score</label>
+                    <input type="text" name="Player4_Score" id="Player4_Score" placeholder="Score">
+                </div>
+                <div class="players">
+                    <label for="lordsofwaterdeepPlayer5">Fifth Place</label>
+                    <input type="text" id="lordsofwaterdeepPlayer5" name="lordsofwaterdeepPlayer5" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="lordsofwaterdeepresults Hide res"></div>
+                </div>
+                <div class="players">
+                    <label for="Player5_Score">Score</label>
+                    <input type="text" name="Player5_Score" id="Player5_Score" placeholder="Score">
+                </div>
+                <button class="btn btn-primary">Submit Record</button>
+            </form>
+        </div>
+
+    </div>
+
+    <div id="moonrakersPopup" class="gamepopup Hide" style="height: 470px;">
+        <p class="close-button">x</p>
+        <h2>Add Moonrakers Record</h2>
+        <div style="margin-top: 15px;">
+            <form action = "{{ url_for('addMoonrakers') }}" method = "POST">
+                <div class="players">
+                    <label for="moonrakersPlayer1">Winner</label>
+                    <input type="text" id="moonrakersPlayer1" name="moonrakersPlayer1" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="moonrakersresults Hide res"></div>
+                    <label for="Player1_Score">Score</label>
+                    <input type="text" name="Player1_Score" id="Player1_Score" placeholder="Score">
+                </div>
+                <div class="players">
+                    <label for="moonrakersPlayer2">Runner Up</label>
+                    <input type="text" id="moonrakersPlayer2" name="moonrakersPlayer2" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="moonrakersresults Hide res"></div>
+                    <label for="Player2_Score">Score</label>
+                    <input type="text" name="Player2_Score" id="Player2_Score" placeholder="Score">
+                </div>
+                <div class="players">
+                    <label for="moonrakersPlayer3">Third Place</label>
+                    <input type="text" id="moonrakersPlayer3" name="moonrakersPlayer3" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="moonrakersresults Hide res"></div>
+                    <label for="Player3_Score">Score</label>
+                    <input type="text" name="Player3_Score" id="Player3_Score" placeholder="Score">
+                </div>
+                <div class="players">
+                    <label for="moonrakersPlayer4">Fourth Place</label>
+                    <input type="text" id="moonrakersPlayer4" name="moonrakersPlayer4" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="moonrakersresults Hide res"></div>
+                    <label for="Player4_Score">Score</label>
+                    <input type="text" name="Player4_Score" id="Player4_Score" placeholder="Score">
+                </div>
+                <div class="players">
+                    <label for="moonrakersPlayer5">Fifth Place</label>
+                    <input type="text" id="moonrakersPlayer5" name="moonrakersPlayer5" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="moonrakersresults Hide res"></div>
+                </div>
+                <div class="players">
+                    <label for="Player5_Score">Score</label>
+                    <input type="text" name="Player5_Score" id="Player5_Score" placeholder="Score">
+                </div>
+                <button class="btn btn-primary">Submit Record</button>
+            </form>
+        </div>
+
+    </div>
+
+    <div id="cosmicencounterPopup" class="gamepopup Hide" style="height: 470px;">
+        <p class="close-button">x</p>
+        <h2>Add Cosmic Encounter Record</h2>
+        <div style="margin-top: 15px;">
+            <form action = "{{ url_for('addCosmicEncounter') }}" method = "POST">
+                <div class="players">
+                    <label for="cosmicencounterPlayer1">First Place</label>
+                    <input type="text" id="cosmicencounterPlayer1" name="cosmicencounterPlayer1" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="cosmicencounterresults Hide res"></div>
+                    <label for="Player1_Score">Score</label>
+                    <input type="text" name="Player1_Score" id="Player1_Score" placeholder="Score">
+                </div>
+                <div class="players">
+                    <label for="cosmicencounterPlayer2">Second Place</label>
+                    <input type="text" id="cosmicencounterPlayer2" name="cosmicencounterPlayer2" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="cosmicencounterresults Hide res"></div>
+                    <label for="Player2_Score">Score</label>
+                    <input type="text" name="Player2_Score" id="Player2_Score" placeholder="Score">
+                </div>
+                <div class="players">
+                    <label for="cosmicencounterPlayer3">Third Place</label>
+                    <input type="text" id="cosmicencounterPlayer3" name="cosmicencounterPlayer3" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="cosmicencounterresults Hide res"></div>
+                    <label for="Player3_Score">Score</label>
+                    <input type="text" name="Player3_Score" id="Player3_Score" placeholder="Score">
+                </div>
+                <div class="players">
+                    <label for="cosmicencounterPlayer4">Fourth Place</label>
+                    <input type="text" id="cosmicencounterPlayer4" name="cosmicencounterPlayer4" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="cosmicencounterresults Hide res"></div>
+                    <label for="Player4_Score">Score</label>
+                    <input type="text" name="Player4_Score" id="Player4_Score" placeholder="Score">
+                </div>
+                <div class="players">
+                    <label for="cosmicencounterPlayer5">Fifth Place</label>
+                    <input type="text" id="cosmicencounterPlayer5" name="cosmicencounterPlayer5" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="moonrakersresults Hide res"></div>
+                </div>
+                <div class="players">
+                    <label for="Player5_Score">Score</label>
+                    <input type="text" name="Player5_Score" id="Player5_Score" placeholder="Score">
+                </div>
+                <button class="btn btn-primary">Submit Record</button>
+            </form>
+        </div>
+
+    </div>
+
+    <div id="catanPopup" class="gamepopup Hide" style="height: 400px;">
+        <p class="close-button">x</p>
+        <h2>Add Catan Record</h2>
+        <div style="margin-top: 25px;">
+            <form action = "{{ url_for('addCatan') }}" method = "POST" autocomplete="off">
+                <div class="players">
+                    <label for="catanPlayer1">Winner</label>
+                    <input type="text" id="catanPlayer1" name="catanPlayer1" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="catanresults Hide res"></div>
+                    <label for="Player1_Score">Score</label>
+                    <input type="text" name="Player1_Score" id="Player1_Score" placeholder="Score">
+                </div>
+                <div class="players">
+                    <label for="catanPlayer2">Runner Up</label>
+                    <input type="text" id="catanPlayer2" name="catanPlayer2" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div id="catanresults Hide res"></div>
+                    <label for="Player2_Score">Score</label>
+                    <input type="text" name="Player2_Score" id="Player2_Score" placeholder="Score">
+                </div>
+                <div class="players">
+                    <label for="catanPlayer3">Third Place</label>
+                    <input type="text" id="catanPlayer3" name="catanPlayer3" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div id="catanresults Hide res"></div>
+                    <label for="Player3_Score">Score</label>
+                    <input type="text" name="Player3_Score" id="Player3_Score" placeholder="Score">
+                </div>
+                <div class="players">
+                    <label for="catanPlayer4">Fourth Place</label>
+                    <input type="text" id="catanPlayer4" name="catanPlayer4" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div id="catanresults Hide res"></div>
+                    <label for="Player4_Score">Score</label>
+                    <input type="text" name="Player4_Score" id="Player4_Score" placeholder="Score">
+                </div>
+                <button class="btn btn-primary">Submit Record</button>
+            </form>
+        </div>
+
+    </div>
+
+    <div id="magicPopup" class="gamepopup Hide" style="height: 610px; width: 660px; border-radius: 3%;">
+        <p class="close-button">x</p>
+        <h2 style="margin-bottom: 5px;">Add Magic: The</h2>
+        <h2  style="margin-top: 5px; margin-bottom: 5px;">Gathering Record</h2>
+        <div style="margin-top: 15px;">
+            <form action = "{{ url_for('addMagicTheGathering') }}" method = "POST">
+                <div class="players">
+                    <label for="magicthegatheringPlayer1">Winner</label>
+                    <input type="text" id="magicthegatheringPlayer1" name="magicthegatheringPlayer1" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="magicthegatheringresults Hide res"></div>
+                    <label for="Player1_Color">Color</label>
+                    <select name="Player1_Color" id="Player1_Color" placeholder="Color" style="width: 175px;">
+                        <option value="">Select a Color</option>
+                        <option value="blue">Blue</option>
+                        <option value="red">Red</option>
+                        <option value="green">Green</option>
+                        <option value="white">White</option>
+                        <option value="black">Black</option>
+                        <option value="blue-red">Blue + Red</option>
+                        <option value="blue-green">Blue + Green</option>
+                        <option value="blue-white">Blue + White</option>
+                        <option value="blue-black">Blue + Black</option>
+                        <option value="red-green">Red + Green</option>
+                        <option value="red-white">Red + White</option>
+                        <option value="red-black">Red + Black</option>
+                        <option value="green-white">Green + White</option>
+                        <option value="green-black">Green + Black</option>
+                        <option value="white-black">White + Black</option>
+                        <option value="multicolored">Multicolored</option>
+                    </select>
+                    <label for="Player1_Kills">Kills</label>
+                    <input type="text" name="Player1_Kills" id="Player1_Kills" placeholder="Kills">
+                    <label for="Player1_Deck">Deck</label>
+                    <input type="text" name="Player1_Deck" id="Player1_Deck" placeholder="Deck">
+                </div>
+                <div class="players">
+                    <label for="magicthegatheringPlayer2">Runner Up</label>
+                    <input type="text" id="magicthegatheringPlayer2" name="magicthegatheringPlayer2" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="magicthegatheringresults Hide res"></div>
+                    <label for="Player2_Color">Color</label>
+                    <select name="Player2_Color" id="Player2_Color" placeholder="Color" style="width: 175px;">
+                        <option value="">Select a Color</option>
+                        <option value="blue">Blue</option>
+                        <option value="red">Red</option>
+                        <option value="green">Green</option>
+                        <option value="white">White</option>
+                        <option value="black">Black</option>
+                        <option value="blue-red">Blue + Red</option>
+                        <option value="blue-green">Blue + Green</option>
+                        <option value="blue-white">Blue + White</option>
+                        <option value="blue-black">Blue + Black</option>
+                        <option value="red-green">Red + Green</option>
+                        <option value="red-white">Red + White</option>
+                        <option value="red-black">Red + Black</option>
+                        <option value="green-white">Green + White</option>
+                        <option value="green-black">Green + Black</option>
+                        <option value="white-black">White + Black</option>
+                        <option value="multicolored">Multicolored</option>
+                    </select>
+                    <label for="Player2_Kills">Kills</label>
+                    <input type="text" name="Player2_Kills" id="Player2_Kills" placeholder="Kills">
+                    <label for="Player2_Deck">Deck</label>
+                    <input type="text" name="Player2_Deck" id="Player2_Deck" placeholder="Deck">
+                </div>
+                <div class="players">
+                    <label for="magicthegatheringPlayer3">Third Place</label>
+                    <input type="text" id="magicthegatheringPlayer3" name="magicthegatheringPlayer3" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="magicthegatheringresults Hide res"></div>
+                    <label for="Player3_Color">Color</label>
+                    <select name="Player3_Color" id="Player3_Color" placeholder="Color" style="width: 175px;">
+                        <option value="">Select a Color</option>
+                        <option value="blue">Blue</option>
+                        <option value="red">Red</option>
+                        <option value="green">Green</option>
+                        <option value="white">White</option>
+                        <option value="black">Black</option>
+                        <option value="blue-red">Blue + Red</option>
+                        <option value="blue-green">Blue + Green</option>
+                        <option value="blue-white">Blue + White</option>
+                        <option value="blue-black">Blue + Black</option>
+                        <option value="red-green">Red + Green</option>
+                        <option value="red-white">Red + White</option>
+                        <option value="red-black">Red + Black</option>
+                        <option value="green-white">Green + White</option>
+                        <option value="green-black">Green + Black</option>
+                        <option value="white-black">White + Black</option>
+                        <option value="multicolored">Multicolored</option>
+                    </select>
+                    <label for="Player3_Kills">Kills</label>
+                    <input type="text" name="Player3_Kills" id="Player3_Kills" placeholder="Kills">
+                    <label for="Player3_Deck">Deck</label>
+                    <input type="text" name="Player3_Deck" id="Player3_Deck" placeholder="Deck">
+                </div>
+                <div class="players" style="margin-left: 100px;">
+                    <label for="magicthegatheringPlayer4">Fourth Place</label>
+                    <input type="text" id="magicthegatheringPlayer4" name="magicthegatheringPlayer4" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="magicthegatheringresults Hide res"></div>
+                    <label for="Player4_Color">Color</label>
+                    <select name="Player4_Color" id="Player4_Color" placeholder="Color" style="width: 175px;">
+                        <option value="">Select a Color</option>
+                        <option value="blue">Blue</option>
+                        <option value="red">Red</option>
+                        <option value="green">Green</option>
+                        <option value="white">White</option>
+                        <option value="black">Black</option>
+                        <option value="blue-red">Blue + Red</option>
+                        <option value="blue-green">Blue + Green</option>
+                        <option value="blue-white">Blue + White</option>
+                        <option value="blue-black">Blue + Black</option>
+                        <option value="red-green">Red + Green</option>
+                        <option value="red-white">Red + White</option>
+                        <option value="red-black">Red + Black</option>
+                        <option value="green-white">Green + White</option>
+                        <option value="green-black">Green + Black</option>
+                        <option value="white-black">White + Black</option>
+                        <option value="multicolored">Multicolored</option>
+                    </select>
+                    <label for="Player4_Kills">Kills</label>
+                    <input type="text" name="Player4_Kills" id="Player4_Kills" placeholder="Kills">
+                    <label for="Player4_Deck">Deck</label>
+                    <input type="text" name="Player4_Deck" id="Player4_Deck" placeholder="Deck">
+                </div>
+                <div class="players" style="margin-right: 100px;">
+                    <label for="magicthegatheringPlayer5">Fifth Place</label>
+                    <input type="text" id="magicthegatheringPlayer5" name="magicthegatheringPlayer5" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="magicthegatheringresults Hide res"></div>
+                    <label for="Player5_Color">Color</label>
+                    <select name="Player5_Color" id="Player5_Color" placeholder="Color" style="width: 175px;">
+                        <option value="">Select a Color</option>
+                        <option value="blue">Blue</option>
+                        <option value="red">Red</option>
+                        <option value="green">Green</option>
+                        <option value="white">White</option>
+                        <option value="black">Black</option>
+                        <option value="blue-red">Blue + Red</option>
+                        <option value="blue-green">Blue + Green</option>
+                        <option value="blue-white">Blue + White</option>
+                        <option value="blue-black">Blue + Black</option>
+                        <option value="red-green">Red + Green</option>
+                        <option value="red-white">Red + White</option>
+                        <option value="red-black">Red + Black</option>
+                        <option value="green-white">Green + White</option>
+                        <option value="green-black">Green + Black</option>
+                        <option value="white-black">White + Black</option>
+                        <option value="multicolored">Multicolored</option>
+                    </select>
+                    <label for="Player5_Kills">Kills</label>
+                    <input type="text" name="Player5_Kills" id="Player5_Kills" placeholder="Kills">
+                    <label for="Player5_Deck">Deck</label>
+                    <input type="text" name="Player5_Deck" id="Player5_Deck" placeholder="Deck">
+                </div>
+                <div class="players">
+                    <button class="btn btn-primary" style="margin-top: 0px;">Submit Record</button>
+                </div>
+                
+            </form>
+        </div>
+
+    </div>
+
+    <div id="coupPopup" class="gamepopup Hide" style="height: 350px;">
+        <p class="close-button">x</p>
+        <h2>Add Coup Record</h2>
+        <div style="margin-top: 25px;">
+            <form action = "{{ url_for('addCoup') }}" method = "POST">
+                <div class="players">
+                    <label for="coupPlayer1">Winner</label>
+                    <input type="text" id="coupPlayer1" name="coupPlayer1" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="coupresults Hide res"></div>
+                </div>
+                <div class="players">
+                    <label for="coupPlayer2">Runner Up</label>
+                    <input type="text" id="coupPlayer2" name="coupPlayer2" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="coupresults Hide res"></div>
+                </div>
+                <div class="players">
+                    <label for="coupPlayer3">Third Place</label>
+                    <input type="text" id="coupPlayer3" name="coupPlayer3" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="coupresults Hide res"></div>
+                </div>
+                <div class="players">
+                    <label for="coupPlayer4">Fourth Place</label>
+                    <input type="text" id="coupPlayer4" name="coupPlayer4" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="coupresults Hide res"></div>
+                </div>
+                <div class="players">
+                    <label for="coupPlayer5">Fifth Place</label>
+                    <input type="text" id="coupPlayer5" name="coupPlayer5" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="coupresults Hide res"></div>
+                </div>
+                <div class="players">
+                    <label for="coupPlayer6">Sixth Place</label>
+                    <input type="text" id="coupPlayer6" name="coupPlayer6" placeholder="Name">
+                    <div class="coupresults Hide res"></div>
+                </div>
+                <button class="btn btn-primary">Submit Record</button>
+            </form>
+        </div>
+
+    </div>
+
+    <div id="lovePopup" class="gamepopup Hide" style="height: 350px;">
+        <p class="close-button">x</p>
+        <h2>Add Love Letter Record</h2>
+        <div style="margin-top: 25px;">
+            <form action = "{{ url_for('addLoveLetter') }}" method = "POST">
+                <div class="players">
+                    <label for="loveletterPlayer1">Winner</label>
+                    <input type="text" id="loveletterPlayer1" name="loveletterPlayer1" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="loveletterresults Hide res"></div>
+                </div>
+                <div class="players">
+                    <label for="loveletterPlayer2">Runner Up</label>
+                    <input type="text" id="loveletterPlayer2" name="loveletterPlayer2" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="loveletterresults Hide res"></div>
+                </div>
+                <div class="players">
+                    <label for="loveletterPlayer3">Third Place</label>
+                    <input type="text" id="loveletterPlayer3" name="loveletterPlayer3" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="loveletterresults Hide res"></div>
+                </div>
+                <div class="players">
+                    <label for="loveletterPlayer4">Fourth Place</label>
+                    <input type="text" id="loveletterPlayer4" name="loveletterPlayer4" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="loveletterresults Hide res"></div>
+                </div>
+                <div class="players">
+                    <label for="loveletterPlayer5">Fifth Place</label>
+                    <input type="text" id="loveletterPlayer5" name="loveletterPlayer5" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="loveletterresults Hide res"></div>
+                </div>
+                <div class="players">
+                    <label for="loveletterPlayer6">Sixth Place</label>
+                    <input type="text" id="loveletterPlayer6" name="loveletterPlayer6" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="loveletterresults Hide res"></div>
+                </div>
+                <button class="btn btn-primary">Submit Record</button>
+            </form>
+        </div>
+
+    </div>
+
+    <div id="muncPopup" class="gamepopup Hide" style="height: 400px; width: 650px; border-radius: 3%;">
+        <p class="close-button">x</p>
+        <h2>Add Munchkin Record</h2>
+        <div style="margin-top: 25px;">
+            <form action = "{{ url_for('addMunchkin') }}" method = "POST">
+                <div class="players">
+                    <label for="munchkinPlayer1">Winner</label>
+                    <input type="text" id="munchkinPlayer1" name="munchkinPlayer1" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="munchkinresults Hide res"></div>
+                    <label for="Player1_Score">Level</label>
+                    <input type="text" name="Player1_Score" id="Player1_Score" placeholder="Score">
+                </div>
+                <div class="players">
+                    <label for="munchkinPlayer2">Runner Up</label>
+                    <input type="text" id="munchkinPlayer2" name="munchkinPlayer2" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="munchkinresults Hide res"></div>
+                    <label for="Player2_Score">Level</label>
+                    <input type="text" name="Player2_Score" id="Player2_Score" placeholder="Score">
+                </div>
+                <div class="players">
+                    <label for="munchkinPlayer3">Third Place</label>
+                    <input type="text" id="munchkinPlayer3" name="munchkinPlayer3" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="munchkinresults Hide res"></div>
+                    <label for="Player3_Score">Level</label>
+                    <input type="text" name="Player3_Score" id="Player3_Score" placeholder="Score">
+                </div>
+                <div class="players">
+                    <label for="munchkinPlayer4">Fourth Place</label>
+                    <input type="text" id="munchkinPlayer4" name="munchkinPlayer4" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="munchkinresults Hide res"></div>
+                    <label for="Player4_Score">Level</label>
+                    <input type="text" name="Player4_Score" id="Player4_Score" placeholder="Score">
+                </div>
+                <div class="players">
+                    <label for="munchkinPlayer5">Fifth Place</label>
+                    <input type="text" id="munchkinPlayer5" name="munchkinPlayer5" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="loveletterresults Hide res"></div>
+                    <label for="Player5_Score">Level</label>
+                    <input type="text" name="Player5_Score" id="Player5_Score" placeholder="Score">
+                </div>
+                <div class="players">
+                    <label for="munchkinPlayer6">Sixth Place</label>
+                    <input type="text" id="munchkinPlayer6" name="munchkinPlayer6" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="loveletterresults Hide res"></div>
+                    <label for="Player6_Score">Level</label>
+                    <input type="text" name="Player6_Score" id="Player6_Score" placeholder="Score">
+                </div>
+
+                <button class="btn btn-primary" style="margin-top: 15px;">Submit Record</button>
+            </form>
+        </div>
+
+    </div>
+
+    <div id="justPopup" class="gamepopup Hide" style="height: 320px; width: 650px; border-radius: 3%;">
+        <p class="close-button">x</p>
+        <h2>Add Just One Record</h2>
+        <div style="margin-top: 25px;">
+            <form action = "{{ url_for('addJustOne') }}" method = "POST">
+                <div class="players">
+                    <label for="justonePlayer1">Player One</label>
+                    <input type="text" id="justonePlayer1" name="justonePlayer1" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="justoneresults Hide res"></div>
+                </div>
+                <div class="players">
+                    <label for="justonePlayer2">Player Two</label>
+                    <input type="text" id="justonePlayer2" name="justonePlayer2" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="justoneresults Hide res"></div>
+                </div>
+                <div class="players">
+                    <label for="justonePlayer3">Player Three</label>
+                    <input type="text" id="justonePlayer3" name="justonePlayer3" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="justoneresults Hide res"></div>
+                </div>
+                <div class="players">
+                    <label for="justonePlayer4">Player Four</label>
+                    <input type="text" id="justonePlayer4" name="justonePlayer4" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="justoneresults Hide res"></div>
+                </div>
+                <div class="players">
+                    <label for="justonePlayer5">Player Five</label>
+                    <input type="text" id="justonePlayer5" name="justonePlayer5" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="justoneresults Hide res"></div>
+                </div>
+                <div class="players">
+                    <label for="justonePlayer6">Player Six</label>
+                    <input type="text" id="justonePlayer6" name="justonePlayer6" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="justoneresults Hide res"></div>
+                </div>
+                <div class="players">
+                    <label for="justonePlayer7">Player Seven</label>
+                    <input type="text" id="justonePlayer7" name="justonePlayer7" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="justoneresults Hide res"></div>
+                </div>
+                <div class="players">
+                    <label for="win">Correct Cards</label>
+                    <input type="text" id="win" name="win" placeholder="Number">
+                </div>
+
+                <button class="primary-button" style="margin-top: 32px;">Submit Record</button>
+            </form>
+        </div>
+
+    </div>
+
+    <div id="mindPopup" class="gamepopup Hide" style="height: 300px;">
+        <p class="close-button">x</p>
+        <h2>Add The Mind Record</h2>
+        <div style="margin-top: 25px;">
+            <form action = "{{ url_for('addTheMind') }}" method = "POST">
+                <div class="players">
+                    <label for="themindPlayer1">Player One</label>
+                    <input type="text" id="themindPlayer1" name="themindPlayer1" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="themindresults Hide res"></div>
+                </div>
+                <div class="players">
+                    <label for="themindPlayer2">Player Two</label>
+                    <input type="text" id="themindPlayer2" name="themindPlayer2" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="themindresults Hide res"></div>
+                </div>
+                <div class="players">
+                    <label for="themindPlayer3">Player Three</label>
+                    <input type="text" id="themindPlayer3" name="themindPlayer3" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="themindresults Hide res"></div>
+                </div>
+                <div class="players">
+                    <label for="themindPlayer4">Player Four</label>
+                    <input type="text" id="themindPlayer4" name="themindPlayer4" placeholder="Name" onKeyUp="showResults(this.value, this.id)">
+                    <div class="themindresults Hide res"></div>
+                </div>
+                <div class="players">
+                    <label for="win">Result</label>
+                    <select id="win" name="win">
+                        <option value="Victory">Victory</option>
+                        <option value="Defeat">Defeat</option>
+                    </select>
+                    <!-- <input type="text" id="win" name="win" placeholder="Yes/No"> -->
+                </div>
+
+                <button class="primary-button" style="margin-top: 34px;">Submit Record</button>
+            </form>
+        </div>
+
+    </div>
+
+    <script>
+        let cards = document.querySelectorAll(".game");
+        let gamepopups = document.querySelectorAll(".gamepopup");
+        let closebuttons = document.querySelectorAll(".close-button");
+
+        for (let i = 0; i < gamepopups.length; i++) {
+            cards[i].addEventListener('click', () => {
+                for (let j = 0; j < gamepopups.length; j++){
+                    gamepopups[j].classList.add("Hide");
+                }
+                gamepopups[i].classList.remove("Hide");
+            })
+            closebuttons[i].addEventListener('click', () => {
+                gamepopups[i].classList.add("Hide");
+            })
+        }
+
+        fetch('/returnFriends')
+        .then(response => response.json())
+        .then(data => {
+            search_terms = data;
+            console.log(search_terms);
+        })
+        .catch(error => console.error(error));
+
+        function autocompleteMatch(input) {
+            if (input == '') {
+                return [];
+            }
+            var reg = new RegExp(input,'i')
+            return search_terms.filter(function(term) {
+                if (term.match(reg)) {
+                return term;
+                }
+            });
+            }
+
+            function showResults(val, id) {
+            let parts = id.split(/(\d+)/);
+            let part = parts[0];
+            let gameName = part.slice(0, -6);
+            console.log("GAME");
+            console.log(gameName);
+            let index = id.search(/\d/);
+            let num = id.substring(index);
+            console.log(num);
+            results = document.querySelectorAll(`.${gameName}results`);
+            results[num - 1].classList.remove("Hide");
+            let res = results[num - 1]
+            res.innerHTML = '';
+            let list = '';
+            if (val === '') {
+                res.classList.add("Hide");
+                return;
+            }
+            let terms = autocompleteMatch(val);
+            for (i=0; i<terms.length; i++) {
+                list += '<li>' + terms[i] + '</li>';
+            }
+            res.innerHTML = '<ul>' + list + '</ul>';
+
+            // Add event listener to each li element
+            let liElements = document.querySelectorAll(`.${gameName}results li`);
+            liElements.forEach(function(li) {
+                li.addEventListener('click', function() {
+                    document.querySelector(`#${gameName}Player${num}`).value = li.innerText;
+                    res.innerHTML = '';
+                    res.classList.add("Hide");
+                });
+            });
+
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest(`#${gameName}Player${num}`) && !event.target.closest(`.${gameName}results`)) {
+                    res.classList.add("Hide");
+                }
+            });
+
+        }
+
+    </script>
+
+    {% endblock %}
+</body>
+</html>

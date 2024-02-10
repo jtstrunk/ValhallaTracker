@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/baseStyles.css') }}">
+    <title>Game Tracker</title>
+</head>
+<body>
+    {% extends "base.html" %}
+    {% import "bootstrap/wtf.html" as wtf %}
+    {% block content %}
+        <div id="content">
+            <div>
+                <h2 style="color: white;">{{ name }}, Welcome to Valhalla Tabletop Tracker</h2>                    
+                <div id="mainLayout">
+                    <div  class="section">
+                        <h3>Your Recent Games</h3>
+                        <table>
+                            <thead>
+                              <tr>
+                                <th>Game Type</th>
+                                <th>Winner</th>
+                                <th>Second Place</th>
+                                <th>Third Place</th>
+                                <th>Game ID</th>
+                                <th>Date</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for game in recentGames %}
+                              <tr>
+                                <td>{{ game.game_type }}</td>
+                                <td>{{ game.winnerName }}</td>
+                                <td>{{ game.secondName }}</td>
+                                <td>{{ game.thirdName }}</td>
+                                <td>{{ game.game_id }}</td>
+                                <td>{{ game.current_date }}</td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="section">
+                        <h3>Friends</h3>
+                        <div>
+                            {% for friend in friends %}
+                            <div style="margin-top: 10px;">
+                                <a href="/profile?name={{ friend.username }}" class="friend" style="cursor: pointer;">{{ friend.fullname }}</a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <a href="/friend" class="">Manage Friends</a>
+                        </div>
+                    </div>
+                    <div class="section" id="statistics" style="width: 805px;">
+                        <h3>Basic Statistics</h3>
+                        <div id="favGames">
+                        
+                            <div class="miniCards">
+                                <span>Games Played</span>
+                                <p>{{ profileStats[0] }}</p>
+                            </div>
+                            <div class="miniCards">
+                                <span>Games Won</span>
+                                <p>{{ profileStats[1] }}</p>
+                            </div>
+                            <div class="miniCards">
+                                <span>Most Played</span>
+                                <p>{{ profileStats[2] }}</p>
+                            </div>
+                            <div class="miniCards">
+                                <span>Most Won</span>
+                                <p>{{ profileStats[3] }}</p>
+                            </div>
+                            <div class="miniCards">
+                                <span>Best Friend</span>
+                                <p>{{ profileStats[4] }}</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                
+            </div>
+
+        </div>
+
+        
+
+    {% endblock %}
+
+</body>
+</html>

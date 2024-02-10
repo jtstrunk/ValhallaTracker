@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/hometest.css') }}">
+    <title>Game Tracker</title>
+</head>
+<body>
+    {% extends "base.html" %}
+    {% import "bootstrap/wtf.html" as wtf %}
+    {% block content %}
+        <div id="content">
+            <!-- <a href="https://www.flaticon.com/free-icons/game" title="game icons">Game icons created by Freepik - Flaticon</a> -->
+            <div class="section">
+                <h3>Recent Games</h3>
+                <div id="recentGames">
+                    {% for game in recentGames %}
+                    <div class="game">
+                        <div >
+                            <img src="{{ url_for('static', filename='images/addgame/' + game.game_type.replace(' ', '') + '.png') }}">
+                            <!-- <img src="/static/images/{{ game.game_type }}.png"> -->
+                            <!-- <h5 style="margin-left: 5px; color: white; margin-bottom: 0px; margin-top: 6px;">{{ game.game_id }}</h5> says current but is game date -->
+                        </div>
+                        <div class="gameContent">
+                           <h4>{{ game.game_type }}</h4>
+                           <h5>Winner: {{ game.winnerName }}</h5>
+                           <span>{{ game.current_date }}</span>
+                           <span class="gameid">Game ID {{ game.game_id}}</span>
+                           <!-- <h5 style="text-decoration: underline;">Expand</h5> -->
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+<!-- do little section thing like how here to slay does it for the 5 categories-->
+            <div class="section">
+                <div id="quickadd">
+                    <h3>Quick Add</h3>
+                    <div class="quickgame">
+                        <div>
+                            <p>Moonrakers</p>
+                            <button class="btn btn-outline">Quick Add</button>
+                        </div>
+                        <img src="/static/images/addgame/moonrakers.jpg">
+                    </div>
+                    <div class="quickgame">
+                        <div>
+                            <p>Lords of Waterdeep</p>
+                            <button class="btn btn-outline">Quick Add</button>
+                        </div>
+                        <img src="/static/images/addgame/lordsofwaterdeep.png">
+                    </div>
+                </div>
+                <div id="friends" style="margin-top: 15px;">
+                    <h3 >Friends</h3>
+                    <div id="friendslist">
+                        {% for friend in friends %}
+                        <div style="margin-top: 5px; margin-bottom: 3px;">
+                            <a href="/profile?name={{ friend.username }}" class="friend" style="cursor: pointer;">{{ friend.fullname }}</a>
+                        </div>
+                        <div style="margin-top: 5px; margin-bottom: 3px;">
+                            <a href="/profile?name={{ friend.username }}" class="friend" style="cursor: pointer;">{{ friend.fullname }}</a>
+                        </div>
+                        {% endfor %}
+                        <!-- <a href="/friend" style="margin-top: 10px;">Manage Friends</a> maybe stats instead of friends--> 
+                        <button id="friendbtn" class="btn btn-outline" style="margin-top: 5px;">Manage Friends</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <script>
+            document.querySelector('#friendbtn').addEventListener('click', function() {
+                window.location.href = '/friend';
+            });
+        </script>
+    {% endblock %}
+
+</body>
+</html>

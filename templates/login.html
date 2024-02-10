@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap/bootstrap.min.css') }}">
+</head>
+<body>
+    {% import "bootstrap/wtf.html" as wtf %}
+    {% block content %}
+        <div id="inside">
+            <div>
+                <h1>Login</h1>
+            </div>
+            <div id="form">
+                <form action="/login" method="post" novalidate>
+                    {{form.hidden_tag()}}
+                    {{wtf.form_field(form.username) }}
+                    {{wtf.form_field(form.password) }}
+                    {{wtf.form_field(form.remember) }}
+                    <button type="submit button" class="btn btn-primary btn-long">Log In</button>
+                </form>
+                <span>Don't have an account?</span>
+                <button type="button" class="btn btn-link btn-long" onclick="redirectToRegister()">Sign Up</button>
+            </div>
+        </div>
+        <!-- <div id="visiting">
+            <span>Just Visiting?</span>
+            <span>Login to Viewonly Mode</span>
+            <span>username: visiting</span>
+            <span>password: viewonly</span>
+        </div> -->
+
+
+    {% endblock %}
+    <!-- <script src="{{ url_for('static', filename='js/javscript/bootstrap.min.js') }}"></script> -->
+    <script defer>
+        function redirectToRegister() {
+            window.location.href = "/register";
+        }
+      </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/friends.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+    {% extends "base.html" %}
+    {% import "bootstrap/wtf.html" as wtf %}
+    {% block content %}
+        <div id="content">
+            <div class="add">
+                <div>
+                    <h3>Add a Friend</h3>
+                </div>
+                <div id="form">
+                    <form action="/addfriend" method="POST" novalidate>
+                        <label for="addAccount">Search Friend's Username</label>
+                        <input id="addAccount" name="addAccount" type="text" placeholder="Username">
+                        <button type="submit button" class="btn btn-primary btn-sm" style="margin-bottom: 4px;">Add Friend</button>
+                    </form>
+                </div>
+
+            </div>
+            <div class="add">
+                <div>
+                    <h3>Remove a Friend</h3>
+                </div>
+                <div id="form">
+                    <div id="form">
+                        <form action="/removefriend" method="POST" novalidate>
+                            <label for="removeAccount">Search Friend's Username</label>
+                            <input id="removeAccount" name="removeAccount" type="text" placeholder="Username">
+                            <button type="submit button" class="btn btn-danger btn-sm" style="margin-bottom: 4px;">Remove Friend</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+            <div class="display">
+                <h3>Friends</h3>
+                <div id="friendsList">
+                    {% for friend in friends %}
+                    <div style="margin-top: 10px;"id="{{ loop.index }}">
+                        <span class="friendName" id="friend{{ loop.index }}">{{ friend.fullname }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    {% endblock %}
+    <script defer>
+        let friendsList = document.querySelectorAll(".friends")
+        console.log(friendsList)
+
+        for (let i = 0; i < friendsList.length; i++){
+            friendsList[i].addEventListener('click', () =>{
+                console.log("EHLLO")
+                removeFriend(i);
+            })
+        }
+
+        function removeFriend(removed){
+            removed.removed();
+            fetch('/removefriend', { method: 'POST'})
+            .then(response => {
+            })
+            .catch(error =>{
+                console.log(error);
+            }) 
+        }
+      </script>
+</body>
+</html>
