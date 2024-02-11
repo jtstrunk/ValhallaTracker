@@ -47,7 +47,7 @@
                                 </div>
                                 {% endfor %}
                             </div>
-                            <button class="btn-outline">Manage Friends</button>
+                            <button class="btn-outline" style="position: absolute; bottom: 0;">Manage Friends</button>
                         </div>
                         <div>
                             <h3>Stats</h3>
@@ -68,10 +68,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="section" id="favorites" style="width: 880px;">
-                        <h3>Favorite Games</h3>
+                    <div class="section" id="favorites" style="width: 880px; margin-bottom: 200px;">
+                        <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                            <h3>Favorite Games</h3>
+                            <div style="display: flex; flex-direction: row;">
+                                <button id="expandFavorites" class="btn-outline">Expand Favorites</button>
+                            </div>
+                        </div>
+                        
+                        
                         <div id="favoriteGames">
-                            {% for game in favoriteGames[:5] %}
+                            <!-- three games shown but tab for expanded view that shows all 5 and how many played -->
+                            {% for game in favoriteGames[:3] %}
                             <div class="miniCard">
                                 <div>
                                     <img src="{{ url_for('static', filename='images/addgame/' + game[0].replace(' ', '') + '.png') }}">
@@ -82,7 +90,7 @@
                                 </div>
                             </div>
                             {% endfor %}
-                            {% if currUser.username == profileName or profileName == 'current' %}
+                            <!-- {% if currUser.username == profileName or profileName == 'current' %}
                                 <div id="addFavorite" class="miniCard" style="cursor: pointer;">
                                     <p>Manage Your Favorites</p>
                                 </div>
@@ -92,10 +100,9 @@
                             {% endif %}
                             <div id="noFavorite" class="miniCard Hide">
                                 <span style="margin-bottom: 6px;">Looks like {{ user.fullname }}</span>
-                                <!-- <p>Does not have any favorite games</p> -->
                                 <p style="margin-bottom: 6px;">has no favorite</p>
                                 <p style="margin-top: 0px;">games listed</p>
-                            </div>
+                            </div> -->
 
                         </div>
                     </div>
@@ -131,7 +138,7 @@
             console.log('{{ currUser.username }}')
             console.log('{{ profileName }}')
 
-            let adding = document.querySelector("#addFavorite");
+            let adding = document.querySelector("#expandFavorites");
             adding.addEventListener('click', () => {
                 console.log("clicked")
                 let popup = document.getElementById("myPopup");
