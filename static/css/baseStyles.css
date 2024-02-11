@@ -5,6 +5,13 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Manolo Mono';
+    src: url('/static/manolo-mono.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .Hide {
     display: none !important;
 }
@@ -33,12 +40,6 @@ nav a {
     text-align: center;
     color: black;
     background-color: white;
-    /* border-radius: 8px;
-    color: #17a2b8 !important;
-    background: transparent;
-    border: 2px solid #17a2b8;
-    outline: none;
-    padding: 4px 7px; */
 }
 
 nav h2 {
@@ -105,22 +106,14 @@ nav h2 {
     width: 90px;
 }
 
+body {
+    background-color: #18191A;
+}
+
 #content{
     display: flex;
     justify-content: center;
     background-color: #18191A;
-}
-
-#mainLayout{
-    display: flex;
-    justify-content: center;
-}
-
-#mainLayout {
-    width: 900px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
 }
 
 .section{
@@ -129,139 +122,4 @@ nav h2 {
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
     padding: 10px;
     background-color:#242526;
-}
-
-/* #friends{
-    width: 230px;
-    display: flex;
-    flex-direction: column;
-} */
-#username {
-    margin: 0px;
-    color: white;
-}
-#displayname{
-    margin-bottom: 10px;
-    color: white;
-}
-#friends h3 {
-    margin-bottom: 8px;
-    color: white;
-}
-
-.section h3 {
-    margin-top: 0px;
-    color: white;
-}
-
-#favGames {
-    display: flex;
-    flex-direction: row;
-}
-
-#Stats {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
-.miniCards {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 115px;
-    height: 140px;
-    margin: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
-    padding: 10px;
-    background-color: #3A3B3C;
-}
-
-.game span {
-    text-align: center;
-    color: white;
-}
-
-/* .game {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 120px;
-    height: 160px;
-    margin: 25px;
-    margin-top: 10px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
-    padding: 10px;
-} */
-
-.miniCards span {
-    text-align: center;
-    margin-bottom: 8px;
-    color: white;
-}
-
-.miniCards p {
-    color: white;
-}
-
-table {
-    border-collapse: separate;
-    border-spacing: 30px 0;
-}
-
-tr td {
-    padding-bottom: 10px;
-    color: white;
-}
-tr th {
-    padding-bottom: 5px;
-    color: white;
-}
-
-a {
-    text-decoration: none;
-    color: white;
-}
-
-#logout {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin-top: 25px;
-    margin-right: 100px;
-}
-
-.friend{
-    text-decoration: none;
-    color: black;
-}
-
-.popup {
-    width: 260px;
-    height: 220px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    background-color: white;
-    border-radius: 8%;
-    text-align: center;
-}
-
-.close-button {
-    position: absolute;
-    top: 3px;
-    right: 3px;
-    width: 20px;
-    height: 20px;
-    text-align: center;
-    line-height: 20px;
-    cursor: pointer;
-    font-size: large;
 }

@@ -1,0 +1,221 @@
+
+#mainLayout {
+    width: 900px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#displayname {
+    margin: 0px;
+    color: white;
+}
+
+.popup {
+    width: 260px;
+    height: 220px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: white;
+    border-radius: 8%;
+    text-align: center;
+}
+
+.close-button {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    cursor: pointer;
+    font-size: large;
+}
+
+/* Recent Games Section */
+
+#recentGames {
+    height: 520px;
+    width: 600px;
+    /* overflow-y: auto; */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: #242526;
+    border-radius: 6px;
+}
+
+#recentGames .game {
+    display: flex;
+    flex-direction: column;
+    background-color: #3A3B3C;
+    width: 175px;
+    height: 240px;
+    margin-top: 16px;
+    border-radius: 5px;
+    margin-left: 9px;
+    margin-right: 9px;
+}
+
+.game:hover {
+    transform: scale(1.03);
+    cursor: pointer;
+}
+
+#recentGames h4 {
+    color: white;
+    margin-top: 14px;
+    margin-bottom: 11px;
+    height: 40px;
+    font-family: 'Manolo Mono', sans-serif !important;
+}
+
+#recentGames h6 {
+    color: white;
+    font-size: small;
+}
+
+.gameid {
+    margin-left: 95px;
+    font-size: smaller;
+}
+
+.testimg {
+    width: 175px;
+    height: 98.4375px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+h3 {
+    color: white;
+    margin-top: 0px;
+}
+
+.gameContent {
+    margin-left: 8px;
+}
+
+.gameContent h5 {
+    color: white;
+    margin-bottom: 5px;
+}
+
+.gameContent h4 {
+    color: white;
+    margin-top: 14px;
+    margin-bottom: 22px;
+    font-family: 'Manolo Mono', sans-serif !important;
+}
+
+.gameContent span{
+    color: white;
+}
+
+/* Friends Section */
+
+.friend {
+    color: white;
+    font-size: larger;
+    font-family: 'Manolo Mono', sans-serif !important;
+}
+
+.btn-outline {
+    color: #17a2b8 !important;
+    background: transparent;
+    border: 2px solid #17a2b8;
+    outline: none;
+    padding: 4px 7px;
+    margin-top: 5px;
+    border-radius: 5px;
+    width: 220px;
+    margin-bottom: 15px;
+    position: absolute;
+    bottom: 0;
+}
+
+/* Stats Section */
+
+.stat {
+    width: 220px;
+    height: 80px;
+    /* border: 1px solid #17a2b8; */
+    background-color: #3A3B3C;
+    margin-top: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    border-radius: 8px;
+
+}
+
+.stat p {
+    color: white;
+    font-size: larger;
+    z-index: 200;
+}
+
+.icon {
+    background-color: #3A3B3C;
+    z-index: 199;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: -22px;
+    /* border: 1px solid white; */
+    border-radius: 50%;
+    border-bottom-right-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+    padding: 6px;
+}
+
+/* Favorites Section */
+
+#favoriteGames {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.miniCard{
+    background-color: #3A3B3C;;
+    width: 250px;
+    height: 85px;
+    display: flex;
+    flex-direction: row;
+    border-radius: 5px;
+}
+
+.miniCard img {
+    width: 85px;
+    height: 85px;
+}
+
+.miniCard p, span{
+    color: white;
+    font-size: larger;
+}
+
+.miniCard span{
+    height: 45px;
+}
+
+#addFavorite {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#addFavorite p {
+    margin: none;
+    color: #17a2b8
+}

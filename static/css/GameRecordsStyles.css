@@ -1,120 +1,113 @@
-body{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
+body {
+    background-color: #18191A;
 }
 
-/* #select select {
-    width: 210px;
-    height: 25px;
-    margin-top: 5px;
-}
-
-#select {
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-} */
-
-.Hide{
+.Hide {
     display: none;
 }
 
-.game{
-    border: 1px solid black;
-    width: 220px;
-    height: auto;
-    border-radius: 8px;
-    margin: 4px 5px;
-}
-
-.gameWrapper {
-    width: 690px;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-}
-
-.topWrapper{
-    margin-top: 25px;
-}
-
-.testgames {
+#playedgames {
+    padding-bottom: 10px;
+    width: 790px;
+    /* overflow-y: auto; */
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
+    background-color: #242526;
+    border-radius: 6px;
 }
 
-.winner{
+.game {
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
-.row2 {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-.row2 div {
-    margin: 5 12px;
+    background-color: #3A3B3C;
+    width: 175px;
+    height: 240px;
+    margin-top: 16px;
+    border-radius: 5px;
+    margin-left: 9px;
+    margin-right: 9px;
 }
 
-.row3 {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-.row3 div {
-    margin: 5 12px;
+.game:hover {
+    transform: scale(1.03);
+    cursor: pointer;
 }
 
-.row4 {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-.row4 div {
-    margin: 5 12px;
+.gameContent {
+    margin-left: 8px;
 }
 
-.testplayer{
+.gameContent h5 {
+    color: white;
+    margin-bottom: 5px;
+}
+
+.gameContent h4 {
+    color: white;
+    margin-top: 14px;
+    margin-bottom: 22px;
+    font-family: 'Manolo Mono', sans-serif !important;
+}
+
+h3{
+    color: white;
+    margin-top: 0px;
+}
+
+.gameimg {
+    width: 175px;
+    height: 98.4375px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 0px;
+}
+
+.games {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    height: 315px;
+    position: sticky;
+    top: 65px;
 }
 
-.testplayer p {
-    margin-bottom: 0px;
+.games button {
+    padding: 5px 4px;
+    border-radius: 5px;
+    margin-top: 7px;
 }
 
-.gameTitle{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
 
-.DrawerHide {
-    opacity: 0;
-    visibility: hidden;
-    height: 0;
-    transition: opacity 0.3s, visibility 0.3s, height .3s;
+.btn-main {
+    color: #fff !important;
+    background-color: #17a2b8;
+    border: 2px solid #17a2b8;
 }
   
-.DrawerShow {
-    opacity: 1 !important;
-    visibility: visible !important;
-    height: auto !important;
-    transition: opacity 0.3s, visibility 0.3s, height .5s !important;
+.btn-main:hover {
+    color: #17a2b8 !important;
+    background-color: #138496;
+    border: 2px solid #17a2b8;
+    background: transparent;
+    transition: .5s;
+}
+  
+  /* Button Info Outline */
+.btn-outline {
+    color: #17a2b8 !important;
+    background: transparent;
+    border: 2px solid #17a2b8;
+}
+  
+.btn-outline:hover {
+    color: #fff !important;
+    background-color: #17a2b8;
+    border: 2px solid #17a2b8;
+    transition: .5s;
 }
 
-.carrot {
-    font-size: 24px; /* Adjust the size as needed */
-    display: inline-block;
-    transition: transform 0.3s; /* Add a smooth transition for the transform property */
-}
-
-.carrot.flipped {
-    transform: rotate(180deg); /* Rotate the arrow 180 degrees */
+#testbtn {
+    color: #a73939 !important;
+    background: transparent;
+    border: 2px solid #a73939;
 }

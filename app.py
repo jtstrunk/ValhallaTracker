@@ -487,7 +487,7 @@ def showGames():
 
     sortedGames = findRecentGames(current_user, 'false')
 
-    return render_template('GameRecordstest.html', title='Show Games', sortedGames=sortedGames, favoriteGames=favoriteGames)
+    return render_template('GameRecords.html', title='Show Games', sortedGames=sortedGames, favoriteGames=favoriteGames)
 
 @app.route('/addGame', methods=['GET'])
 @login_required

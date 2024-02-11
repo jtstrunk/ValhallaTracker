@@ -13,7 +13,6 @@
     {% import "bootstrap/wtf.html" as wtf %}
     {% block content %}
         <div id="content">
-            <!-- <a href="https://www.flaticon.com/free-icons/game" title="game icons">Game icons created by Freepik - Flaticon</a> -->
             <div class="section">
                 <h3 style="margin-bottom: 0px;">Recent Games</h3>
                 <div id="recentGames">
@@ -21,8 +20,6 @@
                     <div class="game">
                         <div >
                             <img class="testimg" src="{{ url_for('static', filename='images/home/' + game.game_type.replace(' ', '') + '.png') }}" style="border-top-right-radius: 5px;">
-                            <!-- <img src="/static/images/{{ game.game_type }}.png"> -->
-                            <!-- <h5 style="margin-left: 5px; color: white; margin-bottom: 0px; margin-top: 6px;">{{ game.game_id }}</h5> says current but is game date -->
                         </div>
                         <div class="gameContent">
                            <h4>{{ game.game_type }}</h4>
@@ -30,13 +27,11 @@
                            <h5>Second: {{ game.secondName }}</h5>
                            <span style="font-size: smaller;">Game ID {{ game.game_id}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                            <span style="font-size: smaller;">{{ game.current_date }}</span>
-                           <!-- <h5 style="text-decoration: underline;">Expand</h5> -->
                         </div>
                     </div>
                     {% endfor %}
                 </div>
             </div>
-            <!-- do little section thing like how here to slay does it for the 5 categories-->
             <div class="section">
                 <div id="quickadd">
                     <h3 style="margin-bottom: 14px;">Quick Features</h3>
@@ -62,27 +57,14 @@
                         <img src="/static/images/addgame/dominion.png">
                     </div>
                 </div>
-                <div id="friends" style="margin-top: 15px;">
-                    <!-- <h3 >Friends</h3>
-                    <div id="friendslist">
-                        {% for friend in friends %}
-                        <div style="margin-top: 5px; margin-bottom: 3px;">
-                            <a href="/profile?name={{ friend.username }}" class="friend" style="cursor: pointer;">{{ friend.fullname }}</a>
-                        </div>
-                        <div style="margin-top: 5px; margin-bottom: 3px;">
-                            <a href="/profile?name={{ friend.username }}" class="friend" style="cursor: pointer;">{{ friend.fullname }}</a>
-                        </div>
-                        {% endfor %}
-                        <a href="/friend" style="margin-top: 10px;">Manage Friends</a>
-                        <button id="friendbtn" class="btn btn-outline" style="margin-top: 5px;">Manage Friends</button>
-                    </div> -->
+                <div style="margin-top: 15px;">
                     <div class="stat">
-                        <img class="icon" src="/static/images/testwon.png">
+                        <img class="icon" src="/static/images/mostplayed.png">
                         <p style="margin-top: 14px;">Most Played Game</p>
                         <p style="font-family: 'Manolo Mono', sans-serif !important;">{{ profileStats[2] }}</p>
                     </div>
                     <div class="stat">
-                        <img class="icon" src="/static/images/jonah.png" style="width: 35px;">
+                        <img class="icon" src="/static/images/mostwon.png" style="width: 35px;">
                         <p style="margin-top: 14px; ">Most Won Game</p>
                         <p style="font-family: 'Manolo Mono', sans-serif !important;">{{ profileStats[3] }}</p>
                     </div>
@@ -93,10 +75,6 @@
 
 
         <script>
-            // document.querySelector('#friendbtn').addEventListener('click', function() {
-            //     window.location.href = '/friend';
-            // });
-
             titles = document.querySelectorAll('.gameTitle');
 
             for (let i = 0; i < titles.length; i++) {
