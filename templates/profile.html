@@ -93,8 +93,23 @@
                         </div>
                     </div>
                 </div>
-                <div id="myPopup" class="popup Hide">
+                <div id="expandpopup" class="popup">
                     <p class="close-button">x</p>
+                    <h3 style="margin-top: 10px;">Edit Your Favorites</h3>
+                    <div id="favoritespopup">
+                        {% for game in favoriteGames %}
+                        <div style="display: flex; flex-direction: column;" class="draggable-container" draggable="true">
+                            <button class="remove">Remove</button>
+                            <div class="favoriteCard">
+                                <img src="{{ url_for('static', filename='images/addgame/' + game[0].replace(' ', '') + '.png') }}">
+                                <span>{{ game[0] }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <button>Save Your Favorites</button>
+
+                    <!-- <p class="close-button">x</p>
                     <h3>Favorite a Game</h3>
                     <div style="margin-top: 25px;">
                             <select name="gameSelect" id="gameSelect" class="form-select">
@@ -111,7 +126,7 @@
                     </div>
                     <div style="margin-top: 25px;">
                         <button id="joshy" class="btn btn-primary">Add to Favorites</button>
-                    </div>
+                    </div> -->
                 </div>
 
                     
@@ -137,15 +152,15 @@
                 popup.classList.add("Hide");
             })
 
-            let joshy = document.querySelector("#joshy");
-            joshy.addEventListener('click', () => {
-                let game = document.querySelector("#gameSelect").value;
-                console.log(game);
-                fetch(`/addFavorite?game=${game}`, {method: 'POST'})
-                .then(response => response.json())
-                .then(data => console.log(data))
-                location.reload();
-            })
+            // let joshy = document.querySelector("#joshy");
+            // joshy.addEventListener('click', () => {
+            //     let game = document.querySelector("#gameSelect").value;
+            //     console.log(game);
+            //     fetch(`/addFavorite?game=${game}`, {method: 'POST'})
+            //     .then(response => response.json())
+            //     .then(data => console.log(data))
+            //     location.reload();
+            // })
 
             console.log("hahah")
             let favoriteGamesLength = {{ favoriteGames|length }};
@@ -161,6 +176,77 @@
                 let none = document.querySelector("#noFavorite");
                 none.classList.remove("Hide");
             }
+            document.addEventListener('DOMContentLoaded', (event) => {
+                let dragSrcEl = null;
+
+                function handleDragStart(e) {
+                    dragSrcEl = this;
+                    e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('text/html', this.outerHTML);
+                    this.classList.add('dragElem');
+                }
+
+                function handleDragOver(e) {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    return false;
+                }
+
+                function handleDragEnter(e) {
+                    this.classList.add('over');
+                }
+
+                function handleDragLeave(e) {
+                    this.classList.remove('over');
+                }
+
+                function handleDrop(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+
+                    const target = this; // The target element over which the dragged element is dropped
+                    const draggableContainers = document.querySelectorAll('.draggable-container');
+                    const afterTarget = Array.from(draggableContainers).indexOf(dragSrcEl) < Array.from(draggableContainers).indexOf(target);
+
+                    if (dragSrcEl !== target) {
+                        // Determine the insertion point based on the mouse position relative to the target center
+                        const targetRect = target.getBoundingClientRect();
+                        const targetCenter = targetRect.top + targetRect.height / 2;
+                        const shouldInsertAfter = e.clientY > targetCenter;
+
+                        if (afterTarget && shouldInsertAfter) {
+                            target.parentNode.insertBefore(dragSrcEl, target.nextSibling);
+                        } else if (!afterTarget && !shouldInsertAfter) {
+                            target.parentNode.insertBefore(dragSrcEl, target);
+                        } else {
+                            return; // If the condition is not met, do nothing
+                        }
+
+                        // Reattach the event listeners to the newly inserted element
+                        addDnDEvents(dragSrcEl);
+                    }
+
+                    target.classList.remove('over');
+                }
+
+                function handleDragEnd(e) {
+                    this.classList.remove('over');
+                }
+
+                function addDnDEvents(elem) {
+                    elem.addEventListener('dragstart', handleDragStart, false);
+                    elem.addEventListener('dragenter', handleDragEnter, false);
+                    elem.addEventListener('dragover', handleDragOver, false);
+                    elem.addEventListener('dragleave', handleDragLeave, false);
+                    elem.addEventListener('drop', handleDrop, false);
+                    elem.addEventListener('dragend', handleDragEnd, false);
+                }
+
+                let items = document.querySelectorAll('.draggable-container');
+                items.forEach((item) => {
+                    addDnDEvents(item);
+                });
+            });
 
         </script>
 
