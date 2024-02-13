@@ -1,0 +1,118 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #18191A !important;
+}
+
+#reginside {
+    height: 490px;
+}
+
+form > * {
+    margin-top: 5px;
+  }
+
+div form {
+    padding: 5px;
+}
+
+#form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 70%;
+}
+
+.btn-long {
+    margin-top: 10px;
+    width: 100%
+}
+
+.btn-link {
+    border: 1px solid black !important;
+    text-decoration: none !important;
+    color: black !important;
+    margin-top: 50x !important;
+    width: 92%;
+}
+
+/* Log in Section */ 
+
+#loginside {
+    height: 380px;
+}
+
+form > * {
+    margin-top: 5px;
+  }
+
+div form {
+    padding: 5px;
+}
+
+#form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 70%;
+}
+
+.btn-long {
+    margin-top: 5px;
+    width: 100%
+}
+
+.btn-link {
+    border: 1px solid white !important;
+    text-decoration: none !important;
+    color: white !important;
+    margin-top: 50x !important;
+    width: 92%;
+}
+
+#basicInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#visiting {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 25px;
+    padding: 10px;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+}
+
+/* Both */
+
+#reginside, #loginside {
+    margin-top: 60px;
+    padding-top: 5px;
+    width: 320px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #242526;
+}
+
+label, h1, h2, span {
+    color: white;
+}
+
+nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: #333333;
+    width: 100%;
+    position: sticky;
+    top: 0px;
+    z-index: 1000;
+}

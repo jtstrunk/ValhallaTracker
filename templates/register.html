@@ -5,13 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register-login.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap/bootstrap.min.css') }}">
 </head>
 <body>
     {% import "bootstrap/wtf.html" as wtf %}
     {% block content %}
-        <div id="inside">
+        <nav>
+            <h2>Valhalla's Tabletop Games</h2>
+        </nav>
+        <div id="reginside">
             <div>
                 <h1>Register</h1>
             </div>
