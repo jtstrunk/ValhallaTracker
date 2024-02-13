@@ -326,9 +326,17 @@ def home():
     mostWon = calcMostWon(user)
     bestFriend = calcBestFriend(user)
 
+    games = user.favorites
+
+    favoriteGames = []
+    for game in games:
+        game_name = game.gameName
+        num_players = game.numPlayers
+        favoriteGames.append((game_name, num_players))
+
     profileStats = [gamesPlayed, gamesWon, mostPlayed, mostWon, bestFriend]
 
-    return render_template('home.html', title='Home', name=current_user.fullname, friends=user_friends, recentGames=topGames, profileStats=profileStats)
+    return render_template('home.html', title='Home', name=current_user.fullname, friends=user_friends, recentGames=topGames, profileStats=profileStats, favoriteGames=favoriteGames)
 
 @app.route('/dominion', methods=['GET'])
 def dominion():
@@ -598,7 +606,7 @@ def addDominion():
 
         finally:
             print("Record Added")
-            return redirect('/addGame')
+            return redirect('/home')
         
 @app.route('/addLordsofWaterdeep', methods = ['POST', 'GET'])
 @login_required
@@ -646,7 +654,7 @@ def addLordsofWaterdeep():
 
         finally:
             print("Record Added")
-            return redirect('/addGame')
+            return redirect('/home')
         
 @app.route('/addMoonrakers', methods = ['POST', 'GET'])
 @login_required
@@ -694,7 +702,7 @@ def addMoonrakers():
 
         finally:
             print("Record Added")
-            return redirect('/addGame')
+            return redirect('/home')
         
 @app.route('/addCosmicEncounter', methods = ['POST', 'GET'])
 @login_required
@@ -742,7 +750,7 @@ def addCosmicEncounter():
 
         finally:
             print("Record Added")
-            return redirect('/addGame')
+            return redirect('/home')
 
 @app.route('/addCatan', methods = ['POST', 'GET'])
 @login_required
@@ -786,7 +794,7 @@ def addCatan():
 
         finally:
             print("Record Added")
-            return redirect('/addGame')
+            return redirect('/home')
         
 @app.route('/addMagicTheGathering', methods = ['POST', 'GET'])
 @login_required
@@ -854,7 +862,7 @@ def addMagicTheGathering():
 
         finally:
             print("Record Added")
-            return redirect('/addGame')
+            return redirect('/home')
 
 @app.route('/addCoup', methods = ['POST', 'GET'])
 @login_required
@@ -894,7 +902,7 @@ def addCoup():
 
         finally:
             print("Record Added")
-            return redirect('/addGame')
+            return redirect('/home')
         
 @app.route('/addLoveLetter', methods=['POST', 'GET'])
 def addLoveLetter():
@@ -930,7 +938,7 @@ def addLoveLetter():
 
         finally:
             print("Record Added")
-            return redirect('/addGame')
+            return redirect('/home')
         
 @app.route('/addMunchkin', methods = ['POST', 'GET'])
 @login_required
@@ -982,7 +990,7 @@ def addMunchkin():
 
         finally:
             print("Record Added")
-            return redirect('/addGame')
+            return redirect('/home')
         
 @app.route('/addJustOne', methods = ['POST', 'GET'])
 @login_required
@@ -1027,7 +1035,7 @@ def addJustOne():
 
         finally:
             print("Record Added")
-            return redirect('/addGame')
+            return redirect('/home')
         
 @app.route('/addTheMind', methods = ['POST', 'GET'])
 @login_required
@@ -1066,7 +1074,7 @@ def addTheMind():
 
         finally:
             print("Record Added")
-            return redirect('/addGame')
+            return redirect('/home')
 
 def findID():
     dom_id = db.session.query(db.func.max(DominionGame.game_id)).scalar() or 0

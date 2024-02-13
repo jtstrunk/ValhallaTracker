@@ -35,27 +35,15 @@
             <div class="section">
                 <div id="quickadd">
                     <h3 style="margin-bottom: 14px;">Quick Features</h3>
+                    {% for game in favoriteGames[:3] %}
                     <div class="quickgame">
                         <div>
-                            <p class="gameTitle">Moonrakers</p>
-                            <button style="width: 152px; outline: none;" class="btn btn-outline">Quick Add</button>
+                            <p class="gameTitle">{{ game[0] }}</p>
+                            <button id="{{ game[0].replace(' ', '') }}" style="width: 152px; outline: none;" class="btn btn-outline quickadd">Quick Add</button>
                         </div>
-                        <img src="/static/images/addgame/moonrakers.png">
+                        <img src="{{ url_for('static', filename='images/addgame/' + game[0].replace(' ', '') + '.png') }}">
                     </div>
-                    <div class="quickgame">
-                        <div>
-                            <p class="gameTitle">Lords of Waterdeep</p>
-                            <button style="width: 152px; outline: none;" class="btn btn-outline">Quick Add</button>
-                        </div>
-                        <img src="/static/images/addgame/lordsofwaterdeep.png">
-                    </div>
-                    <div class="quickgame">
-                        <div>
-                            <p class="gameTitle">Dominion</p>
-                            <button style="width: 152px; outline: none;" class="btn btn-outline">Quick Add</button>
-                        </div>
-                        <img src="/static/images/addgame/dominion.png">
-                    </div>
+                    {% endfor %}
                 </div>
                 <div style="margin-top: 15px;">
                     <div class="stat">
@@ -73,10 +61,12 @@
             </div>
         </div>
 
+        <div id="overlay" class="Hide"> </div>
+        <div id="popups"> </div>
 
         <script>
+            // removing extra characters in favorite name
             titles = document.querySelectorAll('.gameTitle');
-
             for (let i = 0; i < titles.length; i++) {
                 console.log()
                 if(titles[i].textContent.length > 14){
@@ -84,6 +74,137 @@
                 }
             }
 
+            // creating the popup for a quick add game
+            let quickGames = document.querySelectorAll(".quickadd");
+
+            for(let i =0; i < quickGames.length; i++){
+                quickGames[i].addEventListener('click', () => {
+                    createPopup(quickGames[i].id, 5);
+                    console.log("test");
+                })
+            }
+
+            function createPopup(game, maxLength){
+                overlay.classList.remove("Hide");
+                // Create the main div
+                const Popup = document.createElement('div');
+                Popup.id = 'Popup';
+                Popup.classList.add('gamepopup');
+
+                // Create the close button
+                const closeButton = document.createElement('p');
+                closeButton.classList.add('close-button');
+                closeButton.textContent = 'x';
+                Popup.appendChild(closeButton);
+
+                // Create the heading
+                const heading = document.createElement('h2');
+                heading.style.color = 'white';
+                heading.textContent = `Add ${game} Record`;
+                Popup.appendChild(heading);
+
+                // Create the form
+                const form = document.createElement('form');
+                if (game == 'Dominion') {
+                    form.action = `{{ url_for('addDominion') }}`;
+                    maxLength = 4;
+                } else if (game == 'Catan') {
+                    form.action = `{{ url_for('addCatan') }}`;
+                    maxLength = 4;
+                } else if (game == 'LordsofWaterdeep') {
+                    form.action = `{{ url_for('addLordsofWaterdeep') }}`;
+                    maxLength = 5;
+                } else if (game == 'Moonrakers') {
+                    form.action = `{{ url_for('addMoonrakers') }}`;
+                    maxLength = 5;
+                } else if (game == 'CosmicEncounter') {
+                    form.action = `{{ url_for('addCosmicEncounter') }}`;
+                    maxLength = 5;
+                }
+
+                if(maxLength == 4){
+                    Popup.style.height = '415px';
+                } else if (maxLength == 5) {
+                    Popup.style.height = '490px';
+                } else if (maxLength == 6) {
+                    Popup.style.height = '565px';
+                }
+
+                form.method = "POST";
+                form.autocomplete = "off";
+                form.style = "margin-top: 10px !important;"
+
+                const labels = ["Winner", "Runner Up", "Third Place", "Fourth Place", "Fifth Place", "Sixth Place"];
+                const games = ["dominion" , "catan", "moonrakers", "lordsofwaterdeep", "cosmicencounter"];
+                const gamelength = [4, 4, 5, 5, 5];
+                // ... (Create and append other elements as per the provided HTML structure)
+                for(let i = 1; i < maxLength + 1; i++) {
+                    //creating players div to organize the inputs
+                    let div = document.createElement('div');
+                    div.classList.add('players');
+                    //creating the first label and name input
+                    let playersecion = document.createElement('div');
+                    playersecion.classList.add('playerSection');
+                    const label = document.createElement('label');
+                    label.htmlFor = `Player${i}`;
+                    label.textContent = labels[i - 1];
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.id = `Player${i}`;
+                    input.name = `Player${i}`;
+                    input.placeholder = 'Name';
+                    input.addEventListener('keyup', function() {
+                        showResults(this.value, this.id);
+                    });
+                    playersecion.appendChild(label);
+                    playersecion.appendChild(input);   
+                    //creating the second label and score input
+                    let playersecion2 = document.createElement('div');
+                    playersecion2.classList.add('playerSection');
+                    const label2 = document.createElement('label');
+                    label2.htmlFor = `Score${i}`;
+                    label2.textContent = 'Score';
+                    const input2 = document.createElement('input');
+                    input2.type = 'text';
+                    input2.id = `Score${i}`;
+                    input2.name = `Score${i}`;
+                    input2.placeholder = 'Score';
+                    playersecion2.appendChild(label2);
+                    playersecion2.appendChild(input2);
+                    //adding them all
+                    div.appendChild(playersecion);
+                    div.appendChild(playersecion2);
+                    form.appendChild(div);
+                }
+
+                let button = document.createElement('button');
+                button.style = "margin-top: 10px";
+                button.classList.add('btn');
+                button.classList.add('btn-primary');
+                button.innerText = 'Submit Record';
+
+                form.appendChild(button);
+                // Finally, append the form to the main div
+                Popup.appendChild(form);
+
+                // Add the dominionPopup to the document body or any other desired parent element
+                document.body.appendChild(Popup);
+
+                let closebuttons = document.querySelector(".close-button");
+                closebuttons.addEventListener('click', () => {
+                    overlay.classList.add("Hide");
+                    popup = document.querySelector("#Popup");
+                    popup.remove();
+                })
+            }
+
+            // removing overlay
+            let overlay = document.querySelector("#overlay");
+            overlay.addEventListener('click', () => {
+                overlay.classList.add("Hide");
+                Popup = document.querySelector("#Popup");
+                Popup.remove();
+            })
         </script>
     {% endblock %}
 

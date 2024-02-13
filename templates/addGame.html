@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/addDark.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/addGame.css') }}">
     <title>Add Game Record</title>
 </head>
 <body>
@@ -171,7 +171,6 @@
 
     </div>
     <div id="overlay" class="Hide"> </div>
-
     <div id="popups"> </div>
 
     <script>
@@ -283,26 +282,9 @@
         let closebuttons = document.querySelectorAll(".close-button");
         let overlay = document.querySelector("#overlay");
 
-        // for (let i = 0; i < gamepopups.length; i++) {
-        //     cards[i].addEventListener('click', () => {
-        //         for (let j = 0; j < gamepopups.length; j++){
-        //             gamepopups[j].classList.add("Hide");
-        //         }
-        //         gamepopups[i].classList.remove("Hide");
-        //         overlay.classList.remove("Hide");
-        //     })
-        //     closebuttons[i].addEventListener('click', () => {
-        //         gamepopups[i].classList.add("Hide");
-        //         overlay.classList.add("Hide");
-        //     })
-        // }
-
         overlay.addEventListener('click', () => {
             overlay.classList.add("Hide");
             Popup = document.querySelector("#Popup");
-            // for (let j = 0; j < gamepopups.length; j++){
-            //     gamepopups[j].classList.add("Hide");
-            // }
             Popup.remove();
         })
 
