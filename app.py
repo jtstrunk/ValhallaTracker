@@ -238,6 +238,19 @@ class MoonrakersGame(db.Model):
     fifthScore = db.Column(db.Integer)
     date = db.Column(db.Date)
 
+class ClankGame(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    game_id = db.Column(db.Integer, nullable=False)
+    winnerName = db.Column(db.String(50), nullable=False)
+    winnerScore = db.Column(db.Integer, nullable=False)
+    secondName = db.Column(db.String(50), nullable=False)
+    secondScore = db.Column(db.Integer, nullable=False)
+    thirdName = db.Column(db.String(50))
+    thirdScore = db.Column(db.Integer)
+    fourthName = db.Column(db.String(50))
+    fourthScore = db.Column(db.Integer)
+    date = db.Column(db.Date)
+
 class LoginForm(FlaskForm):
     username = StringField('username', validators=[InputRequired()])
     password = PasswordField('password', validators=[InputRequired()])
@@ -411,8 +424,11 @@ def profile():
     bestFriend = calcBestFriend(user)
     
     profileStats = [gamesPlayed, gamesWon, mostPlayed, mostWon, bestFriend]
+
+    games = SupportedGames.query.with_entities(SupportedGames.gameName).all()
+    game_list = [game[0] for game in games]
     
-    return render_template('profile.html', user=user, friends=user_friends, recentGames = topGames, favoriteGames=gameResults, profileStats = profileStats, profileName=userName, currUser = current_user)
+    return render_template('profile.html', user=user, friends=user_friends, recentGames = topGames, favoriteGames=gameResults, profileStats = profileStats, profileName=userName, currUser = current_user, game_list=game_list)
 
 @app.route('/friend', methods = ['GET'])
 @login_required
@@ -501,6 +517,28 @@ def showGames():
 @login_required
 def addGame():
     return render_template("addGame.html", title='Home')
+
+@app.route('/displayGame', methods=['GET'])
+@login_required
+def displayGame():
+    game = request.args.get('game')
+    game = game.replace(" ", "")
+    gameid = request.args.get('id')
+
+    fullGameName = f'{game}Game'
+    gameModel = globals()[fullGameName]
+    gameInfo = gameModel.query.filter_by(game_id=gameid).first()
+
+    return jsonify({
+            'winnerName': gameInfo.winnerName,
+            'winnerScore': gameInfo.winnerScore,
+            'secondName': gameInfo.secondName,
+            'secondScore': gameInfo.secondScore,
+            'thirdName': gameInfo.thirdName,
+            'thirdScore': gameInfo.thirdScore,
+            'fourthName': gameInfo.fourthName,
+            'fourthScore': gameInfo.fourthScore,
+            'date': gameInfo.date})
 
 @app.route('/DominionSelect', methods=['GET'])
 @login_required

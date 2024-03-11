@@ -244,3 +244,10 @@ input::placeholder {
     font-size: x-large;
     color: white;
 }
+
+.GameInfo{
+    width: 540px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
