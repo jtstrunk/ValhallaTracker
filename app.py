@@ -575,6 +575,43 @@ def addDominionRecord():
 
         return render_template("home.html", title='Home')
 
+@app.route('/updateDominion', methods=['POST', 'GET'])
+@login_required
+def updateDominion():
+    if request.method == 'POST':
+        game_id = request.form['game_id']
+        player1 = request.form['winnerName']
+        player1Score = request.form['winnerScore']
+        player2 = request.form['secondName']
+        player2Score = request.form['secondScore']
+        player3 = request.form['thirdName']
+        player3Score = request.form['thirdScore']
+        player4 = request.form['fourthName']
+        player4Score = request.form['fourthScore']
+        newdate = request.form['datepicker']
+
+        # Check if a record with the provided game_id exists
+        existing_game = DominionGame.query.filter_by(game_id=game_id).first()
+
+        if existing_game:
+            # Update the existing record with new data
+            existing_game.winnerName = player1
+            existing_game.winnerScore = player1Score
+            existing_game.secondName = player2
+            existing_game.secondScore = player2Score
+            existing_game.thirdName = player3
+            existing_game.thirdScore = player3Score
+            existing_game.fourthName = player4
+            existing_game.fourthScore = player4Score
+            existing_game.date = newdate
+
+            db.session.commit()
+            return "Record updated successfully"
+        else:
+            return "Record with game_id not found"
+
+    return "Invalid Request"
+
 @app.route('/cards')
 def cards():
 
