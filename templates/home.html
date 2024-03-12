@@ -89,7 +89,7 @@
             let quickGames = document.querySelectorAll(".quickadd");
             for(let i =0; i < quickGames.length; i++){
                 quickGames[i].addEventListener('click', () => {
-                    createPopup(quickGames[i].id, 5);
+                    createPopup(quickGames[i].id);
                 })
             }
 
@@ -101,7 +101,7 @@
                 Popup.remove();
             })
 
-            function createPopup(game, maxLength){
+            function createPopup(game){
                 overlay.classList.remove("Hide");
                 // Create the main div
                 const Popup = document.createElement('div');
@@ -164,7 +164,7 @@
 
                 const labels = ["Winner", "Runner Up", "Third Place", "Fourth Place", "Fifth Place", "Sixth Place"];
                 // ... (Create and append other elements as per the provided HTML structure)
-                for(let i = 1; i < maxLength + 1; i++) {
+                for(let i = 1; i < maxGameLength + 1; i++) {
                     //creating players div to organize the inputs
                     let div = document.createElement('div');
                     div.classList.add('players');
@@ -243,7 +243,21 @@
                 heading.textContent = `Edit This ${game} Record`;
                 Popup.appendChild(heading);
 
-                const gameMaxLength = {
+                const form = document.createElement('form');
+                let actionMap = {
+                    'Dominion': { action: `{{ url_for('updateDominion') }}`, maxLength: 4 },
+                    'Catan': { action: `{{ url_for('addCatan') }}`, maxLength: 4 },
+                    'LordsofWaterdeep': { action: `{{ url_for('addLordsofWaterdeep') }}`, maxLength: 5 },
+                    'Moonrakers': { action: `{{ url_for('addMoonrakers') }}`, maxLength: 5 },
+                    'CosmicEncounter': { action: `{{ url_for('addCosmicEncounter') }}`, maxLength: 5 }
+                };
+
+                form.action = actionMap[game].action;
+                form.method = "POST";
+                form.autocomplete = "off";
+                form.classList.add("changingform")
+
+                let gameMaxLength = {
                     'Dominion': 4,
                     'Catan': 4,
                     'Clank': 4,
@@ -254,45 +268,111 @@
 
                 const Length = gameMaxLength[game];
                 if(Length == 4){
-                    Popup.style.height = '415px';
+                    Popup.style.height = '440px';
                 } else if (Length == 5) {
-                    Popup.style.height = '490px';
+                    Popup.style.height = '515px';
                 } else if (Length == 6) {
-                    Popup.style.height = '565px';
+                    Popup.style.height = '580px';
                 }
                 
                 //get id
                 let trimmedGameID = gameid.trim().split(' ')[2];
 
-                
                 const testcontainer = document.createElement('div');
                 testcontainer.id = 'gameInfoContainer';
-                Popup.appendChild(testcontainer);
+                testcontainer.classList.add("GameInfo")
+                Popup.appendChild(form);
 
                 // call endpoint
                 fetch(`/displayGame?game=${game}&id=${trimmedGameID}`)
                 .then(response => response.json())
                 .then(data => {
                     console.log(data); // Output: Response data from the "showgame" endpoint
-                    // for (const key in data) {
-                    //     if (Object.hasOwnProperty.call(data, key)) {
-                    //         console.log(`${key}: ${data[key]}`);
-                    //     }
-                    // }
-                    const gameInfoContainer = document.getElementById('gameInfoContainer');
-                    const order = ['winnerName', 'winnerScore', 'secondName', 'secondScore', 'thirdName', 'thirdScore', 'fourthName', 'fifthName', 'date'];
+                    let gameInfoContainer = document.getElementById('gameInfoContainer');
+                    let order = ['winnerName', 'winnerScore', 'secondName', 'secondScore', 'thirdName', 'thirdScore', 'fourthName', 'fourthScore', 'fifthName', 'fifthScore', 'sixthName', 'sixthScore'];
+                    const labelMappings = {
+                        winnerName: "Winner",
+                        winnerScore: "Score",
+                        secondName: "Second",
+                        secondScore: "Score",
+                        thirdName: "Third",
+                        thirdScore: "Score",
+                        fourthName: "Fourth",
+                        fourthScore: "Score",
+                        fifthName: "Fifth",
+                        fifthScore: "Score",
+                        sixthName: "Sixth",
+                        sixthScore: "Score"
+                    };
+
+                    if (gameMaxLength[game]) {
+                        let maxLength = gameMaxLength[game];
+                        // Adjust order array based on gameMaxLength
+                        order = order.slice(0, maxLength * 2);
+                        order.push('date');
+                        order.push('submit');
+                    }
+
                     order.forEach(key => {
-                        if (data[key]) {
-                            const pElement = document.createElement('p');
-                            pElement.textContent = `${key}: ${data[key]}`;
-                            gameInfoContainer.appendChild(pElement);
+                        console.log(key)
+                        if (key === 'date') {
+                            const newDiv = document.createElement('div');
+                            newDiv.classList.add("playerSection");
+                            // Creating date picker input
+                            const datePickerInput = document.createElement('input');
+                            datePickerInput.type = "date";
+                            datePickerInput.id = "datepicker";
+                            
+                            // Creating label for date picker
+                            const dateLabel = document.createElement('label');
+                            dateLabel.setAttribute('for', "datepicker");
+                            dateLabel.innerText = "Select Date";
+
+                            newDiv.appendChild(dateLabel);
+                            newDiv.appendChild(datePickerInput);
+                            form.appendChild(newDiv);
+                        } else if (key === 'submit') {
+                            const newDiv = document.createElement('div');
+                            newDiv.classList.add("playerSection");
+                            // Creating submit button
+                            const submitButton = document.createElement('button');
+                            submitButton.innerText = "Submit";
+                            submitButton.classList.add('btn');
+                            submitButton.classList.add('btn-primary');
+                            submitButton.style = 'margin-top: 24px;';
+
+                            newDiv.appendChild(submitButton);
+                            form.appendChild(newDiv);
+                        } else {
+                            const newDiv = document.createElement('div');
+                            newDiv.classList.add("playerSection");
+                            // For other keys
+                            const newInput = document.createElement('input');
+                            
+                            if (data[key]) {
+                                newInput.placeholder = `${data[key]}`;
+                                newInput.value = `${data[key]}`;
+                                newInput.id = `${key}`;
+                            }
+                            
+                            // Creating label
+                            const newLabel = document.createElement('label');
+                            newLabel.setAttribute('for', key);
+                            newLabel.innerText = labelMappings[key] || key;
+
+                            newDiv.appendChild(newLabel);
+                            newDiv.appendChild(newInput);
+                            form.appendChild(newDiv);
                         }
+                            
+                        
                     });
                 })
                 .catch(error => {
                     console.error('There was a problem with the fetch operation:', error);
                 });
 
+                // Popup.appendChild(form);
 
                 // Add the Popup to the document body or any other desired parent element
                 document.body.appendChild(Popup);
