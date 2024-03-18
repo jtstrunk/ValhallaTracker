@@ -244,19 +244,6 @@
                 Popup.appendChild(heading);
 
                 const form = document.createElement('form');
-                // let actionMap = {
-                //     'Dominion': { action: `{{ url_for('updateDominion') }}`, maxLength: 4 },
-                //     'Catan': { action: `{{ url_for('addCatan') }}`, maxLength: 4 },
-                //     'Lords of Waterdeep': { action: `{{ url_for('updateLordsofWaterdeep') }}`, maxLength: 5 },
-                //     'Moonrakers': { action: `{{ url_for('updateMoonrakers') }}`, maxLength: 5 },
-                //     'CosmicEncounter': { action: `{{ url_for('addCosmicEncounter') }}`, maxLength: 5 }
-                // };
-
-                // form.action = actionMap[game].action;
-
-                // let game = 'Dominion'
-                console.log("GAMMMMEMEEE");
-                console.log(game)
                 form.action = `{{ url_for('updategame') }}`;
                 form.method = "POST";
                 form.autocomplete = "off";
