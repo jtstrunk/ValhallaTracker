@@ -6,7 +6,7 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, Length, Email
-from datetime import date
+from datetime import date, datetime
 import os
 import sqlite3
 
@@ -207,8 +207,8 @@ class JustOneGame(db.Model):
 class CosmicEncounterGame(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     game_id = db.Column(db.Integer, nullable=False)
-    firstName = db.Column(db.String(50), nullable=False)
-    firstScore = db.Column(db.Integer, nullable=False)
+    winnerName = db.Column(db.String(50), nullable=False)
+    winnerScore = db.Column(db.Integer, nullable=False)
     secondName = db.Column(db.String(50), nullable=False)
     secondScore = db.Column(db.Integer, nullable=False)
     thirdName = db.Column(db.String(50), nullable=False)
@@ -529,16 +529,55 @@ def displayGame():
     gameModel = globals()[fullGameName]
     gameInfo = gameModel.query.filter_by(game_id=gameid).first()
 
-    return jsonify({
-            'winnerName': gameInfo.winnerName,
-            'winnerScore': gameInfo.winnerScore,
-            'secondName': gameInfo.secondName,
-            'secondScore': gameInfo.secondScore,
-            'thirdName': gameInfo.thirdName,
-            'thirdScore': gameInfo.thirdScore,
-            'fourthName': gameInfo.fourthName,
-            'fourthScore': gameInfo.fourthScore,
-            'date': gameInfo.date})
+    fields_to_return = ['winnerName', 'winnerScore', 'secondName', 'secondScore', 'thirdName', 'thirdScore', 'fourthName', 'fourthScore', 'fifthName', 'fifthScore', 'sixthName', 'sixthScore', 'date']
+    response_data = {key: getattr(gameInfo, key) for key in fields_to_return if hasattr(gameInfo, key)}
+    return jsonify(response_data)
+
+@app.route('/updategame', methods=['POST'])
+def updategame():
+    if request.method == 'POST':
+        game = request.form['game']
+        game = game.replace(" ", "")
+        print(game)
+        game_id = request.form['game_id']
+        date_str = request.form['datepicker']
+        newdate = datetime.strptime(date_str, '%Y-%m-%d').date()
+
+        full_game_name = f'{game}Game'
+        game_model = globals().get(full_game_name)
+        
+        if game_model:
+            existing_game = game_model.query.filter_by(game_id=game_id).first()
+
+            if existing_game:
+                # Update the existing record with new data
+                existing_game.winnerName = request.form['winnerName']
+                existing_game.winnerScore = request.form['winnerScore']
+                existing_game.secondName = request.form['secondName']
+                existing_game.secondScore = request.form['secondScore']
+                existing_game.thirdName = request.form['thirdName']
+                existing_game.thirdScore = request.form['thirdScore']
+                existing_game.fourthName = request.form['fourthName']
+                existing_game.fourthScore = request.form['fourthScore']
+
+                if hasattr(existing_game, 'fifthName'):
+                    existing_game.fifthName = request.form.get('fifthName', None)
+                if hasattr(existing_game, 'fifthScore'):
+                    existing_game.fifthScore = request.form.get('fifthScore', None)
+
+                if hasattr(existing_game, 'sixthName'):
+                    existing_game.sixthName = request.form.get('sixthName', None)
+                if hasattr(existing_game, 'sixthScore'):
+                    existing_game.sixthScore = request.form.get('sixthScore', None)
+
+                existing_game.date = newdate
+
+                db.session.commit()
+
+    if request.url.endswith('/home'):
+        return redirect('/home')
+    elif request.url.endswith('/showGames'):
+        return redirect('/showGames')
 
 @app.route('/DominionSelect', methods=['GET'])
 @login_required
@@ -769,8 +808,8 @@ def addCosmicEncounter():
 
             new_game = CosmicEncounterGame(
                 game_id=newGameID, 
-                firstName=player1, 
-                firstScore=player1Score, 
+                winnerName=player1, 
+                winnerScore=player1Score, 
                 secondName=player2, 
                 secondScore=player2Score, 
                 thirdName=player3, 
@@ -1829,24 +1868,24 @@ def findRecentGames(user, limit):
         recentGames.append(new_game)
 
     cosmic_games = CosmicEncounterGame.query.filter(or_(
-        CosmicEncounterGame.firstName == user.fullname,
+        CosmicEncounterGame.winnerName == user.fullname,
         CosmicEncounterGame.secondName == user.fullname,
         CosmicEncounterGame.thirdName == user.fullname,
         CosmicEncounterGame.fourthName == user.fullname,
         CosmicEncounterGame.fifthName == user.fullname,
-        CosmicEncounterGame.firstName == user.username,
+        CosmicEncounterGame.winnerName == user.username,
         CosmicEncounterGame.secondName == user.username,
         CosmicEncounterGame.thirdName == user.username,
         CosmicEncounterGame.fourthName == user.username,
         CosmicEncounterGame.fifthName == user.username
-    )).with_entities(CosmicEncounterGame.game_id, CosmicEncounterGame.firstName, CosmicEncounterGame.secondName, CosmicEncounterGame.thirdName, CosmicEncounterGame.date, literal('Cosmic Encounter').label('game_type')).all()
+    )).with_entities(CosmicEncounterGame.game_id, CosmicEncounterGame.winnerName, CosmicEncounterGame.secondName, CosmicEncounterGame.thirdName, CosmicEncounterGame.date, literal('Cosmic Encounter').label('game_type')).all()
 
     for game in cosmic_games:
         new_game = {}
-        if game.firstName == user.username:
-            new_game['firstName'] = user.fullname
+        if game.winnerName == user.username:
+            new_game['winnerName'] = user.fullname
         else:
-            new_game['firstName'] = game.firstName
+            new_game['winnerName'] = game.winnerName
         if game.secondName == user.username:
             new_game['secondName'] = user.fullname
         else:

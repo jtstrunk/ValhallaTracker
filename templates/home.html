@@ -122,22 +122,6 @@
 
                 // Create the form
                 const form = document.createElement('form');
-                // if (game == 'Dominion') {
-                //     form.action = `{{ url_for('addDominion') }}`;
-                //     maxLength = 4;
-                // } else if (game == 'Catan') {
-                //     form.action = `{{ url_for('addCatan') }}`;
-                //     maxLength = 4;
-                // } else if (game == 'LordsofWaterdeep') {
-                //     form.action = `{{ url_for('addLordsofWaterdeep') }}`;
-                //     maxLength = 5;
-                // } else if (game == 'Moonrakers') {
-                //     form.action = `{{ url_for('addMoonrakers') }}`;
-                //     maxLength = 5;
-                // } else if (game == 'CosmicEncounter') {
-                //     form.action = `{{ url_for('addCosmicEncounter') }}`;
-                //     maxLength = 5;
-                // }
 
                 let actionMap = {
                     'Dominion': { action: `{{ url_for('addDominion') }}`, maxLength: 4 },
@@ -243,22 +227,28 @@
                 heading.textContent = `Edit This ${game} Record`;
                 Popup.appendChild(heading);
 
+                const form = document.createElement('form');
+                form.action = `{{ url_for('updategame') }}`;
+                form.method = "POST";
+                form.autocomplete = "off";
+                form.classList.add("changingform")
+
                 let gameMaxLength = {
                     'Dominion': 4,
                     'Catan': 4,
                     'Clank': 4,
-                    'LordsofWaterdeep': 5,
+                    'Lords of Waterdeep': 5,
                     'Moonrakers': 5,
                     'CosmicEncounter': 5
                 };
 
                 const Length = gameMaxLength[game];
                 if(Length == 4){
-                    Popup.style.height = '415px';
+                    Popup.style.height = '440px';
                 } else if (Length == 5) {
-                    Popup.style.height = '490px';
+                    Popup.style.height = '525px';
                 } else if (Length == 6) {
-                    Popup.style.height = '565px';
+                    Popup.style.height = '580px';
                 }
                 
                 //get id
@@ -267,74 +257,122 @@
                 const testcontainer = document.createElement('div');
                 testcontainer.id = 'gameInfoContainer';
                 testcontainer.classList.add("GameInfo")
-                Popup.appendChild(testcontainer);
+                Popup.appendChild(form);
 
                 // call endpoint
                 fetch(`/displayGame?game=${game}&id=${trimmedGameID}`)
                 .then(response => response.json())
                 .then(data => {
                     console.log(data); // Output: Response data from the "showgame" endpoint
-                    // for (const key in data) {
-                    //     if (Object.hasOwnProperty.call(data, key)) {
-                    //         console.log(`${key}: ${data[key]}`);
-                    //     }
-                    // }
                     let gameInfoContainer = document.getElementById('gameInfoContainer');
                     let order = ['winnerName', 'winnerScore', 'secondName', 'secondScore', 'thirdName', 'thirdScore', 'fourthName', 'fourthScore', 'fifthName', 'fifthScore', 'sixthName', 'sixthScore'];
-                    console.log("GAME");
-                    console.log(game);
+                    const labelMappings = {
+                        winnerName: "Winner",
+                        winnerScore: "Score",
+                        secondName: "Second",
+                        secondScore: "Score",
+                        thirdName: "Third",
+                        thirdScore: "Score",
+                        fourthName: "Fourth",
+                        fourthScore: "Score",
+                        fifthName: "Fifth",
+                        fifthScore: "Score",
+                        sixthName: "Sixth",
+                        sixthScore: "Score"
+                    };
+
                     if (gameMaxLength[game]) {
                         let maxLength = gameMaxLength[game];
-                        
                         // Adjust order array based on gameMaxLength
                         order = order.slice(0, maxLength * 2);
-                        console.log("order");
-                        console.log(order);
                         order.push('date');
+                        order.push('submit');
                     }
-                    console.log("ORDER");
-                    console.log(order);
 
                     order.forEach(key => {
                         console.log(key)
-                        if(key !== 'date') {    
-                            const newDiv = document.createElement('div');
-                            newDiv.classList.add("playerSection");
-                            //creating input
-                            const newInput = document.createElement('input');
-                            if (data[key]) {
-                                newInput.placeholder = `${data[key]}`;
-                                newInput.value = `${data[key]}`;
-                                newInput.id = `${key}`;
+                        if (key === 'date') {
+                            // Creaing game id
+                            const Div = document.createElement('div');
+                            Div.classList.add("playerSection2");
+                            Div.style = 'width: 25%; !important'
+                            let gameID = document.createElement('input');
+                            gameID.id = 'game_id';
+                            gameID.name = 'game_id';
+                            gameID.value = trimmedGameID;
+                            gameID.style = 'color: white; width: 97px;';
+                            gameID.readOnly = 'readonly';
+                            // Creaing game id label
+                            let IDLabel = document.createElement('label');
+                            IDLabel.setAttribute('for', "gameID");
+                            IDLabel.innerText = "Game ID";
 
-                            }
-                            //creating label
-                            const newLabel = document.createElement('label');
-                            newLabel.setAttribute('for', key);
-                            newLabel.innerText = `${key}`;
-
-                            newDiv.appendChild(newLabel);
-                            newDiv.appendChild(newInput);
-                            gameInfoContainer.appendChild(newDiv);
-                        }
-                        else {
                             const newDiv = document.createElement('div');
-                            newDiv.classList.add("playerSection");
+                            newDiv.classList.add("playerSection2");
+
+                            // Formatting the new date
+                            let dateString = data.date;
+                            let dateObject = new Date(dateString);
+                            let formattedDate = dateObject.toISOString().split('T')[0];
 
                             // Creating date picker input
                             const datePickerInput = document.createElement('input');
                             datePickerInput.type = "date";
                             datePickerInput.id = "datepicker";
+                            datePickerInput.name = "datepicker";
+                            datePickerInput.value = formattedDate;
                             
                             // Creating label for date picker
                             const dateLabel = document.createElement('label');
                             dateLabel.setAttribute('for', "datepicker");
                             dateLabel.innerText = "Select Date";
 
+                            Div.appendChild(IDLabel);
+                            Div.appendChild(gameID);
                             newDiv.appendChild(dateLabel);
                             newDiv.appendChild(datePickerInput);
+                            form.appendChild(Div);
+                            form.appendChild(newDiv);
+                        } else if (key === 'submit') {
+                            // Creating submit button
+                            const newDiv = document.createElement('div');
+                            newDiv.classList.add("playerSection2");
+                            const submitButton = document.createElement('button');
+                            submitButton.innerText = "Update Record";
+                            submitButton.classList.add('btn');
+                            submitButton.classList.add('btn-primary');
+                            submitButton.style = 'margin-top: 24px; width: 125px;';
+
+                            newDiv.appendChild(submitButton);
+                            form.appendChild(newDiv);
+                            gameType = document.createElement('input');
+                            gameType.name = 'game';
+                            gameType.value = game;
+                            gameType.style = 'Display: none;'
+
+                            form.appendChild(gameType);
+                        } else {
+                            const newDiv = document.createElement('div');
+                            newDiv.classList.add("playerSection");
+                            // For other keys
+                            const newInput = document.createElement('input');
                             
-                            gameInfoContainer.appendChild(newDiv);
+                            if (data[key]) {
+                                newInput.placeholder = `${data[key]}`;
+                                newInput.value = `${data[key]}`;
+                            }
+
+                            newInput.id = `${key}`;
+                            newInput.name = `${key}`;
+                            
+                            // Creating label
+                            const newLabel = document.createElement('label');
+                            newLabel.setAttribute('for', key);
+                            newLabel.innerText = labelMappings[key] || key;
+
+                            newDiv.appendChild(newLabel);
+                            newDiv.appendChild(newInput);
+                            form.appendChild(newDiv);
                         }
                             
                         
@@ -344,6 +382,7 @@
                     console.error('There was a problem with the fetch operation:', error);
                 });
 
+                // Popup.appendChild(form);
 
                 // Add the Popup to the document body or any other desired parent element
                 document.body.appendChild(Popup);
