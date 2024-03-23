@@ -122,22 +122,6 @@
 
                 // Create the form
                 const form = document.createElement('form');
-                // if (game == 'Dominion') {
-                //     form.action = `{{ url_for('addDominion') }}`;
-                //     maxLength = 4;
-                // } else if (game == 'Catan') {
-                //     form.action = `{{ url_for('addCatan') }}`;
-                //     maxLength = 4;
-                // } else if (game == 'LordsofWaterdeep') {
-                //     form.action = `{{ url_for('addLordsofWaterdeep') }}`;
-                //     maxLength = 5;
-                // } else if (game == 'Moonrakers') {
-                //     form.action = `{{ url_for('addMoonrakers') }}`;
-                //     maxLength = 5;
-                // } else if (game == 'CosmicEncounter') {
-                //     form.action = `{{ url_for('addCosmicEncounter') }}`;
-                //     maxLength = 5;
-                // }
 
                 let actionMap = {
                     'Dominion': { action: `{{ url_for('addDominion') }}`, maxLength: 4 },
