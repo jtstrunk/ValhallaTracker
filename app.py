@@ -535,10 +535,6 @@ def displayGame():
 
 @app.route('/updategame', methods=['POST'])
 def updategame():
-    print("updategame")
-    print("updategame")
-    print("updategame")
-    print("updategame")
     if request.method == 'POST':
         game = request.form['game']
         game = game.replace(" ", "")
@@ -578,7 +574,10 @@ def updategame():
 
                 db.session.commit()
 
-    return redirect('/home')
+    if request.url.endswith('/home'):
+        return redirect('/home')
+    elif request.url.endswith('/showGames'):
+        return redirect('/showGames')
 
 @app.route('/DominionSelect', methods=['GET'])
 @login_required
