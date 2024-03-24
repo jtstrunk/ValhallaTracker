@@ -684,7 +684,51 @@ def addDominion():
         finally:
             print("Record Added")
             return redirect('/home')
-        
+
+@app.route('/addClank', methods = ['POST', 'GET'])
+@login_required
+def addClank():
+    if request.method == 'POST':
+        try:
+            player1 = request.form['Player1']
+            player1Score = request.form['Score1']
+            player2 = request.form['Player2']
+            player2Score = request.form['Score2']
+            player3 = request.form['Player3']
+            player3Score = request.form['Score3']
+            player4 = request.form['Player4']
+            player4Score = request.form['Score4']
+            newGameID = findID()
+            numPlayers = 4
+            game = "clank"
+            for i in range(1, numPlayers):
+                player = request.form[f'Player{i}']
+                if not SupportedNames.query.filter_by(playerID=current_user.id, playerName=player).first():
+                    new_played_user = SupportedNames(playerID=current_user.id, playerName=player)
+                    db.session.add(new_played_user)
+
+            clank_game = ClankGame(
+                game_id=newGameID, 
+                winnerName=player1, 
+                winnerScore=player1Score, 
+                secondName=player2, 
+                secondScore=player2Score, 
+                thirdName=player3, 
+                thirdScore=player3Score, 
+                fourthName=player4, 
+                fourthScore=player4Score,
+                date=date.today())
+            db.session.add(clank_game)
+            db.session.commit()
+            print("ClankGame added successfully!")
+
+        except Exception as e:
+            print(f"An error occurred while adding the ClankGame: {e}")
+
+        finally:
+            print("Record Added")
+            return redirect('/home')
+
 @app.route('/addLordsofWaterdeep', methods = ['POST', 'GET'])
 @login_required
 def addLordsofWaterdeep():
@@ -1165,13 +1209,15 @@ def findID():
     min_id = db.session.query(db.func.max(TheMindGame.game_id)).scalar() or 0
     moo_id = db.session.query(db.func.max(MoonrakersGame.game_id)).scalar() or 0
     cos_id = db.session.query(db.func.max(CosmicEncounterGame.game_id)).scalar() or 0
-    max_id = max(dom_id, cat_id, lor_id, cou_id, lov_id, mun_id, jus_id, min_id, mag_id, moo_id, cos_id)
+    cla_id = db.session.query(db.func.max(ClankGame.game_id)).scalar() or 0
+    max_id = max(dom_id, cat_id, lor_id, cou_id, lov_id, mun_id, jus_id, min_id, mag_id, moo_id, cos_id, cla_id)
 
     return max_id + 1
 
 def calcGamesWon(user):
     gamesWon = 0
     gamesWon += db.session.query(DominionGame).filter(or_(DominionGame.winnerName == user.username, DominionGame.winnerName == user.fullname)).count()
+    gamesWon += db.session.query(ClankGame).filter(or_(ClankGame.winnerName == user.username, ClankGame.winnerName == user.fullname)).count()
     gamesWon += db.session.query(CatanGame).filter(or_(CatanGame.winnerName == user.username, CatanGame.winnerName == user.fullname)).count()
     gamesWon += db.session.query(LordsofWaterdeepGame).filter(or_(LordsofWaterdeepGame.winnerName == user.username, LordsofWaterdeepGame.winnerName == user.fullname)).count()
     gamesWon += db.session.query(CoupGame).filter(or_(CoupGame.winnerName == user.username, CoupGame.winnerName == user.fullname)).count()
@@ -1206,6 +1252,15 @@ def calcGamesPlayed(user):
         DominionGame.secondName == user.username,
         DominionGame.thirdName == user.username,
         DominionGame.fourthName == user.username)).count()
+    gamesPlayed += db.session.query(ClankGame).filter(or_(
+        ClankGame.winnerName == user.fullname,
+        ClankGame.secondName == user.fullname,
+        ClankGame.thirdName == user.fullname,
+        ClankGame.fourthName == user.fullname,
+        ClankGame.winnerName == user.username,
+        ClankGame.secondName == user.username,
+        ClankGame.thirdName == user.username,
+        ClankGame.fourthName == user.username)).count()
     gamesPlayed += db.session.query(CatanGame).filter(or_(
         CatanGame.winnerName == user.fullname,
         CatanGame.secondName == user.fullname,
@@ -1315,6 +1370,15 @@ def calcMostPlayed(user):
         DominionGame.secondName == user.username,
         DominionGame.thirdName == user.username,
         DominionGame.fourthName == user.username)).count()
+    ClankCount = db.session.query(ClankGame).filter(or_(
+        ClankGame.winnerName == user.fullname,
+        ClankGame.secondName == user.fullname,
+        ClankGame.thirdName == user.fullname,
+        ClankGame.fourthName == user.fullname,
+        ClankGame.winnerName == user.username,
+        ClankGame.secondName == user.username,
+        ClankGame.thirdName == user.username,
+        ClankGame.fourthName == user.username)).count()
     CatanCount = db.session.query(CatanGame).filter(or_(
         CatanGame.winnerName == user.fullname,
         CatanGame.secondName == user.fullname,
@@ -1412,6 +1476,7 @@ def calcMostPlayed(user):
     
     counts = {
         'DomionionCount': DominionCount,
+        'ClankCount': ClankCount,
         'CatanCount': CatanCount,
         'LordsofWaterdeepCount': LordsofWaterdeepCount,
         'MagicTheGatheringCount': MagicTheGatheringCount,
@@ -1429,6 +1494,7 @@ def calcMostPlayed(user):
 
 def calcMostWon(user):
     dominionWins = db.session.query(DominionGame).filter(or_(DominionGame.winnerName == user.username, DominionGame.winnerName == user.fullname)).count()
+    clankWins = db.session.query(ClankGame).filter(or_(ClankGame.winnerName == user.username, ClankGame.winnerName == user.fullname)).count()
     catanWins = db.session.query(CatanGame).filter(or_(CatanGame.winnerName == user.username, CatanGame.winnerName == user.fullname)).count()
     lordsofwaterdeepWins = db.session.query(LordsofWaterdeepGame).filter(or_(LordsofWaterdeepGame.winnerName == user.username, LordsofWaterdeepGame.winnerName == user.fullname)).count()
     magicthegatheringWins = db.session.query(MagicTheGatheringGame).filter(or_(MagicTheGatheringGame.winnerName == user.username, MagicTheGatheringGame.winnerName == user.fullname)).count()
@@ -1453,6 +1519,7 @@ def calcMostWon(user):
 
     counts = {
         'DomionionCount': dominionWins,
+        'ClankCount': clankWins,
         'CatanCount': catanWins,
         'LordsofWaterdeepCount': lordsofwaterdeepWins,
         'MagicTheGatheringCount': magicthegatheringWins,
@@ -1513,6 +1580,27 @@ def calcBestFriend(user):
                 CatanGame.secondName == user.username,
                 CatanGame.thirdName == user.username,
                 CatanGame.fourthName == user.username
+            ))).count()
+        
+        ClankCount = db.session.query(ClankGame).filter(and_(
+            or_(
+                ClankGame.winnerName == friend.fullname,
+                ClankGame.secondName == friend.fullname,
+                ClankGame.thirdName == friend.fullname,
+                ClankGame.fourthName == friend.fullname,
+                ClankGame.winnerName == friend.username,
+                ClankGame.secondName == friend.username,
+                ClankGame.thirdName == friend.username,
+                ClankGame.fourthName == friend.username
+            ), or_( 
+                ClankGame.winnerName == user.fullname,
+                ClankGame.secondName == user.fullname,
+                ClankGame.thirdName == user.fullname,
+                ClankGame.fourthName == user.fullname,
+                ClankGame.winnerName == user.username,
+                ClankGame.secondName == user.username,
+                ClankGame.thirdName == user.username,
+                ClankGame.fourthName == user.username
             ))).count()
 
         LordsofWaterdeepCount = db.session.query(LordsofWaterdeepGame).filter(and_(
@@ -1767,6 +1855,37 @@ def findRecentGames(user, limit):
 
         new_game['game_id'] = game.game_id
         new_game['game_type'] = 'Dominion'
+        new_game['current_date'] = game.date
+        recentGames.append(new_game)
+
+    clank_games = ClankGame.query.filter(or_(
+        ClankGame.winnerName == user.fullname,
+        ClankGame.secondName == user.fullname,
+        ClankGame.thirdName == user.fullname,
+        ClankGame.fourthName == user.fullname,
+        ClankGame.winnerName == user.username,
+        ClankGame.secondName == user.username,
+        ClankGame.thirdName == user.username,
+        ClankGame.fourthName == user.username
+    )).with_entities(ClankGame.game_id, ClankGame.winnerName, ClankGame.secondName, ClankGame.thirdName, ClankGame.date, literal('Clank').label('game_type')).all()
+
+    for game in clank_games:
+        new_game = {}
+        if game.winnerName == user.username:
+            new_game['winnerName'] = user.fullname
+        else:
+            new_game['winnerName'] = game.winnerName
+        if game.secondName == user.username:
+            new_game['secondName'] = user.fullname
+        else:
+            new_game['secondName'] = game.secondName
+        if game.thirdName == user.username:
+            new_game['thirdName'] = user.fullname
+        else:
+            new_game['thirdName'] = game.thirdName
+
+        new_game['game_id'] = game.game_id
+        new_game['game_type'] = 'Clank'
         new_game['current_date'] = game.date
         recentGames.append(new_game)
 
