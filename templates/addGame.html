@@ -39,6 +39,19 @@
             </div>
         </div>
 
+        <div class="card" onclick="createPopup('Clank!', 4)">
+            <div class="img">
+                <img src="/static/images/addgame/clank.png">
+            </div>
+            <div class="text">
+                <p style="font-size: 24px;">Clank!</p>
+                <p style="font-size: large;">2 - 4 Players</p>
+                <div>
+                    <span class="bottom">Add a</span>&nbsp;<span class="bottom" style="text-decoration: underline;">game</span>
+                </div>
+            </div>
+        </div>
+
         <div class="card" onclick="createPopup('Moonrakers', 5)">
             <div class="img">
                 <img src="/static/images/addgame/moonrakers.png">
@@ -213,6 +226,8 @@
                 form.action = `{{ url_for('addMoonrakers') }}`;
             } else if (game == 'Cosmic Encounter') {
                 form.action = `{{ url_for('addCosmicEncounter') }}`;
+            } else if (game == 'Clank!') {
+                form.action = `{{ url_for('addClank') }}`;
             }
 
 
