@@ -1,6 +1,7 @@
 from flask import Flask, render_template, flash, redirect, url_for, request, jsonify
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from sqlalchemy import and_, or_, Date, text, literal
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
@@ -12,9 +13,10 @@ import sqlite3
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '1145'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/joshs/Desktop/ValhallaTracker/db.sqlite3'
+app.config['SQLALCHEMY_DATABASE_URI'] = r'sqlite:///C:\Users\Josh Strunk\Desktop\ValhallaTracker\db.sqlite3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 bootstrap = Bootstrap(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -249,6 +251,42 @@ class ClankGame(db.Model):
     thirdScore = db.Column(db.Integer)
     fourthName = db.Column(db.String(50))
     fourthScore = db.Column(db.Integer)
+    date = db.Column(db.Date)
+
+class SushiGoPartyGame(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    game_id = db.Column(db.Integer, nullable=False)
+    winnerName = db.Column(db.String(50), nullable=False)
+    winnerScore = db.Column(db.Integer, nullable=False)
+    secondName = db.Column(db.String(50), nullable=False)
+    secondScore = db.Column(db.Integer, nullable=False)
+    thirdName = db.Column(db.String(50))
+    thirdScore = db.Column(db.Integer)
+    fourthName = db.Column(db.String(50))
+    fourthScore = db.Column(db.Integer)
+    fifthName = db.Column(db.String(50))
+    fifthScore = db.Column(db.Integer)
+    sixthName = db.Column(db.String(50))
+    sixthScore = db.Column(db.Integer)
+    seventhName = db.Column(db.String(50))
+    seventhScore = db.Column(db.Integer)
+    eighthName = db.Column(db.String(50))
+    eighthScore = db.Column(db.Integer)
+    date = db.Column(db.Date)
+
+class ExplodingKittensGame(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    game_id = db.Column(db.Integer, nullable=False)
+    winnerName = db.Column(db.String(50), nullable=False)
+    secondName = db.Column(db.String(50), nullable=False)
+    thirdName = db.Column(db.String(50))
+    fourthName = db.Column(db.String(50))
+    fifthName = db.Column(db.String(50))
+    sixthName = db.Column(db.String(50))
+    seventhName = db.Column(db.String(50))
+    eighthName = db.Column(db.String(50))
+    ninthName = db.Column(db.String(50))
+    tenthName = db.Column(db.String(50))
     date = db.Column(db.Date)
 
 class LoginForm(FlaskForm):
@@ -917,6 +955,114 @@ def addCatan():
             print("Record Added")
             return redirect('/home')
         
+@app.route('/addSushiGoParty', methods = ['POST', 'GET'])
+@login_required
+def addSushiGoParty():
+    if request.method == 'POST':
+        try:
+            player1 = request.form['Player1']
+            player1Score = request.form['Score1']
+            player2 = request.form['Player2']
+            player2Score = request.form['Score2']
+            player3 = request.form['Player3']
+            player3Score = request.form['Score3']
+            player4 = request.form['Player4']
+            player4Score = request.form['Score4']
+            player5 = request.form['Player5']
+            player5Score = request.form['Score5']
+            player6 = request.form['Player6']
+            player6Score = request.form['Score6']
+            player7 = request.form['Player7']
+            player7Score = request.form['Score7']
+            player8 = request.form['Player8']
+            player8Score = request.form['Score8']
+            newGameID = findID()
+
+            numPlayers = 4
+            game = "sushigoparty"
+            for i in range(1, numPlayers):
+                player = request.form[f'Player{i}']
+                if not SupportedNames.query.filter_by(playerID=current_user.id, playerName=player).first():
+                    new_played_user = SupportedNames(playerID=current_user.id, playerName=player)
+                    db.session.add(new_played_user)
+
+            sushigoparty_game = SushiGoPartyGame(
+                game_id=newGameID, 
+                winnerName=player1, 
+                winnerScore=player1Score, 
+                secondName=player2, 
+                secondScore=player2Score, 
+                thirdName=player3, 
+                thirdScore=player3Score, 
+                fourthName=player4, 
+                fourthScore=player4Score,
+                fifthName=player5,
+                fifthScore=player5Score,
+                sixthName=player6,
+                sixthScore=player6Score,
+                seventhName=player7,
+                seventhScore=player7Score,
+                eighthName=player8,
+                eighthScore=player8Score,
+                date=date.today())
+            db.session.add(sushigoparty_game)
+            db.session.commit()
+
+        except Exception as e:
+            print(f"An error occurred while adding the SushiGoPartyGame: {e}")
+
+        finally:
+            print("Record Added")
+            return redirect('/home')
+        
+@app.route('/addExplodingKittens', methods = ['POST', 'GET'])
+@login_required
+def addExplodingKittens():
+    if request.method == 'POST':
+        try:
+            player1 = request.form['Player1']
+            player2 = request.form['Player2']
+            player3 = request.form['Player3']
+            player4 = request.form['Player4']
+            player5 = request.form['Player5']
+            player6 = request.form['Player6']
+            player7 = request.form['Player7']
+            player8 = request.form['Player8']
+            player9 = request.form['Player9']
+            player10 = request.form['Player10']
+            newGameID = findID()
+
+            numPlayers = 4
+            game = "explodingkittens"
+            for i in range(1, numPlayers):
+                player = request.form[f'Player{i}']
+                if not SupportedNames.query.filter_by(playerID=current_user.id, playerName=player).first():
+                    new_played_user = SupportedNames(playerID=current_user.id, playerName=player)
+                    db.session.add(new_played_user)
+
+            explodingkittens_game = ExplodingKittensGame(
+                game_id=newGameID, 
+                winnerName=player1, 
+                secondName=player2, 
+                thirdName=player3, 
+                fourthName=player4, 
+                fifthName=player5,
+                sixthName=player6,
+                seventhName=player7,
+                eighthName=player8,
+                ninthName=player9,
+                tenthName=player10,
+                date=date.today())
+            db.session.add(explodingkittens_game)
+            db.session.commit()
+
+        except Exception as e:
+            print(f"An error occurred while adding the ExplodingKittensGame: {e}")
+
+        finally:
+            print("Record Added")
+            return redirect('/home')
+        
 @app.route('/addMagicTheGathering', methods = ['POST', 'GET'])
 @login_required
 def addMagicTheGathering():
@@ -1210,7 +1356,9 @@ def findID():
     moo_id = db.session.query(db.func.max(MoonrakersGame.game_id)).scalar() or 0
     cos_id = db.session.query(db.func.max(CosmicEncounterGame.game_id)).scalar() or 0
     cla_id = db.session.query(db.func.max(ClankGame.game_id)).scalar() or 0
-    max_id = max(dom_id, cat_id, lor_id, cou_id, lov_id, mun_id, jus_id, min_id, mag_id, moo_id, cos_id, cla_id)
+    sus_id = db.session.query(db.func.max(SushiGoPartyGame.game_id)).scalar() or 0
+    exp_id = db.session.query(db.func.max(ExplodingKittensGame.game_id)).scalar() or 0
+    max_id = max(dom_id, cat_id, lor_id, cou_id, lov_id, mun_id, jus_id, min_id, mag_id, moo_id, cos_id, cla_id, sus_id, exp_id)
 
     return max_id + 1
 
@@ -1399,6 +1547,66 @@ def calcMostPlayed(user):
         LordsofWaterdeepGame.thirdName == user.username,
         LordsofWaterdeepGame.fourthName == user.username,
         LordsofWaterdeepGame.fifthName == user.username)).count()
+    CosmicEncounterCount = db.session.query(CosmicEncounterGame).filter(or_(
+        CosmicEncounterGame.winnerName == user.fullname,
+        CosmicEncounterGame.secondName == user.fullname,
+        CosmicEncounterGame.thirdName == user.fullname,
+        CosmicEncounterGame.fourthName == user.fullname,
+        CosmicEncounterGame.fifthName == user.fullname,
+        CosmicEncounterGame.winnerName == user.username,
+        CosmicEncounterGame.secondName == user.username,
+        CosmicEncounterGame.thirdName == user.username,
+        CosmicEncounterGame.fourthName == user.username,
+        CosmicEncounterGame.fifthName == user.username)).count()
+    MoonrakersCount = db.session.query(MoonrakersGame).filter(or_(
+        MoonrakersGame.winnerName == user.fullname,
+        MoonrakersGame.secondName == user.fullname,
+        MoonrakersGame.thirdName == user.fullname,
+        MoonrakersGame.fourthName == user.fullname,
+        MoonrakersGame.fifthName == user.fullname,
+        MoonrakersGame.winnerName == user.username,
+        MoonrakersGame.secondName == user.username,
+        MoonrakersGame.thirdName == user.username,
+        MoonrakersGame.fourthName == user.username,
+        MoonrakersGame.fifthName == user.username)).count()
+    SushiGoPartyCount = db.session.query(SushiGoPartyGame).filter(or_(
+        SushiGoPartyGame.winnerName == user.fullname,
+        SushiGoPartyGame.secondName == user.fullname,
+        SushiGoPartyGame.thirdName == user.fullname,
+        SushiGoPartyGame.fourthName == user.fullname,
+        SushiGoPartyGame.fifthName == user.fullname,
+        SushiGoPartyGame.sixthName == user.fullname,
+        SushiGoPartyGame.seventhName == user.fullname,
+        SushiGoPartyGame.eighthName == user.fullname,
+        SushiGoPartyGame.winnerName == user.username,
+        SushiGoPartyGame.secondName == user.username,
+        SushiGoPartyGame.thirdName == user.username,
+        SushiGoPartyGame.fourthName == user.username,
+        SushiGoPartyGame.fifthName == user.username,
+        SushiGoPartyGame.sixthName == user.username,
+        SushiGoPartyGame.seventhName == user.username,
+        SushiGoPartyGame.eighthName == user.username)).count()
+    ExplodingKittensCount = db.session.query(ExplodingKittensGame).filter(or_(
+        ExplodingKittensGame.winnerName == user.fullname,
+        ExplodingKittensGame.secondName == user.fullname,
+        ExplodingKittensGame.thirdName == user.fullname,
+        ExplodingKittensGame.fourthName == user.fullname,
+        ExplodingKittensGame.fifthName == user.fullname,
+        ExplodingKittensGame.sixthName == user.fullname,
+        ExplodingKittensGame.seventhName == user.fullname,
+        ExplodingKittensGame.eighthName == user.fullname,
+        ExplodingKittensGame.ninthName == user.fullname,
+        ExplodingKittensGame.tenthName == user.fullname,
+        ExplodingKittensGame.winnerName == user.username,
+        ExplodingKittensGame.secondName == user.username,
+        ExplodingKittensGame.thirdName == user.username,
+        ExplodingKittensGame.fourthName == user.username,
+        ExplodingKittensGame.fifthName == user.username,
+        ExplodingKittensGame.sixthName == user.username,
+        ExplodingKittensGame.seventhName == user.username,
+        ExplodingKittensGame.eighthName == user.username,
+        ExplodingKittensGame.ninthName == user.username,
+        ExplodingKittensGame.tenthName == user.username)).count()
     MagicTheGatheringCount = db.session.query(MagicTheGatheringGame).filter(or_(
         MagicTheGatheringGame.winnerName == user.fullname,
         MagicTheGatheringGame.secondName == user.fullname,
@@ -1479,6 +1687,10 @@ def calcMostPlayed(user):
         'ClankCount': ClankCount,
         'CatanCount': CatanCount,
         'LordsofWaterdeepCount': LordsofWaterdeepCount,
+        'CosmicEncounterCount': CosmicEncounterCount,
+        'MoonrakersCount': MoonrakersCount,
+        'SushiGoPartyCount': SushiGoPartyCount,
+        'ExplodingKittensCount': ExplodingKittensCount,
         'MagicTheGatheringCount': MagicTheGatheringCount,
         'CoupCount': CoupCount,
         'LoveLetterCount': LoveLetterCount,
@@ -1497,6 +1709,10 @@ def calcMostWon(user):
     clankWins = db.session.query(ClankGame).filter(or_(ClankGame.winnerName == user.username, ClankGame.winnerName == user.fullname)).count()
     catanWins = db.session.query(CatanGame).filter(or_(CatanGame.winnerName == user.username, CatanGame.winnerName == user.fullname)).count()
     lordsofwaterdeepWins = db.session.query(LordsofWaterdeepGame).filter(or_(LordsofWaterdeepGame.winnerName == user.username, LordsofWaterdeepGame.winnerName == user.fullname)).count()
+    moonrakersWins = db.session.query(MoonrakersGame).filter(or_(MoonrakersGame.winnerName == user.username, MoonrakersGame.winnerName == user.fullname)).count()
+    cosmicWins = db.session.query(CosmicEncounterGame).filter(or_(CosmicEncounterGame.winnerName == user.username, CosmicEncounterGame.winnerName == user.fullname)).count()
+    sushigoWins = db.session.query(SushiGoPartyGame).filter(or_(SushiGoPartyGame.winnerName == user.username, SushiGoPartyGame.winnerName == user.fullname)).count()
+    explodingkittensWins = db.session.query(ExplodingKittensGame).filter(or_(ExplodingKittensGame.winnerName == user.username, ExplodingKittensGame.winnerName == user.fullname)).count()
     magicthegatheringWins = db.session.query(MagicTheGatheringGame).filter(or_(MagicTheGatheringGame.winnerName == user.username, MagicTheGatheringGame.winnerName == user.fullname)).count()
     coupWins = db.session.query(CoupGame).filter(or_(CoupGame.winnerName == user.username, CoupGame.winnerName == user.fullname)).count()
     loveletterWins = db.session.query(LoveLetterGame).filter(or_(LoveLetterGame.winnerName == user.username, LoveLetterGame.winnerName == user.fullname)).count()
@@ -1526,7 +1742,11 @@ def calcMostWon(user):
         'CoupCount': coupWins,
         'LoveLetterCount': loveletterWins,
         'MunchkinCount': munchkinWins,
-        'TheMindCount': themindWins
+        'TheMindCount': themindWins,
+        'MoonrakersCount': moonrakersWins,
+        'CosmicEncounterCount': cosmicWins,
+        'SushiGoPartyCount': sushigoWins,
+        'ExplodingKittensCount': explodingkittensWins
     }
 
     maxCount = max(counts.values())
@@ -1799,6 +2019,9 @@ def calcBestFriend(user):
         if CatanCount > maxCount:
             maxCount = CatanCount
             bestFriend = friend.fullname
+        if ClankCount > maxCount:
+            maxCount = ClankCount
+            bestFriend = friend.fullname
         if LordsofWaterdeepCount > maxCount:
             maxCount = LordsofWaterdeepCount
             bestFriend = friend.fullname
@@ -1825,8 +2048,6 @@ def calcBestFriend(user):
 
 def findRecentGames(user, limit):
     recentGames = []
-    print("LIMIT")
-    print(limit)
     dominion_games = DominionGame.query.filter(or_(
         DominionGame.winnerName == user.fullname,
         DominionGame.secondName == user.fullname,
@@ -2016,6 +2237,88 @@ def findRecentGames(user, limit):
 
         new_game['game_id'] = game.game_id
         new_game['game_type'] = 'Cosmic Encounter'
+        new_game['current_date'] = game.date
+        recentGames.append(new_game)
+        
+    exploding_games = ExplodingKittensGame.query.filter(or_(
+        ExplodingKittensGame.winnerName == user.fullname,
+        ExplodingKittensGame.secondName == user.fullname,
+        ExplodingKittensGame.thirdName == user.fullname,
+        ExplodingKittensGame.fourthName == user.fullname,
+        ExplodingKittensGame.fifthName == user.fullname,
+        ExplodingKittensGame.sixthName == user.fullname,
+        ExplodingKittensGame.seventhName == user.fullname,
+        ExplodingKittensGame.eighthName == user.fullname,
+        ExplodingKittensGame.ninthName == user.fullname,
+        ExplodingKittensGame.tenthName == user.fullname,
+        ExplodingKittensGame.winnerName == user.username,
+        ExplodingKittensGame.secondName == user.username,
+        ExplodingKittensGame.thirdName == user.username,
+        ExplodingKittensGame.fourthName == user.username,
+        ExplodingKittensGame.fifthName == user.username,
+        ExplodingKittensGame.sixthName == user.username,
+        ExplodingKittensGame.seventhName == user.username,
+        ExplodingKittensGame.eighthName == user.username,
+        ExplodingKittensGame.ninthName == user.username,
+        ExplodingKittensGame.tenthName == user.username,
+    )).with_entities(ExplodingKittensGame.game_id, ExplodingKittensGame.winnerName, ExplodingKittensGame.secondName, ExplodingKittensGame.thirdName, ExplodingKittensGame.date, literal('Exploding Kittens').label('game_type')).all()
+
+    for game in exploding_games:
+        new_game = {}
+        if game.winnerName == user.username:
+            new_game['winnerName'] = user.fullname
+        else:
+            new_game['winnerName'] = game.winnerName
+        if game.secondName == user.username:
+            new_game['secondName'] = user.fullname
+        else:
+            new_game['secondName'] = game.secondName
+        if game.thirdName == user.username:
+            new_game['thirdName'] = user.fullname
+        else:
+            new_game['thirdName'] = game.thirdName
+
+        new_game['game_id'] = game.game_id
+        new_game['game_type'] = 'Exploding Kittens'
+        new_game['current_date'] = game.date
+        recentGames.append(new_game)
+
+    sushi_games = SushiGoPartyGame.query.filter(or_(
+        SushiGoPartyGame.winnerName == user.fullname,
+        SushiGoPartyGame.secondName == user.fullname,
+        SushiGoPartyGame.thirdName == user.fullname,
+        SushiGoPartyGame.fourthName == user.fullname,
+        SushiGoPartyGame.fifthName == user.fullname,
+        SushiGoPartyGame.sixthName == user.fullname,
+        SushiGoPartyGame.seventhName == user.fullname,
+        SushiGoPartyGame.eighthName == user.fullname,
+        SushiGoPartyGame.winnerName == user.username,
+        SushiGoPartyGame.secondName == user.username,
+        SushiGoPartyGame.thirdName == user.username,
+        SushiGoPartyGame.fourthName == user.username,
+        SushiGoPartyGame.fifthName == user.username,
+        SushiGoPartyGame.sixthName == user.username,
+        SushiGoPartyGame.seventhName == user.username,
+        SushiGoPartyGame.eighthName == user.username,
+    )).with_entities(SushiGoPartyGame.game_id, SushiGoPartyGame.winnerName, SushiGoPartyGame.secondName, SushiGoPartyGame.thirdName, SushiGoPartyGame.date, literal('Sushi Go Party').label('game_type')).all()
+
+    for game in sushi_games:
+        new_game = {}
+        if game.winnerName == user.username:
+            new_game['winnerName'] = user.fullname
+        else:
+            new_game['winnerName'] = game.winnerName
+        if game.secondName == user.username:
+            new_game['secondName'] = user.fullname
+        else:
+            new_game['secondName'] = game.secondName
+        if game.thirdName == user.username:
+            new_game['thirdName'] = user.fullname
+        else:
+            new_game['thirdName'] = game.thirdName
+
+        new_game['game_id'] = game.game_id
+        new_game['game_type'] = 'Sushi Go Party'
         new_game['current_date'] = game.date
         recentGames.append(new_game)
 

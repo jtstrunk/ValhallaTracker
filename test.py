@@ -1,42 +1,42 @@
 from app import app, db
-from flask_login import UserMixin
+# from flask_login import UserMixin
 
 # Create the database tables
 with app.app_context():
 
-    class CosmicEncounterGame(db.Model):
-        id = db.Column(db.Integer, primary_key=True)
-        game_id = db.Column(db.Integer, nullable=False)
-        firstName = db.Column(db.String(50), nullable=False)
-        firstScore = db.Column(db.Integer, nullable=False)
-        secondName = db.Column(db.String(50), nullable=False)
-        secondScore = db.Column(db.Integer, nullable=False)
-        thirdName = db.Column(db.String(50), nullable=False)
-        thirdScore = db.Column(db.Integer, nullable=False)
-        fourthName = db.Column(db.String(50))
-        fourthScore = db.Column(db.Integer)
-        fourthName = db.Column(db.String(50))
-        fourthScore = db.Column(db.Integer)
-        fifthName = db.Column(db.String(50))
-        fifthScore = db.Column(db.Integer)
-        date = db.Column(db.Date)
+    # class CosmicEncounterGame(db.Model):
+    #     id = db.Column(db.Integer, primary_key=True)
+    #     game_id = db.Column(db.Integer, nullable=False)
+    #     firstName = db.Column(db.String(50), nullable=False)
+    #     firstScore = db.Column(db.Integer, nullable=False)
+    #     secondName = db.Column(db.String(50), nullable=False)
+    #     secondScore = db.Column(db.Integer, nullable=False)
+    #     thirdName = db.Column(db.String(50), nullable=False)
+    #     thirdScore = db.Column(db.Integer, nullable=False)
+    #     fourthName = db.Column(db.String(50))
+    #     fourthScore = db.Column(db.Integer)
+    #     fourthName = db.Column(db.String(50))
+    #     fourthScore = db.Column(db.Integer)
+    #     fifthName = db.Column(db.String(50))
+    #     fifthScore = db.Column(db.Integer)
+    #     date = db.Column(db.Date)
 
-    class MoonrakersGame(db.Model):
-        id = db.Column(db.Integer, primary_key=True)
-        game_id = db.Column(db.Integer, nullable=False)
-        winnerName = db.Column(db.String(50), nullable=False)
-        winnerScore = db.Column(db.Integer, nullable=False)
-        secondName = db.Column(db.String(50))
-        secondScore = db.Column(db.Integer)
-        thirdName = db.Column(db.String(50))
-        thirdScore = db.Column(db.Integer)
-        fourthName = db.Column(db.String(50))
-        fourthScore = db.Column(db.Integer)
-        fourthName = db.Column(db.String(50))
-        fourthScore = db.Column(db.Integer)
-        fifthName = db.Column(db.String(50))
-        fifthScore = db.Column(db.Integer)
-        date = db.Column(db.Date)
+    # class MoonrakersGame(db.Model):
+    #     id = db.Column(db.Integer, primary_key=True)
+    #     game_id = db.Column(db.Integer, nullable=False)
+    #     winnerName = db.Column(db.String(50), nullable=False)
+    #     winnerScore = db.Column(db.Integer, nullable=False)
+    #     secondName = db.Column(db.String(50))
+    #     secondScore = db.Column(db.Integer)
+    #     thirdName = db.Column(db.String(50))
+    #     thirdScore = db.Column(db.Integer)
+    #     fourthName = db.Column(db.String(50))
+    #     fourthScore = db.Column(db.Integer)
+    #     fourthName = db.Column(db.String(50))
+    #     fourthScore = db.Column(db.Integer)
+    #     fifthName = db.Column(db.String(50))
+    #     fifthScore = db.Column(db.Integer)
+    #     date = db.Column(db.Date)
 
     db.session.commit()
  

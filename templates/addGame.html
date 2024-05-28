@@ -91,6 +91,32 @@
             </div>
         </div>
 
+        <div class="card" onclick="createPopupParty('Exploding Kittens', 10)">
+            <div class="img">
+                <img src="/static/images/addgame/ExplodingKittens.png">
+            </div>
+            <div class="text">
+                <p style="font-size: 24px;">Exploding Kittens</p>
+                <p style="font-size: large;">2 - 10 Players</p>
+                <div>
+                    <span class="bottom">Add a</span>&nbsp;<span class="bottom" style="text-decoration: underline;">game</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" onclick="createPopup('Sushi Go Party', 8)">
+            <div class="img">
+                <img src="/static/images/addgame/SushiGoParty.png">
+            </div>
+            <div class="text">
+                <p style="font-size: 24px;">Sushi Go Party</p>
+                <p style="font-size: large;">2 - 8 Players</p>
+                <div>
+                    <span class="bottom">Add a</span>&nbsp;<span class="bottom" style="text-decoration: underline;">game</span>
+                </div>
+            </div>
+        </div>
+
         <div class="card">
             <div class="img">
                 <img src="/static/images/addgame/loveletter.jpg">
@@ -200,6 +226,8 @@
                 Popup.style.height = '490px';
             } else if (maxLength == 6) {
                 Popup.style.height = '565px';
+            } else if (maxLength == 8) {
+                Popup.style.height = '700px';
             }
 
             // Create the close button
@@ -228,6 +256,8 @@
                 form.action = `{{ url_for('addCosmicEncounter') }}`;
             } else if (game == 'Clank!') {
                 form.action = `{{ url_for('addClank') }}`;
+            } else if (game == 'Sushi Go Party') {
+                form.action = `{{ url_for('addSushiGoParty') }}`;
             }
 
 
@@ -235,10 +265,9 @@
             form.autocomplete = "off";
             form.style = "margin-top: 10px !important;"
 
-            const labels = ["Winner", "Runner Up", "Third Place", "Fourth Place", "Fifth Place", "Sixth Place"];
-            const games = ["dominion" , "catan", "moonrakers", "lordsofwaterdeep", "cosmicencounter"];
-            const gamelength = [4, 4, 5, 5, 5];
-            // ... (Create and append other elements as per the provided HTML structure)
+            const labels = ["Winner", "Runner Up", "Third Place", "Fourth Place", "Fifth Place", "Sixth Place", "Seventh Place", "Eighth Place", "Ninth Place", "Tenth Place"];
+            const games = ["dominion" , "catan", "moonrakers", "lordsofwaterdeep", "cosmicencounter", "explodingkittens", "sushigoparty"];
+            // ... (Create and append other elements)
             for(let i = 1; i < maxLength + 1; i++) {
                 //creating players div to organize the inputs
                 let div = document.createElement('div');
@@ -285,10 +314,8 @@
             button.innerText = 'Submit Record';
 
             form.appendChild(button);
-            // Finally, append the form to the main div
             Popup.appendChild(form);
 
-            // Add the dominionPopup to the document body or any other desired parent element
             document.body.appendChild(Popup);
         }
         
@@ -363,6 +390,97 @@
                 }
             });
 
+        }
+
+        function createPopupParty(game, maxLength){
+            overlay.classList.remove("Hide");
+            // Create the main div
+            const Popup = document.createElement('div');
+            Popup.id = 'Popup';
+            Popup.classList.add('gamepopup');
+
+            Popup.style.height = '490px';
+
+            // Create the close button
+            const closeButton = document.createElement('p');
+            closeButton.classList.add('close-button');
+            closeButton.textContent = 'x';
+            Popup.appendChild(closeButton);
+
+            // Create the heading
+            const heading = document.createElement('h2');
+            heading.style.color = 'white';
+            heading.textContent = `Add ${game} Record`;
+            Popup.appendChild(heading);
+
+            // Create the form
+            const form = document.createElement('form');
+
+            if (game == 'Exploding Kittens') {
+                form.action = `{{ url_for('addExplodingKittens') }}`;
+            }
+            form.method = "POST";
+            form.autocomplete = "off";
+            form.style = "margin-top: 10px !important;"
+
+            const labels = ["Winner", "Runner Up", "Third Place", "Fourth Place", "Fifth Place", "Sixth Place", "Seventh Place", "Eighth Place", "Ninth Place", "Tenth Place"];
+            // ... (Create and append other elements)
+            for(let i = 1; i < maxLength + 1; i += 2) {
+                //creating players div to organize the inputs
+                let div = document.createElement('div');
+                div.classList.add('players');
+                //creating the first label and name input
+                let playersecion = document.createElement('div');
+                playersecion.classList.add('playerSection');
+                let label = document.createElement('label');
+                label.htmlFor = `Player${i}`;
+                label.textContent = labels[i - 1];
+                let input = document.createElement('input');
+                input.type = 'text';
+                input.id = `Player${i}`;
+                input.name = `Player${i}`;
+                input.placeholder = 'Name';
+                input.addEventListener('keyup', function() {
+                    showResults(this.value, this.id);
+                });
+                playersecion.appendChild(label);
+                playersecion.appendChild(input);   
+
+                //creating the second label and name input
+                let playersecion2 = document.createElement('div');
+                playersecion2.classList.add('playerSection');
+                let label2 = document.createElement('label');
+                label2.htmlFor = `Player${i + 1}`;
+                label2.textContent = labels[i];
+                let input2 = document.createElement('input');
+                input2.type = 'text';
+                input2.id = `Player${i + 1}`;
+                input2.name = `Player${i + 1}`;
+                input2.placeholder = 'Name';
+                input2.addEventListener('keyup', function() {
+                    showResults(this.value, this.id);
+                });
+                playersecion2.appendChild(label2);
+                playersecion2.appendChild(input2);   
+                
+                //adding them all
+                div.appendChild(playersecion);
+                div.appendChild(playersecion2);
+                form.appendChild(div);
+            }
+
+            console.log("what is");
+
+            let button = document.createElement('button');
+            button.style = "margin-top: 10px";
+            button.classList.add('btn');
+            button.classList.add('btn-primary');
+            button.innerText = 'Submit Record';
+
+            form.appendChild(button);
+            Popup.appendChild(form);
+
+            document.body.appendChild(Popup);
         }
 
     </script>
