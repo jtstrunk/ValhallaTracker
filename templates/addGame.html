@@ -234,6 +234,11 @@
             const closeButton = document.createElement('p');
             closeButton.classList.add('close-button');
             closeButton.textContent = 'x';
+            closeButton.addEventListener('click', () => {
+              overlay.classList.add("Hide");
+              popup = document.querySelector("#Popup");
+              popup.remove()
+            })
             Popup.appendChild(closeButton);
 
             // Create the heading
@@ -405,6 +410,11 @@
             const closeButton = document.createElement('p');
             closeButton.classList.add('close-button');
             closeButton.textContent = 'x';
+            closeButton.addEventListener('click', () => {
+              overlay.classList.add("Hide");
+              popup = document.querySelector("#Popup");
+              popup.remove()
+            })
             Popup.appendChild(closeButton);
 
             // Create the heading
