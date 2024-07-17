@@ -1,122 +1,113 @@
-from app import app, db
+from app import app, db, Cards, Village, Cantrip, Gainer, Sifter, Trasher, NonterminalDraw, TerminalDraw, TerminalSilver, Action, Attack, Victory, Duration, Reaction, Treasure
 from flask_login import UserMixin
 
 # Create the database tables
 with app.app_context():
 
-    class CosmicEncounterGame(db.Model):
-        id = db.Column(db.Integer, primary_key=True)
-        game_id = db.Column(db.Integer, nullable=False)
-        firstName = db.Column(db.String(50), nullable=False)
-        firstScore = db.Column(db.Integer, nullable=False)
-        secondName = db.Column(db.String(50), nullable=False)
-        secondScore = db.Column(db.Integer, nullable=False)
-        thirdName = db.Column(db.String(50), nullable=False)
-        thirdScore = db.Column(db.Integer, nullable=False)
-        fourthName = db.Column(db.String(50))
-        fourthScore = db.Column(db.Integer)
-        fourthName = db.Column(db.String(50))
-        fourthScore = db.Column(db.Integer)
-        fifthName = db.Column(db.String(50))
-        fifthScore = db.Column(db.Integer)
-        date = db.Column(db.Date)
+    # Gainer types
+    # gainers = [
+    #     Gainer(cardName="Anvil"),
+    #     Gainer(cardName="War_Chest"),
+    #     Gainer(cardName="Talisman"),
+    #     Gainer(cardName="Mint"),
+    #     Gainer(cardName="Artisan"),
+    #     Gainer(cardName="Smugglers"),
+    #     Gainer(cardName="Lurker"),
+    #     Gainer(cardName="Blockade"),
+    # ]
 
-    class MoonrakersGame(db.Model):
-        id = db.Column(db.Integer, primary_key=True)
-        game_id = db.Column(db.Integer, nullable=False)
-        winnerName = db.Column(db.String(50), nullable=False)
-        winnerScore = db.Column(db.Integer, nullable=False)
-        secondName = db.Column(db.String(50))
-        secondScore = db.Column(db.Integer)
-        thirdName = db.Column(db.String(50))
-        thirdScore = db.Column(db.Integer)
-        fourthName = db.Column(db.String(50))
-        fourthScore = db.Column(db.Integer)
-        fourthName = db.Column(db.String(50))
-        fourthScore = db.Column(db.Integer)
-        fifthName = db.Column(db.String(50))
-        fifthScore = db.Column(db.Integer)
-        date = db.Column(db.Date)
+    # for gainer in gainers:
+    #     db.session.add(gainer)
+
+    # terminal_draws = [
+    #     TerminalDraw(cardName="Rabble"),
+    #     TerminalDraw(cardName="Vault"),
+    #     TerminalDraw(cardName="Watchtower"),
+    #     TerminalDraw(cardName="Magnate"),
+    #     TerminalDraw(cardName="Courtyard"),
+    #     TerminalDraw(cardName="Steward")
+    # ]
+
+    # for terminal_draw in terminal_draws:
+    #     db.session.add(terminal_draw)
+
+    # sifters = [
+    #     Sifter(cardName="Crystal_Ball")
+    # ]
+
+    # for sifter in sifters:
+    #     db.session.add(sifter)
+
+    # # Cantrip types
+    # cantrips = [
+    #     Cantrip(cardName="Peddler"),
+    #     Cantrip(cardName="Grand_Market"),
+    #     Cantrip(cardName="Market"),
+    #     Cantrip(cardName="Conspirator"),
+    # ]
+
+    # for cantrip in cantrips:
+    #     db.session.add(cantrip)
+
+    # # NonterminalDraw types
+    # nonterminal_draws = [
+    #     NonterminalDraw(cardName="Laboratory"),
+    #     NonterminalDraw(cardName="Tide Pools"),
+    #     NonterminalDraw(cardName="Wishing_Well")
+    # ]
+
+    # for nonterminal_draw in nonterminal_draws:
+    #     db.session.add(nonterminal_draw)
+
+    # # TerminalSilver types
+    # terminal_silvers = [
+    #     TerminalSilver(cardName="Vassel"),
+    #     TerminalSilver(cardName="Militia"),
+    #     TerminalSilver(cardName="Moneylender"),
+    #     TerminalSilver(cardName="Cutpurse"),
+    #     TerminalSilver(cardName="Monument"),
+    #     TerminalSilver(cardName="Clerk"),
+    #     TerminalSilver(cardName="Corsair"),
+    #     TerminalSilver(cardName="Merchant_Ship")
+    # ]
+
+    # for terminal_silver in terminal_silvers:
+    #     db.session.add(terminal_silver)
+
+    # # Village types
+    # villages = [
+    #     Village(cardName="City"),
+    #     Village(cardName="Workers_Village")
+    # ]
+
+    # for village in villages:
+    #     db.session.add(village)
+
+    # # Trasher types
+    # trashers = [
+    #     Trasher(cardName="Chapel"),
+    #     Trasher(cardName="Sentry"),
+    #     Trasher(cardName="Steward"),
+    #     Trasher(cardName="Trading_Post"),
+    #     Trasher(cardName="Forge"),
+    #     Trasher(cardName="Mint"),
+    #     Trasher(cardName="Bishop"),
+    #     Trasher(cardName="Salvager"),
+    #     Trasher(cardName="Lurker"),
+    #     Trasher(cardName="Masquerade"),
+    #     Trasher(cardName="Lookout"),
+    #     Trasher(cardName="Sailor"),
+    #     Trasher(cardName="Crystal_Ball"),
+    #     Trasher(cardName="Investment"),
+    #     Trasher(cardName="Moneylender")
+    # ]
+
+    # for trasher in trashers:
+    #     db.session.add(trasher)
 
     db.session.commit()
  
     db.create_all()
-
-#     class Cards(db.Model):
-#         id = db.Column(db.Integer, primary_key=True)
-#         cardName = db.Column(db.String(50), nullable=False)
-#         cardSet = db.Column(db.String(50), nullable=False)
-
-#     class Village(db.Model):
-#         id = db.Column(db.Integer, primary_key=True)
-#         cardName = db.Column(db.String(50), db.ForeignKey('cards.cardName'), nullable=False)
-#         card = db.relationship('Cards', backref='village')
-
-#     class Cantrip(db.Model):
-#         id = db.Column(db.Integer, primary_key=True)
-#         cardName = db.Column(db.String(50), db.ForeignKey('cards.cardName'), nullable=False)
-#         card = db.relationship('Cards', backref='cantrip')
-
-#     class Gainer(db.Model):
-#         id = db.Column(db.Integer, primary_key=True)
-#         cardName = db.Column(db.String(50), db.ForeignKey('cards.cardName'), nullable=False)
-#         card = db.relationship('Cards', backref='gainer')
-
-#     class Sifter(db.Model):
-#         id = db.Column(db.Integer, primary_key=True)
-#         cardName = db.Column(db.String(50), db.ForeignKey('cards.cardName'), nullable=False)
-#         card = db.relationship('Cards', backref='sifter')
-
-#     class Trasher(db.Model):
-#         id = db.Column(db.Integer, primary_key=True)
-#         cardName = db.Column(db.String(50), db.ForeignKey('cards.cardName'), nullable=False)
-#         card = db.relationship('Cards', backref='trasher')
-
-#     class NonterminalDraw(db.Model):
-#         id = db.Column(db.Integer, primary_key=True)
-#         cardName = db.Column(db.String(50), db.ForeignKey('cards.cardName'), nullable=False)
-#         card = db.relationship('Cards', backref='nonterminalDraw')
-
-#     class TerminalDraw(db.Model):
-#         id = db.Column(db.Integer, primary_key=True)
-#         cardName = db.Column(db.String(50), db.ForeignKey('cards.cardName'), nullable=False)
-#         card = db.relationship('Cards', backref='terminalDraw')
-
-#     class TerminalSilver(db.Model):
-#         id = db.Column(db.Integer, primary_key=True)
-#         cardName = db.Column(db.String(50), db.ForeignKey('cards.cardName'), nullable=False)
-#         card = db.relationship('Cards', backref='terminalSilver')
-
-#     class Action(db.Model):
-#         id = db.Column(db.Integer, primary_key=True)
-#         cardName = db.Column(db.String(50), db.ForeignKey('cards.cardName'), nullable=False)
-#         card = db.relationship('Cards', backref='action')
-
-#     class Attack(db.Model):
-#         id = db.Column(db.Integer, primary_key=True)
-#         cardName = db.Column(db.String(50), db.ForeignKey('cards.cardName'), nullable=False)
-#         card = db.relationship('Cards', backref='attack')
-
-#     class Victory(db.Model):
-#         id = db.Column(db.Integer, primary_key=True)
-#         cardName = db.Column(db.String(50), db.ForeignKey('cards.cardName'), nullable=False)
-#         card = db.relationship('Cards', backref='victory')
-
-#     class Treasure(db.Model):
-#         id = db.Column(db.Integer, primary_key=True)
-#         cardName = db.Column(db.String(50), db.ForeignKey('cards.cardName'), nullable=False)
-#         card = db.relationship('Cards', backref='treasure')
-
-#     class Reaction(db.Model):
-#         id = db.Column(db.Integer, primary_key=True)
-#         cardName = db.Column(db.String(50), db.ForeignKey('cards.cardName'), nullable=False)
-#         card = db.relationship('Cards', backref='reaction')
-
-#     class Duration(db.Model):
-#         id = db.Column(db.Integer, primary_key=True)
-#         cardName = db.Column(db.String(50), db.ForeignKey('cards.cardName'), nullable=False)
-#         card = db.relationship('Cards', backref='duration')  
-
 
 #     # actions = [
 #     #     Action(cardName="Artisan"),
