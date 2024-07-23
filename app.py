@@ -638,10 +638,7 @@ def updategame():
 
                 db.session.commit()
 
-    if request.url.endswith('/home'):
-        return redirect('/home')
-    elif request.url.endswith('/showGames'):
-        return redirect('/showGames')
+    return redirect(url_for('home'))
 
 @app.route('/DominionSelect', methods=['GET'])
 @login_required
