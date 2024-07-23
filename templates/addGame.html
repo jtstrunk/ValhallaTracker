@@ -26,14 +26,14 @@
             </div>
         </div>
 
-        <div class="card" onclick="createPopup('Catan', 4)">
+        <div class="card" onclick="createPopup('Moonrakers', 5)">
             <div class="img">
-                <img src="/static/images/addgame/catan.png">
+                <img src="/static/images/addgame/moonrakers.png">
             </div>
             <div class="text">
-                <p style="font-size: 24px;">Catan</p>
-                <p style="font-size: large;">2 - 4 Players</p>
-                <div>
+                <p style="font-size: 24px;">Moonrakers</p>
+                <p style="font-size: large;">1 - 5 Players</p>
+                <div style="margin-top: 7px;">
                     <span class="bottom">Add a</span>&nbsp;<span class="bottom" style="text-decoration: underline;">game</span>
                 </div>
             </div>
@@ -52,26 +52,39 @@
             </div>
         </div>
 
-        <div class="card" onclick="createPopup('Moonrakers', 5)">
-            <div class="img">
-                <img src="/static/images/addgame/moonrakers.png">
-            </div>
-            <div class="text">
-                <p style="font-size: 24px;">Moonrakers</p>
-                <p style="font-size: large;">1 - 5 Players</p>
-                <div style="margin-top: 7px;">
-                    <span class="bottom">Add a</span>&nbsp;<span class="bottom" style="text-decoration: underline;">game</span>
-                </div>
-            </div>
-        </div>
-
         <div class="card" onclick="createPopup('Lords of Waterdeep', 5)">
             <div class="img">
                 <img src="/static/images/addgame/lordsofwaterdeep.png">
             </div>
             <div class="text">
-                <p style="font-size: 24px;">Lords of Waterdeep</p>
+                <p  style="font-size: 24px;">Lords of Waterdeep</p>
                 <p style="font-size: large;">3 - 5 Players</p>
+                <div>
+                    <span class="bottom">Add a</span>&nbsp;<span class="bottom" style="text-decoration: underline;">game</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" onclick="createPopupParty('Heat: Pedal to the Metal', 6)">
+            <div class="img">
+                <img src="/static/images/addgame/heat.png">
+            </div>
+            <div class="text">
+                <p class="gameTitle" style="font-size: 24px;">Heat: Pedal to the Metal</p>
+                <p class="gamePlayerCount" style="font-size: large;">1 - 6 Players</p>
+                <div>
+                    <span class="bottom">Add a</span>&nbsp;<span class="bottom" style="text-decoration: underline;">game</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" onclick="createPopup('Space Base', 5)">
+            <div class="img">
+                <img src="/static/images/addgame/spacebase.png">
+            </div>
+            <div class="text">
+                <p class="gameTitle" style="font-size: 24px;">Space Base</p>
+                <p style="font-size: large;">2 - 5 Players</p>
                 <div>
                     <span class="bottom">Add a</span>&nbsp;<span class="bottom" style="text-decoration: underline;">game</span>
                 </div>
@@ -85,6 +98,19 @@
             <div class="text">
                 <p style="font-size: 24px;">Cosmic Encounter</p>
                 <p style="font-size: large;">3 - 5 Players</p>
+                <div>
+                    <span class="bottom">Add a</span>&nbsp;<span class="bottom" style="text-decoration: underline;">game</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" onclick="createPopup('Catan', 4)">
+            <div class="img">
+                <img src="/static/images/addgame/catan.png">
+            </div>
+            <div class="text">
+                <p style="font-size: 24px;">Catan</p>
+                <p style="font-size: large;">2 - 4 Players</p>
                 <div>
                     <span class="bottom">Add a</span>&nbsp;<span class="bottom" style="text-decoration: underline;">game</span>
                 </div>
@@ -213,6 +239,17 @@
     <div id="popups"> </div>
 
     <script>
+        let gameTitle = document.querySelectorAll('.gameTitle');
+        let gamePlayerCount = document.querySelectorAll('.gamePlayerCount');
+
+        for (let i = 0; i < gameTitle.length; i++) {
+            let titleText = gameTitle[i].textContent.trim();
+            if(titleText.length > 19) {
+                console.log("higher");
+                gamePlayerCount[i].style = 'font-size: large; margin-top: 0px;'
+            } 
+        }
+        
         function createPopup(game, maxLength){
             overlay.classList.remove("Hide");
             // Create the main div
@@ -263,6 +300,8 @@
                 form.action = `{{ url_for('addClank') }}`;
             } else if (game == 'Sushi Go Party') {
                 form.action = `{{ url_for('addSushiGoParty') }}`;
+            } else if (game == 'Space Base') {
+                form.action = `{{ url_for('addSpaceBase') }}`;
             }
 
 
@@ -398,6 +437,9 @@
         }
 
         function createPopupParty(game, maxLength){
+            if (game === 'Heat: Pedal to the Metal') {
+                game = 'Heat';  
+            }
             overlay.classList.remove("Hide");
             // Create the main div
             const Popup = document.createElement('div');
@@ -428,6 +470,8 @@
 
             if (game == 'Exploding Kittens') {
                 form.action = `{{ url_for('addExplodingKittens') }}`;
+            } else if (game == 'Heat') {
+                form.action = `{{ url_for('addHeat') }}`;
             }
             form.method = "POST";
             form.autocomplete = "off";
@@ -478,8 +522,6 @@
                 div.appendChild(playersecion2);
                 form.appendChild(div);
             }
-
-            console.log("what is");
 
             let button = document.createElement('button');
             button.style = "margin-top: 10px";
