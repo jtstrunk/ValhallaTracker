@@ -239,7 +239,9 @@
                     'Clank': 4,
                     'Lords of Waterdeep': 5,
                     'Moonrakers': 5,
-                    'CosmicEncounter': 5
+                    'Cosmic Encounter': 5,
+                    'Space Base': 5,
+                    'Heat': 6
                 };
 
                 const Length = gameMaxLength[game];
@@ -285,6 +287,9 @@
                         let maxLength = gameMaxLength[game];
                         // Adjust order array based on gameMaxLength
                         order = order.slice(0, maxLength * 2);
+                        console.log("order");
+
+                        console.log(order);
                         order.push('date');
                         order.push('submit');
                     }

@@ -31,7 +31,7 @@
             </div>
             <div class="gameContent">
               <h4 class="gameName">{{ game.game_type }}</h4>
-              <h5>Winner: {{ game.winnerName }}</h5>
+              <h5 class="winner" style="margin-top: 30px;">Winner: {{ game.winnerName }}</h5>
               <h5>Second: {{ game.secondName }}</h5>
               <span class='gameID' style="font-size: smaller; color: white;">Game ID {{ game.game_id}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <span style="font-size: smaller; color: white;">{{ game.current_date }}</span>
@@ -141,7 +141,9 @@
             'Clank': 4,
             'Lords of Waterdeep': 5,
             'Moonrakers': 5,
-            'CosmicEncounter': 5
+            'Cosmic Encounter': 5, 
+            'Space Base': 5,
+            'Heat': 6
         };
 
         const Length = gameMaxLength[game];
@@ -343,6 +345,19 @@
               popup.remove();
           })
           }
+        
+      let winners = document.querySelectorAll('.winner')
+      for(let i =0; i < gameNames.length; i++){
+        let titleText = gameNames[i].textContent.trim();
+        if(titleText.length > 14) {
+          console.log('hello')
+          console.log(games[i])
+
+          gameNames[i].style = 'margin-bottom: 0px; !important';
+          winners[i].style = 'margin-top: 10px; !important';
+        } 
+      }
+
     </script>
 
     {% endblock %}
