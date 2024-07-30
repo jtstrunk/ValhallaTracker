@@ -279,12 +279,59 @@
                 form.appendChild(newDiv);
               }
                     
-                
+              
             });
+
+            let taggedExpansions = document.createElement('div');
+            taggedExpansions.id = 'taggedExpansions';
+            form.appendChild(taggedExpansions)
+            fetch(`/retrieveExpansion?gameid=${trimmedGameID}`)
+            .then(response => response.json())
+            .then(data => {
+              console.log(data);
+              
+              if (data.expansions && data.expansions.length > 0) {
+                console.log("Expansions found:");
+                let currentHeight = parseInt(Popup.style.height) || Popup.offsetHeight;
+                console.log("Current height:", currentHeight);
+                let newHeight = currentHeight + 15;
+                Popup.style.height = newHeight + 'px';
+                console.log("New height:", Popup.style.height);
+                data.expansions.forEach((expansion) => {
+                  
+                  let taggedExpansions = document.querySelector("#taggedExpansions");
+                  console.log(`${expansion.trim()}`);
+                  let tagContainer = document.createElement('div');
+                  let name = document.createElement('span');
+                  let close = document.createElement('span');
+                  name.innerHTML = expansion.trim();
+                  name.classList.add("selectedExpansion");
+                  close.innerHTML = ' X';
+                  close.classList.add('removeExpansion');
+
+                  close.addEventListener('click', () => {
+                    console.log('clicked on remove');
+                    close.parentNode.remove();
+                  });
+
+                  tagContainer.appendChild(name);
+                  tagContainer.appendChild(close);
+                  taggedExpansions.appendChild(tagContainer);
+                });
+              } else {
+                console.log("No expansions found for this game.");
+              }
+            })
+            .catch(error => {
+              console.error('There was a problem with the fetch operation:', error);
+            });
+
           })
           .catch(error => {
               console.error('There was a problem with the fetch operation:', error);
           });
+
+          
 
           // Popup.appendChild(form);
 

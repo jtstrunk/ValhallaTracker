@@ -385,7 +385,12 @@ class Reaction(db.Model):
 class Duration(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     cardName = db.Column(db.String(50), db.ForeignKey('cards.cardName'), nullable=False)
-    card = db.relationship('Cards', backref='duration')   
+    card = db.relationship('Cards', backref='duration')
+
+class Expansions(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    game_id = db.Column(db.Integer, nullable=False)
+    expansionList = db.Column(db.Text, nullable=False)   
 
 @app.route('/')
 @app.route('/home')
@@ -645,6 +650,23 @@ def updategame():
 def DominionSelect():
     return render_template("DominionSelect.html", title='Home')
 
+@app.route('/retrieveExpansion', methods=['GET'])
+@login_required
+def retrieveExpansion():
+    gameid = request.args.get('gameid')
+    
+    if not gameid:
+        return jsonify({"error": "No game ID provided"}), 400
+
+    expansion = Expansions.query.filter_by(game_id=gameid).first()
+
+    if expansion:
+        # Assuming expansionList is stored as a comma-separated string
+        expansion_list = expansion.expansionList.split(',') if expansion.expansionList else []
+        return jsonify({"expansions": expansion_list})
+    else:
+        return jsonify({"expansions": []})
+
 @app.route('/addDominionRecord', methods=['POST', 'GET'])
 @login_required
 def addDominionRecord():
@@ -707,6 +729,8 @@ def cards():
 def addDominion():
     if request.method == 'POST':
         try:
+            print('request.form')
+            print(request.form)
             player1 = request.form['Player1']
             player1Score = request.form['Score1']
             player2 = request.form['Player2']
@@ -736,6 +760,7 @@ def addDominion():
                 fourthScore=player4Score,
                 date=date.today())
             db.session.add(dominion_game)
+            addExpansion(newGameID)
             db.session.commit()
             print("DominionGame added successfully!")
 
@@ -828,6 +853,7 @@ def addClank():
                 fourthScore=player4Score,
                 date=date.today())
             db.session.add(clank_game)
+            addExpansion(newGameID)
             db.session.commit()
             print("ClankGame added successfully!")
 
@@ -877,6 +903,7 @@ def addLordsofWaterdeep():
                 fifthScore=player5Score,
                 date=date.today())
             db.session.add(new_game)
+            addExpansion(newGameID)
             db.session.commit()
 
         except Exception as e:
@@ -965,6 +992,7 @@ def addSpaceBase():
                 fifthScore=player5Score,
                 date=date.today())
             db.session.add(new_game)
+            addExpansion(newGameID)
             db.session.commit()
 
         except Exception as e:
@@ -1057,6 +1085,7 @@ def addCatan():
                 fourthScore=player4Score,
                 date=date.today())
             db.session.add(catan_game)
+            addExpansion(newGameID)
             db.session.commit()
 
         except Exception as e:
@@ -1453,6 +1482,20 @@ def addTheMind():
         finally:
             print("Record Added")
             return redirect('/home')
+        
+def addExpansion(newGameID):
+    expansionnames = request.form.get('expansionnames')
+    if expansionnames:
+        print(f"Expansion names: {expansionnames}")
+        expansion = Expansions(
+        game_id=newGameID, 
+        expansionList=expansionnames)
+        db.session.add(expansion)
+        db.session.commit()
+        return print("added expansions")
+
+    else:
+        return print("No expansion names provided")
 
 def findID():
     dom_id = db.session.query(db.func.max(DominionGame.game_id)).scalar() or 0

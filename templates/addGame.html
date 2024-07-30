@@ -304,7 +304,6 @@
                 form.action = `{{ url_for('addSpaceBase') }}`;
             }
 
-
             form.method = "POST";
             form.autocomplete = "off";
             form.style = "margin-top: 10px !important;"
@@ -351,6 +350,63 @@
                 form.appendChild(div);
             }
 
+            let gamesWithExpansions = ['Dominion', 'Lords of Waterdeep', 'Clank!', 'Moonrakers', 'Catan'];
+
+            let outerExpansions = document.createElement('div');
+            outerExpansions.style = 'display: flex; flex-direction: column; border-radius: 5px; !important';
+            let expansionLabel = document.createElement('label');
+            expansionLabel.textContent = 'Expansions';
+            expansionLabel.htmlFor = 'expansions';
+
+            let tagsContainer = document.createElement('div');
+            tagsContainer.id = 'tagsContainer';
+
+            //tagsContainer
+            outerExpansions.appendChild(expansionLabel);
+            //outerExpansions.appendChild(tagsContainer);
+
+            let taggedExpansions = document.createElement('div');
+            taggedExpansions.id = 'taggedExpansions';
+
+
+            let expansions = document.createElement('input');
+            expansions.id = 'expansions';
+            expansions.placeholder = 'Expansion Name';
+
+            outerExpansions.appendChild(expansions);
+            outerExpansions.appendChild(taggedExpansions);
+
+            let foundExpansions = document.createElement('div');
+            foundExpansions.id = 'foundExpansions';
+            foundExpansions.classList.add('expansionResults');
+            foundExpansions.classList.add('Hide');
+
+            //expansions.addEventListener("beforeinput", handleKeyDown);
+            
+
+            expansions.addEventListener('keyup', function() {
+                showExpansions(this.value, game);
+            });
+
+            outerExpansions.appendChild(foundExpansions);
+            form.appendChild(outerExpansions);
+
+            let expansionInput = document.createElement('input');
+            expansionInput.id = 'expansionnames';
+            expansionInput.name = 'expansionnames';
+            expansionInput.classList.add('Hide');
+            form.appendChild(expansionInput);
+
+            if (!gamesWithExpansions.includes(game)) {
+                outerExpansions.classList.add('Hide');
+            } else {
+                let currentHeight = parseInt(Popup.style.height) || Popup.offsetHeight;
+                console.log("Current height:", currentHeight);
+                let newHeight = currentHeight + 75;
+                Popup.style.height = newHeight + 'px';
+                console.log("New height:", Popup.style.height);
+            }
+
             let button = document.createElement('button');
             button.style = "margin-top: 10px";
             button.classList.add('btn');
@@ -382,6 +438,107 @@
         })
         .catch(error => console.error(error));
 
+        function findExpansions(game, input) {
+            const expansions = {
+                'Dominion': ['Dominion', 'Seaside', 'Intrigue', 'Prosperity', 'Hinterlands', 'Dark Ages', 'Adventures'],
+                'Moonrakers': ['Binding Ties', 'Nomad', 'Overload', 'The Shard', 'The Endless', 'Dark Matter', 'Starfall'],
+                'Lords of Waterdeep': ['Scoundrels of Skullport'],
+                'Clank!': ['Sunken Treasure', "The Mummy's Curse", 'Adventuring Party', 'Expeditions: Gold and Silk', 'Expeditions: Temple of the Ape Lords'],
+                'Catan': ['Cities & Knights', 'Seafarers']
+            };
+            let gameExpansions = expansions[game];
+            if (input == '') {
+                return [];
+            }
+            var reg = new RegExp(input,'i')
+            return gameExpansions.filter(function(term) {
+                if (term.match(reg)) {
+                return term;
+                }
+            });
+        }
+
+        function showExpansions(val, game) {
+            let res = document.querySelector('.expansionResults');
+            console.log(res)
+            res.innerHTML = '';
+            let list = '';
+            if (val === '') {
+                res.classList.add("Hide");
+                return;
+            } else {
+                if(res.classList.contains('Hide')){
+                    res.classList.remove("Hide");
+                }
+            }
+            let terms = findExpansions(game, val);
+            let selectedExpansions = document.querySelectorAll('.selectedExpansion');
+
+            let selectedExpansionsArray = Array.from(selectedExpansions).map(el => el.textContent.trim());
+            console.log(terms);
+            let filteredTerms = terms.filter(term => !selectedExpansionsArray.includes(term));
+            console.log(filteredTerms);
+            for (i = 0; i < filteredTerms.length; i++) {
+                let resultItem = document.createElement('div');
+                resultItem.textContent = filteredTerms[i];
+                resultItem.classList.add('result-item')
+                //list += '<li>' + terms[i] + '</li>';
+                res.appendChild(resultItem);
+            }
+
+            // Add event listener to each li element
+            let liElements = document.querySelectorAll(`.result-item`);
+            liElements.forEach(function(li) {
+                li.addEventListener('click', function() {
+                    createExpansion(li);
+                    res.innerHTML = '';
+                    res.classList.add("Hide");
+                    let expansions = document.querySelector('#expansions');
+                    expansions.value = '';
+                    
+                    let expansionnames = document.querySelector("#expansionnames");
+                    expansionnames.value = '';
+                    let usedExpansions = document.querySelectorAll('.selectedExpansion')
+                    for (let i = 0; i < usedExpansions.length; i++) {
+                        console.log(usedExpansions[i].innerHTML)
+                        expansionnames.value += `${usedExpansions[i].innerHTML}`;
+                        if (i < usedExpansions.length - 1) {
+                            expansionnames.value += ', ';
+                        }
+                    }
+                    console.log('expansionnames.innerHTML');
+                    console.log(expansionnames.value);
+                });
+            });
+
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('#expansions') && !event.target.closest('.expansionResults')) {
+                    res.classList.add("Hide");
+                }
+            });
+        }
+
+        function createExpansion(expansionName){
+            console.log(expansionName.innerText, "Clicked!");
+            let taggedExpansions = document.querySelector("#taggedExpansions");
+            let tagContainer = document.createElement('div');
+            let name = document.createElement('Span');
+            let close = document.createElement('Span');
+            name.innerHTML = `${expansionName.innerText}`;
+            name.classList.add("selectedExpansion");
+            close.innerHTML = ' X';
+            close.classList.add('removeExpansion');
+
+            close.addEventListener('click', () => {
+                console.log('clicked on remove');
+                close.parentNode.remove();
+            })
+
+            tagContainer.appendChild(name);
+            tagContainer.appendChild(close);
+            taggedExpansions.appendChild(tagContainer);
+        }
+
         function autocompleteMatch(input) {
             if (input == '') {
                 return [];
@@ -392,47 +549,49 @@
                 return term;
                 }
             });
-            }
+        }
 
-            function showResults(val, id) {
-            let parts = id.split(/(\d+)/);
-            let part = parts[0];
-            let gameName = part.slice(0, -6);
-            console.log("GAME");
-            console.log(gameName);
-            let index = id.search(/\d/);
-            let num = id.substring(index);
-            console.log(num);
-            results = document.querySelectorAll(`.${gameName}results`);
-            results[num - 1].classList.remove("Hide");
-            let res = results[num - 1]
-            res.innerHTML = '';
-            let list = '';
-            if (val === '') {
-                res.classList.add("Hide");
-                return;
-            }
-            let terms = autocompleteMatch(val);
-            for (i=0; i<terms.length; i++) {
-                list += '<li>' + terms[i] + '</li>';
-            }
-            res.innerHTML = '<ul>' + list + '</ul>';
+        function showResults(val, id) {
+            console.log(val);
+            console.log(id);
+            // let parts = id.split(/(\d+)/);
+            // let part = parts[0];
+            // let gameName = part.slice(0, -6);
+            // console.log("GAME");
+            // console.log(gameName);
+            // let index = id.search(/\d/);
+            // let num = id.substring(index);
+            // console.log(num);
+            // results = document.querySelectorAll(`.${gameName}results`);
+            // results[num - 1].classList.remove("Hide");
+            // let res = results[num - 1]
+            // res.innerHTML = '';
+            // let list = '';
+            // if (val === '') {
+            //     res.classList.add("Hide");
+            //     return;
+            // }
+            // let terms = autocompleteMatch(val);
+            // for (i=0; i<terms.length; i++) {
+            //     list += '<li>' + terms[i] + '</li>';
+            // }
+            // res.innerHTML = '<ul>' + list + '</ul>';
 
-            // Add event listener to each li element
-            let liElements = document.querySelectorAll(`.${gameName}results li`);
-            liElements.forEach(function(li) {
-                li.addEventListener('click', function() {
-                    document.querySelector(`#${gameName}Player${num}`).value = li.innerText;
-                    res.innerHTML = '';
-                    res.classList.add("Hide");
-                });
-            });
+            // // Add event listener to each li element
+            // let liElements = document.querySelectorAll(`.${gameName}results li`);
+            // liElements.forEach(function(li) {
+            //     li.addEventListener('click', function() {
+            //         document.querySelector(`#${gameName}Player${num}`).value = li.innerText;
+            //         res.innerHTML = '';
+            //         res.classList.add("Hide");
+            //     });
+            // });
 
-            document.addEventListener('click', function(event) {
-                if (!event.target.closest(`#${gameName}Player${num}`) && !event.target.closest(`.${gameName}results`)) {
-                    res.classList.add("Hide");
-                }
-            });
+            // document.addEventListener('click', function(event) {
+            //     if (!event.target.closest(`#${gameName}Player${num}`) && !event.target.closest(`.${gameName}results`)) {
+            //         res.classList.add("Hide");
+            //     }
+            // });
 
         }
 
@@ -533,6 +692,37 @@
             Popup.appendChild(form);
 
             document.body.appendChild(Popup);
+        }
+
+        function addExpansion(){
+            console.log("adding expansion")
+            let gameid = 59;
+            let strings = 'Seaside, Intrigue';
+            fetch(`/addExpansion?gameid=${gameid}&expansionsString=${strings}`)
+            .then(response => response.json())
+            .then(data => {
+                search_terms = data;
+                console.log(search_terms);
+            })
+            .catch(error => console.error(error));
+
+        }
+
+        function showExpansion(){
+            console.log("adding expansion")
+            let gameid = 59;
+            fetch(`/retrieveExpansion?gameid=${gameid}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.expansions) {
+                    console.log("Expansions:", data.expansions);
+                    // Handle the expansions data here
+                } else {
+                    console.log("No expansions found for this game");
+                }
+            })
+            .catch(error => console.error(error));
+
         }
 
     </script>
