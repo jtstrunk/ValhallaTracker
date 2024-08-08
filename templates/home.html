@@ -166,8 +166,13 @@
                     input.addEventListener('keyup', function() {
                         showResults(this.value, this.id);
                     });
+                    let names = document.createElement('div');
+                    names.id = `Player${i}Results`;
+                    names.classList.add('res');
+                    names.classList.add('Hide');
                     playersecion.appendChild(label);
                     playersecion.appendChild(input);   
+                    playersecion.appendChild(names);
                     //creating the second label and score input
                     let playersecion2 = document.createElement('div');
                     playersecion2.classList.add('playerSection');
@@ -399,7 +404,16 @@
                     popup.remove();
                 })
             }
+
+            fetch('/returnFriends')
+            .then(response => response.json())
+            .then(data => {
+                search_terms = data;
+                console.log(search_terms);
+            })
+            .catch(error => console.error(error));
         </script>
+        <script src="{{url_for('static', filename='js/autocomplete.js')}}"></script>
     {% endblock %}
 
 </body>
