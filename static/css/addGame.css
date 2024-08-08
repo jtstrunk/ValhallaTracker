@@ -165,10 +165,9 @@ img {
     border: 1px solid black;
     padding: 3px;
     position: absolute;
-    top: 45px;
-    left: 0;
-    background-color: white;
-    width: 175px;
+    top: 50px;
+    background-color: #404040;
+    width: 182px;
     border-radius: 5px;
     z-index: 1;
 }
@@ -181,10 +180,12 @@ img {
 
 .res ul li {
     padding: 3px 0;
+    background-color: #404040;
+    color: white;
 }
 
 .res ul li:hover {
-    background: #eee;
+    cursor: pointer;
 }
 
 .players{
@@ -193,6 +194,7 @@ img {
 }
 
 .playerSection {
+    position: relative;
     display: flex;
     flex-direction: column;
     width: 40%;

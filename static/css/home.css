@@ -210,6 +210,7 @@ h3 {
 
 .playerSection {
     display: flex;
+    position: relative;
     flex-direction: column;
     width: 40%;
     align-items: start;
@@ -267,4 +268,31 @@ input::placeholder {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
+}
+
+.res {
+    border: 1px solid black;
+    padding: 3px;
+    position: absolute;
+    top: 50px;
+    background-color: #404040;
+    width: 182px;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.res ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.res ul li {
+    padding: 3px 0;
+    background-color: #404040;
+    color: white;
+}
+
+.res ul li:hover {
+    cursor: pointer;
 }
