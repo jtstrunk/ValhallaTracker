@@ -187,13 +187,14 @@
                 <span class="special">Start a Game</span>
                 <div class="buttons" style="margin-bottom: 15px;">
                     <button id="selectedCardsbtn" class="startBTNs">Use Selected Cards</button>
-                    <button id="randomCardsbtn" class="startBTNs">Use Random Cards</button>
+                    <button id="clearSele" class="startBTNs">Clear Selections</button>
+                    <!-- <button id="randomCardsbtn" class="startBTNs">Use Random Cards</button> -->
                 </div>
-                <span class="special" style="margin-top: 15px !important;">Change Selected Cards</span>
+                <span class="special" style="margin-top: 15px !important;">Select Random Cards From</span>
                 <span id="alert"></span>
                 <div class="buttons">
-                    <button id="clearSele" class="startBTNs">Clear Selections</button>
-                    <button id="randomFill" class="startBTNs">Random Fill</button>
+                    <button id="selectedFill" class="startBTNs">Selected Filters</button>
+                    <button id="randomFill" class="startBTNs">Any Filter</button>
                 </div>
                 
                 <div id="selcards">
@@ -277,7 +278,7 @@
             if (setBTNS.length === 1) {
                 if(element.classList.contains("selected")){
                     for(let i = 0; i < allCards.length; i++) {
-                        allCards[i].classList.remove('kara');
+                        allCards[i].classList.remove('expansionHide');
                         allCards[i].classList.remove('showing');
                     }
                     element.classList.remove('selected');
@@ -291,13 +292,13 @@
 
                     for(let i = 0; i < allCards.length; i++){
                         if(!allCards[i].classList.contains("showing")){
-                            allCards[i].classList.add("kara");
+                            allCards[i].classList.add("expansionHide");
                         }
                     }
 
                     let showing = document.querySelectorAll(".showing");
                     for(let i = 0; i < showing.length; i++){
-                        showing[i].classList.remove("kara");
+                        showing[i].classList.remove("expansionHide");
                     } 
                 }
             } else if(element.classList.contains('deselected')){
@@ -309,20 +310,20 @@
 
                 for(let i = 0; i < allCards.length; i++){
                     if(!allCards[i].classList.contains("showing")){
-                        allCards[i].classList.add("kara");
+                        allCards[i].classList.add("expansionHide");
                     }
                 }
 
                 let showing = document.querySelectorAll(".showing");
                 for(let i = 0; i < showing.length; i++){
-                    showing[i].classList.remove("kara");
+                    showing[i].classList.remove("expansionHide");
                 } 
             } else {
                 element.classList.remove('selected');
                 element.classList.add('deselected');
                 for(let i = 0; i < selectedCards.length; i++){
                     selectedCards[i].classList.remove("showing");
-                    selectedCards[i].classList.add("kara");
+                    selectedCards[i].classList.add("expansionHide");
                 }
             }
         }
