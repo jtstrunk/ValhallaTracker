@@ -13,7 +13,7 @@ import sqlite3
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '1145'
-app.config['SQLALCHEMY_DATABASE_URI'] = r'sqlite:///C:\Users\joshs\Desktop\ValhallaTracker\db.sqlite3'
+app.config['SQLALCHEMY_DATABASE_URI'] = r'sqlite:///C:\Users\Josh Strunk\Desktop\ValhallaTracker\db.sqlite3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -400,7 +400,7 @@ def home():
     user = User.query.filter_by(username=current_user.username).first()
     user_friends = user.friends.limit(5).all()
 
-    topGames = findRecentGames(user, 'true')
+    topGames = findRecentGames(user, 'true', 0)
     print(topGames)
     gamesWon = calcGamesWon(user)
     gamesPlayed = calcGamesPlayed(user)
@@ -470,7 +470,7 @@ def profile():
     user_friends = user.friends.limit(5).all()
     print("user_friends")
     print(user_friends)
-    topGames = findRecentGames(user, 'true')
+    topGames = findRecentGames(user, 'true', 0)
     games = user.favorites
 
     gameResults = []
@@ -578,7 +578,7 @@ def showGames():
     print("favoriteGames")
     print(favoriteGames)
 
-    sortedGames = findRecentGames(current_user, 'false')
+    sortedGames = findRecentGames(current_user, 'false', 0)
 
     return render_template('GameRecords.html', title='Show Games', sortedGames=sortedGames, favoriteGames=favoriteGames)
 
@@ -2205,7 +2205,7 @@ def calcBestFriend(user):
     return bestFriend
 
 
-def findRecentGames(user, limit):
+def findRecentGames(user, limit, offset):
     recentGames = []
     dominion_games = DominionGame.query.filter(or_(
         DominionGame.winnerName.in_([user.fullname, user.username]),
@@ -2704,10 +2704,22 @@ def findRecentGames(user, limit):
 
     if limit == 'true':
         print("limited")
-        top5Games = sortedGames[:6]
+        top5Games = sortedGames[offset:offset + 12]
         print(top5Games)
         return  top5Games 
     else:
         print('sorted')
         print(sortedGames)
         return sortedGames
+    
+
+@app.route('/api/recent-games/<int:page>')
+@login_required
+def get_recent_games(page):
+    print("NI WE PRINTEDISHADK")
+    print("PRINTEDISHADK")
+    offset = (page - 1) * 12
+    user = current_user  # Assuming you're using Flask-Login
+    recent_games = findRecentGames(user, 'true', offset=offset)
+    
+    return jsonify(recent_games)

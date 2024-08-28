@@ -13,29 +13,114 @@
     {% import "bootstrap/wtf.html" as wtf %}
     {% block content %}
         <div id="content">
-            <div class="section">
-                <h3 style="margin-bottom: 0px;">Recent Games</h3>
-                <div id="recentGames">
-                    {% for game in recentGames %}
-                    <div class="game">
-                        <div >
-                            <img class="testimg" src="{{ url_for('static', filename='images/home/' + game.game_type.replace(' ', '') + '.png') }}" style="border-top-right-radius: 5px;">
-                        </div>
-                        <div class="gameContent">
-                           <h4 class="gameName">{{ game.game_type }}</h4>
-                           <h5>Winner: {{ game.winnerName }}</h5>
-                           <h5>Second: {{ game.secondName }}</h5>
-                           <span class='gameID' style="font-size: smaller;">Game ID {{ game.game_id}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                           <span style="font-size: smaller;">{{ game.current_date }}</span>
-                        </div>
+            <div class="section" style="display: flex; flex-direction: column; align-items: center; height: 535px; position: sticky; top: 60px;">
+                <div>
+                    <img src="/static//images/profile/joshpfp.png" id="profile" onclick="location.href='/profile?name=current'">
+                </div>
+                <p style="color: white; margin-top: 5px;">Joshua Strunk</p>
+
+                <div>
+                    <div class="stat">
+                        <img class="icon" src="/static/images/mostplayed.png">
+                        <p style="margin-top: 14px;">Most Played Game</p>
+                        <p style="font-family: 'Manolo Mono', sans-serif !important;">{{ profileStats[2] }}</p>
                     </div>
+                    <div class="stat">
+                        <img class="icon" src="/static/images/mostwon.png" style="width: 35px;">
+                        <p style="margin-top: 14px;">Most Won Game</p>
+                        <p style="font-family: 'Manolo Mono', sans-serif !important;">{{ profileStats[3] }}</p>
+                    </div>
+                </div>
+                <div>
+                    {% for game in recentGames %}
+                        {% if loop.first %}
+                        <div id="latestGame">
+                            <p>Latest Game</p>
+                            <span style="font-size: large;">{{ game.game_type }}</span><span style="color: white;"> -</span>
+                            <span style="font-size: small;">{{ game.current_date.strftime('%B %d, %Y') }}</span>
+                        </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
+                <div onclick="location.href='/showGames'" class="quickLink">
+                    <span style="color: white;">View Your Games</span>
+                    <img src="/static/images/arrow.png" class="arrow">
+                </div>
+                <div onclick="location.href='/DominionSelect'" class="quickLink" >
+                    <span style="color: white;">Dominion Selector</span>
+                    <img src="/static/images/arrow.png" class="arrow">
+                </div>
+
             </div>
-            <div class="section">
+            <div class="section" >
+                <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <h3>Recent Games</h3>
+                    <div style="margin-right: 5px;">
+                        <img src="static/images/listblue.png" id="listView" style="width: 25px; height: 25px; margin-right: 5px;">
+                        <img src="static/images/gridblue.png" id="gridView" style="width: 25px; height: 25px;">
+                    </div>
+                </div>
+                <div id="recentGames" class="Hide">
+                    {% for game in recentGames %}
+                        {% if loop.index <= 9 %}
+                            <div class="game">
+                                <div>
+                                    <img class="testimg" src="{{ url_for('static', filename='images/home/' + game.game_type.replace(' ', '') + '.png') }}" style="border-top-right-radius: 5px;">
+                                </div>
+                                <div class="gameContent">
+                                    <h4 class="gameName">{{ game.game_type }}</h4>
+                                    <h5>Winner: {{ game.winnerName }}</h5>
+                                    <h5>Second: {{ game.secondName }}</h5>
+                                    <span class='gameID' style="font-size: smaller;">Game ID {{ game.game_id}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span style="font-size: smaller;">{{ game.current_date }}</span>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div id="content-container">
+                    {% for game in recentGames %}
+                        <div class="game">
+                            <div class="header">
+                                <div style="display: flex; flex-direction: row;">
+                                    <img src="{{ url_for('static', filename='images/addgame/' + game.game_type.replace(' ', '') + '.png') }}" class="gamePicture">
+                                    <div class="testtext" style="margin-left: 15px;">
+                                        <p class="name">{{ name }}</p>
+                                        <p class="date">{{ game.current_date.strftime('%B %d, %Y') }}</p>
+                                        <p class="gameName">{{ game.game_type }}</p>
+                                        <span class='gameID' style="display: none;">Game ID {{ game.game_id}}</span>
+                                    </div>
+                                </div>
+                                <img src="/static//images/profile/joshpfp.png" class="profilePicture"> 
+                            </div>
+                            <div class="gameInformation">
+                                <div class="podium">
+                                    <img src="/static/images/firstblack.png" class="medal">
+                                    <p class="placer">{{ game.winnerName }}</p>
+                                </div>
+                                {% if game.secondName %}
+                                <div class="podium">
+                                    <img src="/static/images/secondblack.png" class="medal">
+                                    <p class="placer">{{ game.secondName }}</p>
+                                </div>
+                                {% endif %}
+                                {% if game.thirdName %}
+                                <div class="podium">
+                                    <img src="/static/images/black.png" class="medal">
+                                    <p class="placer">{{ game.thirdName }}</p>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div id="loading-indicator" style="display: none; text-align: center; padding: 20px;">Loading...</div>
+            </div>
+            
+            <div class="section" style="height: 525px; position: sticky; top: 60px;">
                 <div id="quickadd">
                     <h3 style="margin-bottom: 14px;">Quick Features</h3>
-                    {% for game in favoriteGames[:3] %}
+                    {% for game in favoriteGames[:5] %}
                     <div class="quickgame">
                         <div>
                             <p class="gameTitle">{{ game[0] }}</p>
@@ -45,26 +130,100 @@
                     </div>
                     {% endfor %}
                 </div>
-                <div style="margin-top: 15px;">
-                    <div class="stat">
-                        <img class="icon" src="/static/images/mostplayed.png">
-                        <p style="margin-top: 14px;">Most Played Game</p>
-                        <p style="font-family: 'Manolo Mono', sans-serif !important;">{{ profileStats[2] }}</p>
-                    </div>
-                    <div class="stat">
-                        <img class="icon" src="/static/images/mostwon.png" style="width: 35px;">
-                        <p style="margin-top: 14px; ">Most Won Game</p>
-                        <p style="font-family: 'Manolo Mono', sans-serif !important;">{{ profileStats[3] }}</p>
-                    </div>
-                </div>
+
 
             </div>
         </div>
+
 
         <div id="overlay" class="Hide"> </div>
         <div id="popups"> </div>
 
         <script>
+            let page = 1;
+            const contentContainer = document.getElementById('content-container');
+            const loadingIndicator = document.getElementById('loading-indicator');
+            let isLoading = false;
+
+            function fetchMoreContent() {
+
+                console.log("LOAD MORE DATAATATA")
+                if (isLoading) return;
+                
+                isLoading = true;
+                loadingIndicator.style.display = 'block';
+
+                fetch(`/api/recent-games/${page}`)
+                    .then(response => response.json())
+                    .then(games => {
+                        if (games.length === 0) {
+                            // No more games to load
+                            loadingIndicator.style.display = 'none';
+                            return;
+                        }
+
+                        games.forEach(game => {
+                            const gameElement = createGameElement(game);
+                            contentContainer.appendChild(gameElement);
+                        });
+
+                        page++;
+                        isLoading = false;
+                        loadingIndicator.style.display = 'none';
+                    })
+                    .catch(error => {
+                        console.error('Error fetching games:', error);
+                        isLoading = false;
+                        loadingIndicator.style.display = 'none';
+                    });
+            }
+
+            function createGameElement(game) {
+                const gameDiv = document.createElement('div');
+                gameDiv.className = 'game';
+                gameDiv.innerHTML = `
+                    <div class="header">
+                        <div style="display: flex; flex-direction: row;">
+                            <img src="/static/images/addgame/${game.game_type.replaceAll(' ', '')}.png" class="gamePicture">
+                            <div class="testtext" style="margin-left: 15px;">
+                                <p class="name">${game.winnerName}</p>
+                                <p class="date">${new Date(game.current_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                                <p class="title">${game.game_type}</p>
+                            </div>
+                        </div>
+                        <img src="/static/images/profile/joshpfp.png" class="profilePicture"> 
+                    </div>
+                    <div class="gameInformation">
+                        <div class="podium">
+                            <img src="/static/images/firstblack.png" class="medal">
+                            <p class="placer">${game.winnerName}</p>
+                        </div>
+                        ${game.secondName ? `
+                        <div class="podium">
+                            <img src="/static/images/secondblack.png" class="medal">
+                            <p class="placer">${game.secondName}</p>
+                        </div>
+                        ` : ''}
+                        ${game.thirdName ? `
+                        <div class="podium">
+                            <img src="/static/images/black.png" class="medal">
+                            <p class="placer">${game.thirdName}</p>
+                        </div>
+                        ` : ''}
+                    </div>
+                `;
+                return gameDiv;
+            }
+
+            window.addEventListener('scroll', () => {
+                if (
+                    !isLoading && window.innerHeight + window.scrollY >= document.body.offsetHeight - 200
+                ) {
+                    fetchMoreContent();
+                }
+            });
+
+
             // removing extra characters in favorite name
             titles = document.querySelectorAll('.gameTitle');
             for (let i = 0; i < titles.length; i++) {
@@ -128,7 +287,9 @@
                     'Catan': { action: `{{ url_for('addCatan') }}`, maxLength: 4 },
                     'LordsofWaterdeep': { action: `{{ url_for('addLordsofWaterdeep') }}`, maxLength: 5 },
                     'Moonrakers': { action: `{{ url_for('addMoonrakers') }}`, maxLength: 5 },
-                    'CosmicEncounter': { action: `{{ url_for('addCosmicEncounter') }}`, maxLength: 5 }
+                    'CosmicEncounter': { action: `{{ url_for('addCosmicEncounter') }}`, maxLength: 5 },
+                    'Heat': { action: `{{ url_for('addHeat') }}`, maxLength: 5 },
+                    'SpaceBase': { action: `{{ url_for('addSpaceBase') }}`, maxLength: 5 }
                 };
 
                 form.action = actionMap[game].action;
@@ -412,6 +573,16 @@
                 console.log(search_terms);
             })
             .catch(error => console.error(error));
+
+            document.querySelector("#listView").addEventListener('click', () => {
+                document.querySelector("#recentGames").classList.toggle("Hide");
+                document.querySelector("#content-container").classList.toggle("Hide");
+            })
+
+            document.querySelector("#gridView").addEventListener('click', () => {
+                document.querySelector("#recentGames").classList.toggle("Hide");
+                document.querySelector("#content-container").classList.toggle("Hide");
+            }) 
         </script>
         <script src="{{url_for('static', filename='js/autocomplete.js')}}"></script>
     {% endblock %}
