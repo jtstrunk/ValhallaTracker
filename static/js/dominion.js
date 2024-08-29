@@ -17,10 +17,10 @@ function defaultCase(){
 
 function hideCards(cardType) {
 
-    let hiddenCards = document.querySelectorAll('.card.kara');
+    let hiddenCards = document.querySelectorAll('.card.expansionHide');
     console.log(hiddenCards)
     for (let i = 0; i <hiddenCards.length; i++){
-        hiddenCards[i].classList.remove("kara");
+        hiddenCards[i].classList.remove("expansionHide");
     }
 
     let shownCards = document.querySelectorAll('.card.showing');
@@ -260,9 +260,6 @@ for (let i = 0; i < imgs.length; i++) {
 
     } else if (cardsDiv.querySelectorAll(".miniCard").length < maxMiniCards) {
         alertElement.textContent = ""
-        console.log(imgs[i].id);
-        console.log(imgs[i].classList[1]);
-
         let newImg = document.createElement("img");
         newImg.src = `static/images/${imgs[i].classList[1]}/200px-${imgs[i].id}.jpg`;
         // newImg.classList.add("card")
@@ -272,21 +269,27 @@ for (let i = 0; i < imgs.length; i++) {
             newImg.remove();
             alertElement.textContent = ""
         });
-        console.log(newImg)
         cardsDiv.appendChild(newImg);
+        let gameCards = document.querySelectorAll(".miniCard");
+        if (gameCards.length > 6) {
+            cardsDiv.classList.add('scroll');
+        } else {
+            if (cardsDiv.classList.contains('scroll')) {
+                cardsDiv.classList.remove('scroll');
+            }
+        }
+
     } else {
         
         alertElement.textContent = "Maximum Cards Reached"
     }
-
-    
   });
 
 }
 
 
 let selectedCardsBTN = document.querySelector("#selectedCardsbtn");
-let randomCardsBTN = document.querySelector("#randomCardsbtn");
+// let randomCardsBTN = document.querySelector("#randomCardsbtn");
 let clearBTN = document.querySelector("#clearSele");
 let fillBTN = document.querySelector("#randomFill");
 
@@ -299,41 +302,41 @@ selectedCardsBTN.addEventListener('click', () => {
     popUP.classList.remove("Hide");
     let overlay = document.querySelector("#overlay");
     overlay.classList.remove("Hide");
-
 });
 
-randomCardsBTN.addEventListener('click', () => {
-    let overlay = document.querySelector("#overlay");
-    overlay.classList.remove("Hide");
+// randomCardsBTN.addEventListener('click', () => {
+//     let overlay = document.querySelector("#overlay");
+//     overlay.classList.remove("Hide");
 
-    console.log("RANDOM");
-    let playingCards = []
-    let cards = document.querySelectorAll(".card");
-    for (let i = 0; i < 10; i++){
-        console.log("generate new card");
-        let randNum = Math.floor(Math.random() * (cards.length - 1 + 1));
-        console.log(randNum);
-        let card = imgs[randNum];
-        playingCards.push(card);
+//     console.log("RANDOM");
+//     let playingCards = []
+//     let cards = document.querySelectorAll(".card");
+//     for (let i = 0; i < 10; i++){
+//         console.log("generate new card");
+//         let randNum = Math.floor(Math.random() * (cards.length - 1 + 1));
+//         console.log(randNum);
+//         let card = imgs[randNum];
+//         playingCards.push(card);
         
-    }
-    console.log(playingCards);
-    popUP.classList.remove("Hide");
-});
+//     }
+//     console.log(playingCards);
+//     popUP.classList.remove("Hide");
+// });
 
 clearBTN.addEventListener('click', () => {
+    // let cardsDiv = document.querySelector("#selcards");
     let miniCards = document.querySelectorAll(".miniCard");
     miniCards.forEach(card => card.remove());
     alertElement.textContent = ""
+    if (cardsDiv.classList.contains('scroll')) {
+        cardsDiv.classList.remove('scroll');
+    }
 });
 
 fillBTN.addEventListener('click', () => {
 
     let cards = document.querySelectorAll(".card");
-    console.log(cards.length);
-
     let minicards = document.querySelectorAll(".miniCard");
-    console.log(minicards.length);
 
     let usedNums = [];
     for (let i = minicards.length; i < 10; i++){
@@ -352,6 +355,64 @@ fillBTN.addEventListener('click', () => {
         });
         cardsDiv.appendChild(newImg);
         newImg.id = `Mini${imgs[randNum].id}`;
+    }
+
+    cardsDiv.classList.add('scroll');
+
+})
+
+selectedFill.addEventListener('click', () => {
+    let cards = document.querySelectorAll(".card");
+    let type = document.querySelector('.selected').className.split(" ")[0];
+    let hiddenCards
+    if(type === 'set') {
+        hiddenCards = document.querySelectorAll(".card.expansionHide");
+    } else {
+        hiddenCards = document.querySelectorAll(".card.Hide");
+    }
+
+    let cardsArray = Array.from(cards);
+    let hiddenCardsArray = Array.from(hiddenCards);
+    randomCardsShowing = cardsArray.filter(card => !hiddenCardsArray.includes(card));
+
+    let checkLength = 10;
+    if (randomCardsShowing.length < checkLength) {
+        checkLength = randomCardsShowing.length;
+    }
+
+    let minicards = document.querySelectorAll(".miniCard");
+    let testlength =  checkLength + minicards.length;
+    if (testlength > 10) {
+        testlength = 10;
+    } 
+
+    let usedNums = [];
+    for (let i = minicards.length; i < testlength; i++){
+        console.log("generate new card");
+        let randNum;
+        do {
+            randNum = Math.floor(Math.random() * (randomCardsShowing.length - 1 + 1));
+        } while (usedNums.includes(randNum));
+        usedNums.push(randNum);
+        let newImg = document.createElement("img");
+        newImg.src = `static/images/${randomCardsShowing[randNum].classList[1]}/200px-${randomCardsShowing[randNum].id}.jpg`;
+        newImg.classList.add("miniCard");
+        newImg.addEventListener('click', () => {
+            newImg.remove();
+            alertElement.textContent = ""
+        });
+        cardsDiv.appendChild(newImg);
+        newImg.id = `Mini${randomCardsShowing[randNum].id}`;
+    }
+
+    let gameCards = document.querySelectorAll(".miniCard");
+
+    if (gameCards.length > 6) {
+        cardsDiv.classList.add('scroll');
+    } else {
+        if (cardsDiv.classList.contains('scroll')) {
+            cardsDiv.classList.remove('scroll');
+        }
     }
 
 })
@@ -452,12 +513,7 @@ function plusclicked(element){
 
 function changeScore(element){
     let playerId = element.id.substring(element.id.indexOf("Player"));
-    console.log(playerId);
-
     let amounts = document.querySelectorAll(`.${playerId}`);
-    console.log("TEST");
-    console.log(amounts);
-
     let selcards = [];
     let selectedCards = document.querySelectorAll(".miniCard");
 
@@ -470,12 +526,9 @@ function changeScore(element){
 
     for (let i = 5; i < amounts.length; i++){
         let newStr = amounts[i].id.replace(/AmountPlayer\d+$/, "");
-        console.log(newStr);
+        console.log('newsstring', newStr);
         if (newStr === "gardens"){
             console.log("gardens");
-            console.log(amounts[0].innerText);
-            console.log(amounts[0].innerText / 10);
-            console.log(Math.floor(amounts[0].innerText / 10));
             score = score + (amounts[i].innerText * (Math.floor(amounts[0].innerText / 10)));
         }
         if (newStr === "island"){
@@ -488,8 +541,6 @@ function changeScore(element){
         }
         if (newStr === "duke"){
             console.log("duke");
-            console.log(amounts[3].innerText * 1);
-            console.log(amounts[i] * (amounts[3].innerText * 1));
             score = score + (amounts[i].innerText * (amounts[3].innerText * 1));
         }
         if (newStr === "harem"){
@@ -500,19 +551,15 @@ function changeScore(element){
             console.log("nobles");
             score = score + (amounts[i].innerText * 2);
         }
+        if (newStr === "token"){
+            console.log("token");
+            score = score + (amounts[i].innerText * 1);
+        }
     }
 
     playerId = playerId.replace("Player", "");
-    console.log(playerId);
-    console.log("New Score");
-    console.log(score);
-    console.log(`#Score${playerId}`);
-
     let playerScore = document.querySelector(`#Score${playerId}`);
-    console.log(playerScore);
     playerScore.value = score;
-
-
     
     // take in element and strip to get player number
     // with player number gather all values of all with that number
@@ -909,6 +956,38 @@ createGame.addEventListener('click', () => {
             newMill.appendChild(millAmount);
             newMill.appendChild(millBTNplus);
             newMill.appendChild(mill);
+        }
+
+    }
+    if (selcards.includes("Bishop") || selcards.includes("Monument") ) {
+        console.log("Contains Bishop or Monument");
+        for(let i = 0; i < players; i++) {
+            let addplayer = document.querySelector(`#player${i+1}`);
+            newToken = document.createElement("div");
+            newToken.classList.add("scoreKeeper");
+            addplayer.appendChild(newToken);
+            tokenBTNminus = document.createElement("button");
+            tokenBTNminus.classList.add("minus");
+            tokenBTNminus.innerText = "-";
+            tokenBTNminus.id = `tokenminusPlayer${i+1}`;
+            tokenBTNminus.type = 'button';
+            tokenAmount = document.createElement("span");
+            tokenAmount.id = `tokenAmountPlayer${i+1}`
+            tokenAmount.value = "0";
+            tokenAmount.innerText = tokenAmount.value;
+            tokenAmount.classList.add(`Player${i+1}`);
+            tokenBTNplus = document.createElement("button");
+            tokenBTNplus.classList.add("plus");
+            tokenBTNplus.innerText = "+";
+            tokenBTNplus.id = `tokenplusPlayer${i+1}`;
+            tokenBTNplus.type = 'button';
+            token = document.createElement("p");
+            token.innerText = "Token";
+            token.classList.add("fixing");
+            newToken.appendChild(tokenBTNminus);
+            newToken.appendChild(tokenAmount);
+            newToken.appendChild(tokenBTNplus);
+            newToken.appendChild(token);
         }
 
     }

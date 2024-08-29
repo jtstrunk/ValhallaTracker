@@ -9,7 +9,7 @@
     border-radius: 6px;
 }
 
-.game {
+/* .game {
     display: flex;
     flex-direction: row;
     background-color: #3A3B3C;
@@ -20,10 +20,10 @@
     margin-left: 9px;
     margin-right: 9px;
     transition: transform 0.2s;
-}
+} */
 
 .game:hover {
-    transform: scale(1.03);
+    transform: scale(1.02);
     cursor: pointer;
 }
 
@@ -109,7 +109,7 @@ h3 {
 }
 
 #recentGames {
-    height: 520px;
+    height: 800px;
     width: 600px;
     /* overflow-y: auto; */
     display: flex;
@@ -294,5 +294,126 @@ input::placeholder {
 }
 
 .res ul li:hover {
+    cursor: pointer;
+}
+
+
+.game {
+    width: 500px; 
+    height: 220px; 
+    background-color: #3A3B3C;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.gamePicture {
+    width: 115px; 
+    height: 115px; 
+}
+
+.profilePicture {
+    margin-top: 10px;
+    margin-right: 15px;
+    width: 50px; 
+    height: 50px; 
+    border-radius: 50%;
+}
+
+.testtext p {
+    color: white;
+
+}
+
+.name {
+    margin: 12px 0 0 0;
+    font-size: large;
+}
+
+.date {
+    font-size: smaller;
+}
+
+.gameName {
+    font-size: 22px;
+}
+
+.gameInformation p {
+    color: white;
+}
+
+.gameInformation {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.podium{
+    width: 140px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.standing {
+    font-size: small;
+    margin: 0;
+}
+
+.medal {
+    height: 40px;
+    width: 40px;
+}
+
+.placer {
+    margin-bottom: 4px;
+    font-size: large;
+    /* color: black !important; */
+}
+
+#latestGame{
+    background-color: #3A3B3C; 
+    padding: 10px; 
+    border-radius: 5px; 
+    margin-top: 25px; 
+    width: 250px;
+}
+
+#latestGame p {
+    color: white;
+    font-size: smaller;
+    margin-bottom: 0px;
+}
+
+#latestGame span {
+    color: white;
+}
+
+.arrow {
+    width: 20px;
+    height: 20px;
+}
+
+#profile {
+    width: 60px; 
+    height: 60px; 
+    border-radius: 50%;
+}
+
+.quickLink {
+    display: flex; flex-direction: row; justify-content: space-between; background-color: #3A3B3C; padding: 10px; border-radius: 5px; margin-top: 10px; width: 250px;
+}
+
+.quickLink:hover {
     cursor: pointer;
 }

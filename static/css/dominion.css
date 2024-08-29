@@ -8,7 +8,7 @@
     display: inline !important;
 }
 
-.card.kara{
+.card.expansionHide{
     display: none !important;
 }
 
@@ -125,7 +125,7 @@ button:hover {
 }
 
 .startBTNs {
-    width: 153px !important;
+    width: 150px !important;
     margin-left: 2px !important; 
 }
 
@@ -178,6 +178,11 @@ img {
     flex-direction: row;
     flex-wrap: wrap;
     width: 316px;
+    margin-left: 2px;
+}
+
+.scroll {
+    height: 760px;
 }
 
 #selectedCards {
@@ -185,6 +190,7 @@ img {
     top: 65px;
     /* set initial overflow to hidden */
     overflow-y: scroll;
+    scrollbar-width: thin;
 }
 
 .selected {
@@ -340,6 +346,7 @@ input[type=number] {
     display: inline-block;
     vertical-align: middle;
     color: white;
+    -moz-appearance: textfield;
 }
 
 .title .resize {
