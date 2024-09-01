@@ -15,10 +15,9 @@
         <div id="content">
             <div class="section" style="display: flex; flex-direction: column; align-items: center; height: 535px; position: sticky; top: 60px;">
                 <div>
-                    <img src="/static//images/profile/joshpfp.png" id="profile" onclick="location.href='/profile?name=current'">
+                    <img src="{{ url_for('static', filename='images/profile/' + name + 'pfp.png') }}" id="profile" onclick="location.href='/profile?name=current'">
                 </div>
-                <p style="color: white; margin-top: 5px;">Joshua Strunk</p>
-
+                <p style="color: white; margin-top: 5px;">{{ name }}</p>
                 <div>
                     <div class="stat">
                         <img class="icon" src="/static/images/mostplayed.png">
@@ -85,13 +84,13 @@
                                 <div style="display: flex; flex-direction: row;">
                                     <img src="{{ url_for('static', filename='images/addgame/' + game.game_type.replace(' ', '') + '.png') }}" class="gamePicture">
                                     <div class="testtext" style="margin-left: 15px;">
-                                        <p class="name">{{ name }}</p>
+                                        <p class="name">{{ game.game_poster }}</p>
                                         <p class="date">{{ game.current_date.strftime('%B %d, %Y') }}</p>
                                         <p class="gameName">{{ game.game_type }}</p>
                                         <span class='gameID' style="display: none;">Game ID {{ game.game_id}}</span>
                                     </div>
                                 </div>
-                                <img src="/static//images/profile/joshpfp.png" class="profilePicture"> 
+                                <img src="{{ url_for('static', filename='images/profile/' + game.game_poster + 'pfp.png') }}" class="profilePicture">
                             </div>
                             <div class="gameInformation">
                                 <div class="podium">
@@ -140,7 +139,7 @@
         <div id="popups"> </div>
 
         <script>
-            let page = 1;
+            let page = 2;
             const contentContainer = document.getElementById('content-container');
             const loadingIndicator = document.getElementById('loading-indicator');
             let isLoading = false;
@@ -186,9 +185,9 @@
                         <div style="display: flex; flex-direction: row;">
                             <img src="/static/images/addgame/${game.game_type.replaceAll(' ', '')}.png" class="gamePicture">
                             <div class="testtext" style="margin-left: 15px;">
-                                <p class="name">${game.winnerName}</p>
+                                <p class="name">${game.game_poster}</p>
                                 <p class="date">${new Date(game.current_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                                <p class="title">${game.game_type}</p>
+                                <p class="gameName">${game.game_type}</p>
                             </div>
                         </div>
                         <img src="/static/images/profile/joshpfp.png" class="profilePicture"> 

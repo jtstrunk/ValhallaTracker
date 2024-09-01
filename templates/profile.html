@@ -22,6 +22,7 @@
                         <h3 style="margin-bottom: 0px;">Recent Games</h3>
                         <div id="recentGames">
                             {% for game in recentGames %}
+                            {% if loop.index <= 6 %}
                             <div class="game">
                                 <div >
                                     <img class="testimg" src="{{ url_for('static', filename='images/home/' + game.game_type.replace(' ', '') + '.png') }}" style="border-top-right-radius: 5px;">
@@ -34,6 +35,7 @@
                                    <span style="font-size: smaller;">{{ game.current_date }}</span>
                                 </div>
                             </div>
+                            {% endif %}
                             {% endfor %}
                         </div>
                     </div>
