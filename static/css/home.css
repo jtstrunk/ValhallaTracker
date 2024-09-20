@@ -73,6 +73,12 @@ h3 {
     border-radius:5px !important;
 }
 
+.quickgame:hover {
+    transform: scale(1.02);
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
 .btn-outline {
     color: #17a2b8 !important;
     background: transparent;
@@ -411,9 +417,18 @@ input::placeholder {
 }
 
 .quickLink {
-    display: flex; flex-direction: row; justify-content: space-between; background-color: #3A3B3C; padding: 10px; border-radius: 5px; margin-top: 10px; width: 250px;
+    display: flex; 
+    flex-direction: row; 
+    justify-content: space-between; 
+    background-color: #3A3B3C; 
+    padding: 10px; 
+    border-radius: 5px; 
+    margin-top: 10px; 
+    width: 250px;
 }
 
 .quickLink:hover {
+    transform: scale(1.02);
+    transition: transform 0.2s;
     cursor: pointer;
 }
