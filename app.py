@@ -418,16 +418,10 @@ def home():
 
     topGames = findRecentGames(user)
     friendsGames = findFriendsGames(current_user)
-
     combinedGames = topGames + friendsGames
-    combinedGames = sorted(combinedGames, key=lambda x: x['game_id'], reverse=True)
-
-    print("combinedGames")
-    print(combinedGames)
-    
+    uniqueGames = {game['game_id']: game for game in combinedGames}
+    combinedGames = sorted(uniqueGames.values(), key=lambda x: x['game_id'], reverse=True)   
     combinedGames = combinedGames[:12]
-
-
 
     gamesWon = calcGamesWon(user)
     gamesPlayed = calcGamesPlayed(user)
