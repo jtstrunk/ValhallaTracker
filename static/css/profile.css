@@ -274,3 +274,124 @@ h3 {
     border: 2px solid #a73939;
     border-radius: 5px;
 }
+
+@media (max-width: 420px) {
+    #mainLayout {
+        width: 100%;
+        flex-wrap: nowrap;
+        flex-direction: column;
+    }
+
+    #mainLayout #gameSection {
+        width: 100% !important;
+        margin: 0;
+        height: 830px;
+    }
+    
+    #mainLayout #favorites {
+        width: 100% !important;
+        margin: 15px 0 0 0 !important;
+    }
+
+    /* #mainLayout .section {
+        margin: 10px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+        padding: 10px;
+        background-color:#242526;
+        width: 60% !important;
+    } */
+
+    #mainLayout #friends {
+        width: 100% !important;
+        margin: 15px 0 0 0 !important;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #mainLayout #recentGames {
+        width: 100% !important;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        background-color: #242526;
+        border-radius: 6px;
+    }
+
+    #recentGames .game {
+        display: flex;
+        flex-direction: column;
+        background-color: #3A3B3C;
+        width: 160px;
+        height: 240px;
+        margin-top: 16px;
+        border-radius: 5px;
+        margin-left: 9px;
+        margin-right: 9px;
+    }
+
+    .testimg {
+        width: 160px;
+        height: 85px;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+
+    #placeholder {
+        width: 100%;
+
+    }
+
+    #statisticsSection{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    #statsisticsHeader {
+        margin-right: 160px;
+    }
+
+    .stat {
+        width: 180px;
+        height: 80px;
+        /* border: 1px solid #17a2b8; */
+        background-color: #3A3B3C;
+        margin-top: 35px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        border-radius: 8px;
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+    
+    .stat p {
+        color: white;
+        font-size: larger;
+        z-index: 200;
+    }
+
+    .gameContent span {
+        font-size: 10.3px !important;
+    }
+
+    /* .game h4 {
+        color: white;
+        font-size: 12px;
+        margin-top: 14px;
+        margin-bottom: 11px;
+        height: 40px;
+        font-family: 'Manolo Mono', sans-serif !important;
+    }
+    
+    .game h5 {
+        color: white;
+        font-size: 10px;
+    } */
+
+  }

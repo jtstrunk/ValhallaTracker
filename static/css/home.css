@@ -9,19 +9,6 @@
     border-radius: 6px;
 }
 
-/* .game {
-    display: flex;
-    flex-direction: row;
-    background-color: #3A3B3C;
-    width: 350px;
-    height: 100px;
-    margin-top: 16px;
-    border-radius: 5px;
-    margin-left: 9px;
-    margin-right: 9px;
-    transition: transform 0.2s;
-} */
-
 .game:hover {
     transform: scale(1.02);
     cursor: pointer;
@@ -431,4 +418,62 @@ input::placeholder {
     transform: scale(1.02);
     transition: transform 0.2s;
     cursor: pointer;
+}
+
+/* Styles for mobile devices */
+
+@media (max-width: 420px) {
+    #recentGames {
+        width: 100%;
+        height: 1325px;
+        /* overflow-y: auto; */
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        background-color: #242526;
+        border-radius: 6px;
+    }
+
+    .game {
+        width: 100%; 
+        height: 220px; 
+        background-color: #3A3B3C;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.2s;
+    }
+
+    #recentGames .game {
+        display: flex;
+        flex-direction: column;
+        background-color: #3A3B3C;
+        width: 150px;
+        height: 240px;
+        margin-top: 16px;
+        border-radius: 5px;
+        margin-left: 9px;
+        margin-right: 9px;
+    }
+
+    .testimg {
+        width: 150px;
+        height: 80px;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+
+    .gameContent h4 {
+        font-size: 20px !important;
+    }
+
+    .gameContent h5 {
+        font-size: 14px !important;
+    }
+
+    .gameContent span {
+        font-size: 9px !important;
+    }
 }

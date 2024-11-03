@@ -123,3 +123,58 @@ body {
     padding: 10px;
     background-color:#242526;
 }
+
+
+@media (max-width: 	420px) {
+    .MobileHide {
+        display: none !important;
+    }
+
+
+
+    body {
+        width: 	100% !important;
+    }
+
+    .section {
+        margin: 10px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+        padding: 10px;
+        background-color:#242526;
+        width: 100% !important;
+    }
+
+    nav{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-color: #333333;
+        width: 100% !important;
+        position: sticky;
+        top: 0px;
+        z-index: 1000;
+    }
+    
+    nav a {
+        margin: 10px;
+        height: 30px;
+        text-decoration: none;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        padding-left: 6px;
+        padding-right: 6px;
+        border: 1px solid black;
+        border-radius: 8px;
+        text-align: center;
+        color: black;
+        background-color: #818181;
+        font-size: 12.5px;
+    }
+    
+    nav h2 {
+        margin: 0px 0px 0px 10px !important;
+        color: white !important;
+    }
+
+  }

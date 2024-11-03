@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <title>Game Tracker</title>
+</head>
+<body style="margin: 0px;">
+    {% extends "base.html" %}
+    {% import "bootstrap/wtf.html" as wtf %}
+    {% block content %}
+        <div id="content">
+            <div class="section">
+                <h3 style="margin-bottom: 0px;">Recent Games</h3>
+                <div id="recentGames">
+                    {% for game in recentGames %}
+                    <div class="game">
+                        <div >
+                            <img class="testimg" src="{{ url_for('static', filename='images/home/' + game.game_type.replace(' ', '') + '.png') }}" style="border-top-right-radius: 5px;">
+                        </div>
+                        <div class="gameContent">
+                           <h4 class="gameName">{{ game.game_type }}</h4>
+                           <h5>Winner: {{ game.winnerName }}</h5>
+                           <h5>Second: {{ game.secondName }}</h5>
+                           <span class='gameID' style="font-size: smaller;">Game ID {{ game.game_id}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                           <span style="font-size: smaller;">{{ game.current_date }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="section">
+                <div id="quickadd">
+                    <h3 style="margin-bottom: 14px;">Quick Features</h3>
+                    {% for game in favoriteGames[:3] %}
+                    <div class="quickgame">
+                        <div>
+                            <p class="gameTitle">{{ game[0] }}</p>
+                            <button id="{{ game[0].replace(' ', '') }}" style="width: 152px; outline: none;" class="btn btn-outline quickadd">Quick Add</button>
+                        </div>
+                        <img src="{{ url_for('static', filename='images/addgame/' + game[0].replace(' ', '') + '.png') }}">
+                    </div>
+                    {% endfor %}
+                </div>
+                <div style="margin-top: 15px;">
+                    <div class="stat">
+                        <img class="icon" src="/static/images/mostplayed.png">
+                        <p style="margin-top: 14px;">Most Played Game</p>
+                        <p style="font-family: 'Manolo Mono', sans-serif !important;">{{ profileStats[2] }}</p>
+                    </div>
+                    <div class="stat">
+                        <img class="icon" src="/static/images/mostwon.png" style="width: 35px;">
+                        <p style="margin-top: 14px; ">Most Won Game</p>
+                        <p style="font-family: 'Manolo Mono', sans-serif !important;">{{ profileStats[3] }}</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- <div style="display: flex; align-items: center; flex-direction: column;">
+            <div class="testgame">
+                <div class="header">
+                    <div style="display: flex; flex-direction: row;">
+                        <img src="/static//images/addgame/Heat.png" class="gamePicture">
+                        <div class="testtext" style="margin-left: 15px;">
+                            <p class="name">Joshua Strunk</p>
+                            <p class="date">August 23rd, 2024</p>
+                            <p class="title">Heat Pedal to the Metal</p>
+                        </div>
+                    </div>
+                    <img src="/static//images/profile/joshpfp.jpg" class="profilePicture"> 
+                </div>
+                <div class="gameInformation">
+                    <div class="podium">
+                        <p class="standing">Winner:</p>
+                        <p>Joshua Strunk</p>
+                    </div>
+                    <div class="podium">
+                        <p class="standing">Second:</p>
+                        <p>Hibby</p>
+                    </div>
+                    <div class="podium">
+                        <p class="standing">Third:</p>
+                        <p>Jimothy</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testgame">
+                <div class="header">
+                    <div style="display: flex; flex-direction: row;">
+                        <img src="/static//images/addgame/Moonrakers.png" class="gamePicture">
+                <div class="testtext" style="margin-left: 15px;">
+                    <p class="name">Joshua Strunk</p>
+                    <p class="date">August 15th, 2024</p>
+                    <p class="title">Moonrakers</p>
+                </div>
+                    </div>
+                    <img src="/static//images/profile/joshpfp.jpg" class="profilePicture"> 
+                </div>
+                <div class="gameInformation">
+                    <div class="podium">
+                        <p class="standing">Winner:</p>
+                        <p>William</p>
+                    </div>
+                    <div class="podium">
+                        <p class="standing">Second:</p>
+                        <p>Noah</p>
+                    </div>
+                    <div class="podium">
+                        <p class="standing">Third:</p>
+                        <p>Joshua Strunk</p>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <div id="overlay" class="Hide"> </div>
+        <div id="popups"> </div>
+
+        <script>
+            // removing extra characters in favorite name
+            titles = document.querySelectorAll('.gameTitle');
+            for (let i = 0; i < titles.length; i++) {
+                console.log()
+                if(titles[i].textContent.length > 14){
+                    titles[i].textContent = titles[i].textContent.substring(0, 14);
+                }
+            }
+
+            // creating the popup to show a games information
+            let games = document.querySelectorAll(".game");
+            let gameIDs = document.querySelectorAll(".gameID");
+            let gameNames = document.querySelectorAll(".gameName");
+            for(let i =0; i < games.length; i++){
+                games[i].addEventListener('click', () => {
+                    console.log(gameNames[i].innerText)
+                    showGame(gameIDs[i].innerText, gameNames[i].innerText)
+                })
+            }
+
+            // creating the popup for a quick add game
+            let quickGames = document.querySelectorAll(".quickadd");
+            for(let i =0; i < quickGames.length; i++){
+                quickGames[i].addEventListener('click', () => {
+                    createPopup(quickGames[i].id);
+                })
+            }
+
+            // removing overlay
+            let overlay = document.querySelector("#overlay");
+            overlay.addEventListener('click', () => {
+                overlay.classList.add("Hide");
+                Popup = document.querySelector("#Popup");
+                Popup.remove();
+            })
+
+            function createPopup(game){
+                overlay.classList.remove("Hide");
+                // Create the main div
+                const Popup = document.createElement('div');
+                Popup.id = 'Popup';
+                Popup.classList.add('gamepopup');
+
+                // Create the close button
+                const closeButton = document.createElement('p');
+                closeButton.classList.add('close-button');
+                closeButton.textContent = 'x';
+                Popup.appendChild(closeButton);
+
+                // Create the heading
+                const heading = document.createElement('h2');
+                heading.style.color = 'white';
+                heading.textContent = `Add ${game} Record`;
+                Popup.appendChild(heading);
+
+                // Create the form
+                const form = document.createElement('form');
+
+                let actionMap = {
+                    'Dominion': { action: `{{ url_for('addDominion') }}`, maxLength: 4 },
+                    'Catan': { action: `{{ url_for('addCatan') }}`, maxLength: 4 },
+                    'LordsofWaterdeep': { action: `{{ url_for('addLordsofWaterdeep') }}`, maxLength: 5 },
+                    'Moonrakers': { action: `{{ url_for('addMoonrakers') }}`, maxLength: 5 },
+                    'CosmicEncounter': { action: `{{ url_for('addCosmicEncounter') }}`, maxLength: 5 }
+                };
+
+                form.action = actionMap[game].action;
+                let maxGameLength = actionMap[game].maxLength;
+
+                if(maxGameLength == 4){
+                    Popup.style.height = '415px';
+                } else if (maxGameLength == 5) {
+                    Popup.style.height = '490px';
+                } else if (maxGameLength == 6) {
+                    Popup.style.height = '565px';
+                }
+
+                form.method = "POST";
+                form.autocomplete = "off";
+                form.style = "margin-top: 10px !important;"
+
+                const labels = ["Winner", "Runner Up", "Third Place", "Fourth Place", "Fifth Place", "Sixth Place"];
+                // ... (Create and append other elements as per the provided HTML structure)
+                for(let i = 1; i < maxGameLength + 1; i++) {
+                    //creating players div to organize the inputs
+                    let div = document.createElement('div');
+                    div.classList.add('players');
+                    //creating the first label and name input
+                    let playersecion = document.createElement('div');
+                    playersecion.classList.add('playerSection');
+                    const label = document.createElement('label');
+                    label.htmlFor = `Player${i}`;
+                    label.textContent = labels[i - 1];
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.id = `Player${i}`;
+                    input.name = `Player${i}`;
+                    input.placeholder = 'Name';
+                    input.addEventListener('keyup', function() {
+                        showResults(this.value, this.id);
+                    });
+                    let names = document.createElement('div');
+                    names.id = `Player${i}Results`;
+                    names.classList.add('res');
+                    names.classList.add('Hide');
+                    playersecion.appendChild(label);
+                    playersecion.appendChild(input);   
+                    playersecion.appendChild(names);
+                    //creating the second label and score input
+                    let playersecion2 = document.createElement('div');
+                    playersecion2.classList.add('playerSection');
+                    const label2 = document.createElement('label');
+                    label2.htmlFor = `Score${i}`;
+                    label2.textContent = 'Score';
+                    const input2 = document.createElement('input');
+                    input2.type = 'text';
+                    input2.id = `Score${i}`;
+                    input2.name = `Score${i}`;
+                    input2.placeholder = 'Score';
+                    playersecion2.appendChild(label2);
+                    playersecion2.appendChild(input2);
+                    //adding them all
+                    div.appendChild(playersecion);
+                    div.appendChild(playersecion2);
+                    form.appendChild(div);
+                }
+
+                let button = document.createElement('button');
+                button.style = "margin-top: 10px";
+                button.classList.add('btn');
+                button.classList.add('btn-primary');
+                button.innerText = 'Submit Record';
+
+                form.appendChild(button);
+                // Append the form to the main div
+                Popup.appendChild(form);
+
+                // Add the popup to the document body
+                document.body.appendChild(Popup);
+
+                let closebuttons = document.querySelector(".close-button");
+                closebuttons.addEventListener('click', () => {
+                    overlay.classList.add("Hide");
+                    popup = document.querySelector("#Popup");
+                    popup.remove();
+                })
+            }
+
+            function showGame(gameid, game) {
+                overlay.classList.remove("Hide");
+                // Create the main div
+                const Popup = document.createElement('div');
+                Popup.id = 'Popup';
+                Popup.classList.add('gamepopup');
+
+                // Create the close button
+                const closeButton = document.createElement('p');
+                closeButton.classList.add('close-button');
+                closeButton.textContent = 'x';
+                Popup.appendChild(closeButton);
+
+                // Create the heading
+                const heading = document.createElement('h2');
+                heading.style.color = 'white';
+                heading.textContent = `Edit This ${game} Record`;
+                Popup.appendChild(heading);
+
+                const form = document.createElement('form');
+                form.action = `{{ url_for('updategame') }}`;
+                form.method = "POST";
+                form.autocomplete = "off";
+                form.classList.add("changingform")
+
+                let gameMaxLength = {
+                    'Dominion': 4,
+                    'Catan': 4,
+                    'Clank': 4,
+                    'Lords of Waterdeep': 5,
+                    'Moonrakers': 5,
+                    'Cosmic Encounter': 5,
+                    'Space Base': 5,
+                    'Heat': 6
+                };
+
+                const Length = gameMaxLength[game];
+                if(Length == 4){
+                    Popup.style.height = '440px';
+                } else if (Length == 5) {
+                    Popup.style.height = '525px';
+                } else if (Length == 6) {
+                    Popup.style.height = '580px';
+                }
+                
+                //get id
+                let trimmedGameID = gameid.trim().split(' ')[2];
+
+                const testcontainer = document.createElement('div');
+                testcontainer.id = 'gameInfoContainer';
+                testcontainer.classList.add("GameInfo")
+                Popup.appendChild(form);
+
+                // call endpoint
+                fetch(`/displayGame?game=${game}&id=${trimmedGameID}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data); // Output: Response data from the "showgame" endpoint
+                    let gameInfoContainer = document.getElementById('gameInfoContainer');
+                    let order = ['winnerName', 'winnerScore', 'secondName', 'secondScore', 'thirdName', 'thirdScore', 'fourthName', 'fourthScore', 'fifthName', 'fifthScore', 'sixthName', 'sixthScore'];
+                    const labelMappings = {
+                        winnerName: "Winner",
+                        winnerScore: "Score",
+                        secondName: "Second",
+                        secondScore: "Score",
+                        thirdName: "Third",
+                        thirdScore: "Score",
+                        fourthName: "Fourth",
+                        fourthScore: "Score",
+                        fifthName: "Fifth",
+                        fifthScore: "Score",
+                        sixthName: "Sixth",
+                        sixthScore: "Score"
+                    };
+
+                    if (gameMaxLength[game]) {
+                        let maxLength = gameMaxLength[game];
+                        // Adjust order array based on gameMaxLength
+                        order = order.slice(0, maxLength * 2);
+                        console.log("order");
+
+                        console.log(order);
+                        order.push('date');
+                        order.push('submit');
+                    }
+
+                    order.forEach(key => {
+                        console.log(key)
+                        if (key === 'date') {
+                            // Creaing game id
+                            const Div = document.createElement('div');
+                            Div.classList.add("playerSection2");
+                            Div.style = 'width: 25%; !important'
+                            let gameID = document.createElement('input');
+                            gameID.id = 'game_id';
+                            gameID.name = 'game_id';
+                            gameID.value = trimmedGameID;
+                            gameID.style = 'color: white; width: 97px;';
+                            gameID.readOnly = 'readonly';
+                            // Creaing game id label
+                            let IDLabel = document.createElement('label');
+                            IDLabel.setAttribute('for', "gameID");
+                            IDLabel.innerText = "Game ID";
+
+                            const newDiv = document.createElement('div');
+                            newDiv.classList.add("playerSection2");
+
+                            // Formatting the new date
+                            let dateString = data.date;
+                            let dateObject = new Date(dateString);
+                            let formattedDate = dateObject.toISOString().split('T')[0];
+
+                            // Creating date picker input
+                            const datePickerInput = document.createElement('input');
+                            datePickerInput.type = "date";
+                            datePickerInput.id = "datepicker";
+                            datePickerInput.name = "datepicker";
+                            datePickerInput.value = formattedDate;
+                            
+                            // Creating label for date picker
+                            const dateLabel = document.createElement('label');
+                            dateLabel.setAttribute('for', "datepicker");
+                            dateLabel.innerText = "Select Date";
+
+                            Div.appendChild(IDLabel);
+                            Div.appendChild(gameID);
+                            newDiv.appendChild(dateLabel);
+                            newDiv.appendChild(datePickerInput);
+                            form.appendChild(Div);
+                            form.appendChild(newDiv);
+                        } else if (key === 'submit') {
+                            // Creating submit button
+                            const newDiv = document.createElement('div');
+                            newDiv.classList.add("playerSection2");
+                            const submitButton = document.createElement('button');
+                            submitButton.innerText = "Update Record";
+                            submitButton.classList.add('btn');
+                            submitButton.classList.add('btn-primary');
+                            submitButton.style = 'margin-top: 24px; width: 125px;';
+
+                            newDiv.appendChild(submitButton);
+                            form.appendChild(newDiv);
+                            gameType = document.createElement('input');
+                            gameType.name = 'game';
+                            gameType.value = game;
+                            gameType.style = 'Display: none;'
+
+                            form.appendChild(gameType);
+                        } else {
+                            const newDiv = document.createElement('div');
+                            newDiv.classList.add("playerSection");
+                            // For other keys
+                            const newInput = document.createElement('input');
+                            
+                            if (data[key]) {
+                                newInput.placeholder = `${data[key]}`;
+                                newInput.value = `${data[key]}`;
+                            }
+
+                            newInput.id = `${key}`;
+                            newInput.name = `${key}`;
+                            
+                            // Creating label
+                            const newLabel = document.createElement('label');
+                            newLabel.setAttribute('for', key);
+                            newLabel.innerText = labelMappings[key] || key;
+
+                            newDiv.appendChild(newLabel);
+                            newDiv.appendChild(newInput);
+                            form.appendChild(newDiv);
+                        }
+                            
+                        
+                    });
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+
+                // Popup.appendChild(form);
+
+                // Add the Popup to the document body or any other desired parent element
+                document.body.appendChild(Popup);
+
+                let closebuttons = document.querySelector(".close-button");
+                closebuttons.addEventListener('click', () => {
+                    overlay.classList.add("Hide");
+                    popup = document.querySelector("#Popup");
+                    popup.remove();
+                })
+            }
+
+            fetch('/returnFriends')
+            .then(response => response.json())
+            .then(data => {
+                search_terms = data;
+                console.log(search_terms);
+            })
+            .catch(error => console.error(error));
+        </script>
+        <script src="{{url_for('static', filename='js/autocomplete.js')}}"></script>
+    {% endblock %}
+
+</body>
+</html>
