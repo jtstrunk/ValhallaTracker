@@ -14,11 +14,11 @@
     {% import "bootstrap/wtf.html" as wtf %}
     {% block content %}
         <div id="content">
-            <div>
+            <div id="placeholder">
                 <h2 id="displayname">{{ user.fullname }}'s profile</h2>
                 <!-- <h3 id="username">{{ user.username }}</h3> -->
                 <div id="mainLayout">
-                    <div class="section">
+                    <div class="section" id="gameSection">
                         <h3 style="margin-bottom: 0px;">Recent Games</h3>
                         <div id="recentGames">
                             {% for game in recentGames %}
@@ -51,9 +51,9 @@
                             </div>
                             <button class="btn-outline" style="position: absolute; bottom: 0;">Manage Friends</button>
                         </div>
-                        <div>
-                            <h3>Stats</h3>
-                            <div class="stat">
+                        <h3 id="statsisticsHeader">Stats</h3>
+                        <div id="statisticsSection">
+                            <div class="stat MobileHide">
                                 <img class="icon" src="/static/images/bestfriend.png">
                                 <p style="margin-top: 14px;">Best Friend</p>
                                 <p style="font-family: 'Manolo Mono', sans-serif !important;">{{ profileStats[4] }}</p>

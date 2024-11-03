@@ -13,7 +13,7 @@
     {% import "bootstrap/wtf.html" as wtf %}
     {% block content %}
         <div id="content">
-            <div class="section" style="display: flex; flex-direction: column; align-items: center; height: 535px; position: sticky; top: 60px;">
+            <div class="section MobileHide" style="display: flex; flex-direction: column; align-items: center; height: 535px; position: sticky; top: 60px;">
                 <div>
                     <img src="{{ url_for('static', filename='images/profile/' + name + 'pfp.png') }}" id="profile" onclick="location.href='/profile?name=current'">
                 </div>
@@ -116,7 +116,7 @@
                 <div id="loading-indicator" style="display: none; text-align: center; padding: 20px;">Loading...</div>
             </div>
             
-            <div class="section" style="height: 525px; position: sticky; top: 60px;">
+            <div class="section MobileHide" style="height: 525px; position: sticky; top: 60px;">
                 <div id="quickadd">
                     <h3 style="margin-bottom: 14px;">Quick Features</h3>
                     {% for game in favoriteGames[:5] %}
